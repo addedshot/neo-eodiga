@@ -20,8 +20,8 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] 루트 `CLAUDE.md` (`AGENTS.md`가 있으면 맨 위 `@AGENTS.md`)
 - [x] `npm run lint` 통과
 - [x] `npm run build` 통과
-- [ ] 커밋 (기본 설정 / 문서와 스킬)
-- [ ] 원격 저장소 연결과 push
+- [x] 커밋 (기본 설정 / 문서와 스킬)
+- [x] 원격 저장소 연결과 push
 - [ ] Vercel 연결 (사용자가 직접)
 
 ## STEP 02. 공통 레이아웃
