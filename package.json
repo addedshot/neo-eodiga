@@ -9,7 +9,10 @@
     "lint": "eslint",
     "build-regions": "node scripts/build-regions.ts",
     "check-content": "node scripts/check-content.ts",
-    "prebuild": "npm run check-content"
+    "prebuild": "npm run check-content && npm run check-photos",
+    "strip-exif": "node --env-file-if-exists=.env.local scripts/strip-exif.ts",
+    "check-photos": "node scripts/check-photos.ts",
+    "prepare": "node scripts/setup-git-hooks.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",
@@ -32,6 +35,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.4.6",
+    "sharp": "0.35.5",
     "tailwindcss": "4.3.3",
     "typescript": "^5"
   },

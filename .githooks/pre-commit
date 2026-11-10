@@ -1,0 +1,3 @@
+#!/bin/sh
+# 커밋 전에 public/images 사진에 위치정보 등 메타데이터가 남아 있는지 검사한다(남아 있으면 커밋을 막는다).
+node scripts/check-photos.ts
