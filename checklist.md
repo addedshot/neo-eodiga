@@ -37,19 +37,21 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] push 후 Vercel 배포 확인
 
 ## STEP 03. 콘텐츠 구조, 지역 데이터, 검증
-- [ ] MDX 라이브러리 선택과 이유 기록
-- [ ] 공식 행정구역 코드 자료 확보 (못 받으면 사용자에게 요청)
-- [ ] `content/regions.json` 생성 (시도 17개, 기초자치단체 단위, 시군구 5자리 코드)
-- [ ] 일반구가 상위 시로 합쳐졌는지 확인
-- [ ] 자료 출처와 기준 날짜를 `context-notes.md`에 기록
-- [ ] 변환 스크립트 저장
-- [ ] 타입 정의 (`Region`, `Place`의 `goodFor`, 후기 frontmatter의 `companion`·`people`·`kidAges`)
-- [ ] 필수 필드 누락 시 빌드 실패
-- [ ] 잘못된 `companion` 값이면 빌드 실패
-- [ ] 후기·장소의 시도·시군구 조합이 `regions.json`에 없으면 빌드 실패
-- [ ] `route`의 장소 id가 `places.json`에 없으면 빌드 실패
-- [ ] 위 실패 경우를 일부러 만들어 실제로 실패하는지 확인
-- [ ] lint · build · 커밋
+- [x] MDX 라이브러리 선택과 이유 기록 (`@next/mdx`)
+- [x] 공식 행정구역 코드 자료 확보 (국토교통부_법정동코드_20260929)
+- [x] `content/regions.json` 생성 (시도 16개, 기초자치단체 단위, 시군구 5자리 코드, 세종시·제주 행정시 포함)
+- [x] 일반구가 상위 시로 합쳐졌는지 확인
+- [x] 자료 출처와 기준 날짜를 `context-notes.md`에 기록
+- [x] 변환 스크립트 저장
+- [x] 타입 정의 (`Region`, `Place`의 `goodFor`, 후기 frontmatter의 `companion`·`people`·`kidAges`)
+- [x] 필수 필드 누락 시 빌드 실패
+- [x] 잘못된 `companion` 값이면 빌드 실패
+- [x] 후기·장소의 시도·시군구 조합이 `regions.json`에 없으면 빌드 실패
+- [x] `route`의 장소 id가 `places.json`에 없으면 빌드 실패
+- [x] `people`, `kidAges`, `goodFor`, 정해지지 않은 항목, 날짜, 장소 id 검사
+- [x] MDX 설정 확인 (frontmatter가 본문에 나오지 않음)
+- [x] 위 실패 경우를 일부러 만들어 실제로 실패하는지 확인 (build exit 1, 메시지 확인)
+- [x] lint · build · 커밋
 
 ## STEP 04. 샘플 콘텐츠
 - [ ] 샘플 후기 (`companion` 골고루)
