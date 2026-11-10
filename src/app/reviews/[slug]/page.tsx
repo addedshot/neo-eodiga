@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import type { MDXContent } from "mdx/types";
 import { CostSummary } from "@/components/CostSummary";
 import { PlaceCard } from "@/components/PlaceCard";
-import { RouteList } from "@/components/RouteList";
+import { RouteMap } from "@/components/RouteMap";
 import { loadContent, type Place } from "@/lib/content";
 import { formatDate } from "@/lib/format";
 import { filterHref } from "@/lib/review-filter";
@@ -98,7 +98,7 @@ export default async function ReviewPage({ params }: PageProps<"/reviews/[slug]"
         <article className="flex min-w-0 flex-[999_1_560px] flex-col gap-8">
           <section aria-labelledby="route-heading" className="flex flex-col gap-3.5">
             <h2 id="route-heading" className="text-[22px] font-extrabold">이날의 동선</h2>
-            <RouteList route={review.route} places={places} />
+            <RouteMap route={review.route} places={places} />
           </section>
           <section aria-labelledby="body-heading">
             <h2 id="body-heading" className="text-[22px] font-extrabold">후기</h2>
@@ -110,7 +110,7 @@ export default async function ReviewPage({ params }: PageProps<"/reviews/[slug]"
                     if (!place) throw new Error(`content/reviews/${slug}.mdx: PlaceCard의 장소 id "${id}"가 places.json에 없어요.`);
                     return <PlaceCard place={place} />;
                   },
-                  RouteMap: () => <RouteList route={review.route} places={places} />,
+                  RouteMap: () => <RouteMap route={review.route} places={places} />,
                   CostSummary: () => <CostSummary cost={review.cost} />,
                 }}
               />
