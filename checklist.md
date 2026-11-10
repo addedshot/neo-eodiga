@@ -123,7 +123,8 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] 커밋 전 검사(D안)로 커밋이 막히는지 확인
 - [x] HEIC 안내 확인
 - [x] lint · build · 커밋
-- [ ] push 후 Vercel에서 확인
+- [x] push 후 Vercel에서 확인 (배포 성공, Vercel에서는 훅 설정을 건너뜀)
+- [x] 훅 파일 줄바꿈 LF 고정(.gitattributes), 새로 받은 저장소에서 확인
 
 ## STEP 12. 최종 확인
 - [ ] Vercel 배포 화면에서 전체 페이지 확인

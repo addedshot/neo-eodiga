@@ -113,6 +113,7 @@
 - 사본 이름은 원래 이름을 소문자로, 밑줄을 하이픈으로 바꾸고 `.jpg`를 붙인다. 영문 소문자·숫자·하이픈이 아닌 이름(예: 한글)이나 겹치는 이름이면 멈춘다. HEIC가 있으면 JPG로 바꾸라는 안내와 함께 멈춘다.
 - **빌드 전 검사** `npm run check-photos`가 `public/images` 아래 사진의 EXIF, XMP, IPTC를 확인한다. `prebuild`는 콘텐츠 검사 다음에 이 검사를 돌린다.
 - **커밋 전 검사(D안)** `.githooks/pre-commit`이 같은 검사를 돌린다. `npm install`의 `prepare`(`scripts/setup-git-hooks.ts`)가 `git config core.hooksPath .githooks`를 설정한다. git 저장소가 아니면(예: Vercel 빌드) 건너뛴다. 이 검사는 작업 폴더 전체를 보므로, 위치정보가 남은 사진이 폴더에 있으면 다른 파일의 커밋도 막힌다.
+- 이 PC의 git은 받을 때 줄바꿈을 CRLF로 바꾼다(core.autocrlf). 훅 스크립트가 CRLF가 되면 셸이 못 읽을 수 있어 `.gitattributes`에 `.githooks/* text eol=lf`를 넣었고, 새로 받은 저장소에서 LF인 것을 확인했다.
 - 확인한 것. GPS와 회전 정보(orientation 6)를 넣은 400×200 시험 JPG는 200×400 사본이 되고 메타데이터가 없다. 3000×2000 반투명 PNG는 1600×1067 JPEG가 된다. 원본을 `public/images`에 넣으면 `npm run build`가 `exit 1`, 그 원본만 커밋하려 하면 커밋이 막힌다(HEAD 그대로). 가짜 HEIC는 안내와 함께 멈춘다. 시험 파일은 모두 지웠다.
 
 ## STEP 10 구현 (2026-11-10)
