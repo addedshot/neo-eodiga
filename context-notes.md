@@ -106,6 +106,15 @@
 - `src/mdx-components.tsx`는 App Router에서 필수라 빈 목록으로 만들었다.
 - 임시 MDX로 확인했다. frontmatter는 본문에 나오지 않고 `#`, `**`가 `<h1>`, `<strong>`으로 바뀌었다.
 
+## STEP 08 구현 (2026-11-10)
+- 공지 목록 `/notices`(최신순 제목·날짜 줄), 공지 상세 `/notices/<slug>`, 이용 안내 목록 `/guide`("처음 오셨나요?" 모양), 이용 안내 상세 `/guide/<slug>`(아래에 다른 안내 링크)를 만들었다. 시안 메인 화면의 공지 목록과 바로가기 모양을 따랐다.
+- 이용 안내 3개(how-to-use, review-tips, photo-tips)는 `guide-content.md`를 소제목과 목록으로 나눠 썼고 뜻은 바꾸지 않았다. "정보가 바뀌었다면 알려주세요" 문장은 연락 방법이 없어 뺐다. 사진 개인정보 안내는 photo-tips 마지막 "사진 올릴 때 꼭 지켜주세요"다.
+- 이용 안내 frontmatter에 `order`(1 이상 정수, 필수)를 더했고 같은 order가 있으면 빌드가 실패한다. `loadContent()`가 공지는 최신순, 이용 안내는 order 순으로 돌려준다.
+- 현재 위치 표시를 `Breadcrumb` 컴포넌트로 만들어 새 페이지에서 쓴다. 후기 상세의 같은 표시는 이번에 바꾸지 않았다.
+- 없는 공지·안내 주소는 로컬 `next start`에서도 HTTP 404였다. `outputFileTracingIncludes`에 `/notices/*`, `/guide/*`를 더했다.
+- 정상 페이지 HTML에도 404 문구가 들어 있으나, 화면에는 보이지 않는다(브라우저에서 확인). Next가 클라이언트 이동용으로 404 화면 데이터를 함께 보내기 때문이다.
+- 확인한 것. 375px 가로 스크롤 없음, 터치 영역 44px 이상, 헤더 현재 메뉴(공지사항, 이용 안내), 1280px 이용 안내 목록, 안내 순서, 사진 개인정보 문구.
+
 ## STEP 07 구현 (2026-11-10, 키 없이 먼저)
 - 사용자가 카카오맵 키 없이 먼저 진행하라고 했다. 키와 좌표가 들어오면 지도가 나오도록 만들고, 지금은 목록만 보인다.
 - 카카오맵 API는 공식 문서(https://apis.map.kakao.com/web/documentation/)를 내장 브라우저로 열어 확인했다. 문서 본문은 자바스크립트로 그려져서 단순 내려받기로는 목차만 보였다. 확인한 것은 `autoload=false` + `kakao.maps.load(callback)`, `Map(container, { center, level, scrollwheel })`, `LatLngBounds().extend()`, `setBounds(bounds[, top, right, bottom, left])`(기본 여백 32), `CustomOverlay`의 `content`는 Node 또는 HTML 문자열, `Polyline`의 `strokeColor`는 `#xxxxxx`, `strokeStyle` 11종(`shortdash` 등)이다.
@@ -193,4 +202,4 @@
 - 후기 `tags`를 필터의 다섯 값(실내, 야외, 무료, 비 오는 날, 대중교통)으로 제한할지 (지금은 제한하지 않음)
 - 저장소가 공개로 확인되었다(2026-11-10, GitHub API 비로그인 조회 200). 사진 커밋 전 훅(D안)을 STEP 11에서 더할지 정한다.
 - "혼자면 `people`은 1", "아이와면 `kidAges` 필수" 검사를 더할지
-- 푸터 연락 방법(GitHub 이슈, 이메일 등)을 무엇으로 할지
+- 푸터 연락 방법(GitHub 이슈, 이메일 등)을 무엇으로 할지. 정해지면 이용 안내 "사이트 이용 방법"에 초안의 "정보가 바뀌었다면 알려주세요. 확인한 뒤 고쳐둘게요." 문장도 되살린다.
