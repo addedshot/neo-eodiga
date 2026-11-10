@@ -23,7 +23,7 @@ export function NavList({ currentPath }: { currentPath: string | null }) {
             <Link
               href={href}
               aria-current={isCurrent ? "page" : undefined}
-              className={`inline-flex min-h-11 items-center rounded-[10px] px-3.5 py-3 text-[15px] ${
+              className={`inline-flex min-h-11 items-center rounded-[10px] px-2.5 py-3 text-[15px] sm:px-3.5 ${
                 isCurrent
                   ? "bg-surface-accent font-bold text-link"
                   : "font-medium text-ink-soft hover:text-ink"

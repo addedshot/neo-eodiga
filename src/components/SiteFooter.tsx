@@ -1,6 +1,6 @@
 // 모든 페이지 아래에 놓이는 푸터(운영 안내, 메뉴, 저작권)
 import Link from "next/link";
-import { NAV_ITEMS, SITE_NAME } from "@/lib/site";
+import { FOOTER_ITEMS, SITE_NAME } from "@/lib/site";
 
 export function SiteFooter() {
   return (
@@ -12,7 +12,7 @@ export function SiteFooter() {
         </div>
         <nav aria-label="아래쪽 메뉴">
           <ul className="flex flex-wrap gap-x-4">
-            {NAV_ITEMS.map(({ href, label }) => (
+            {FOOTER_ITEMS.map(({ href, label }) => (
               <li key={href}>
                 <Link href={href} className="inline-flex min-h-11 items-center underline hover:text-ink">
                   {label}
