@@ -71,12 +71,14 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] push 후 Vercel에서 /reviews 확인 (필터 4가지 조합 정상)
 
 ## STEP 06. 여행후기 상세
-- [ ] 다녀온 날, 누구와, 인원, 교통수단
-- [ ] 아이 나이는 아이와일 때만
-- [ ] 본문 MDX
-- [ ] `PlaceCard` (기본 항목 "정보 없음", 추천 동행·유모차·수유실은 값 있을 때만)
-- [ ] `CostSummary`
-- [ ] lint · build · 커밋
+- [x] 디자인 계획 사용자 확인 (추천안)
+- [x] 다녀온 날, 누구와, 인원, 교통수단
+- [x] 아이 나이는 아이와일 때만
+- [x] 본문 MDX
+- [x] `PlaceCard` (기본 항목 "정보 없음", 추천 동행·유모차·수유실은 값 있을 때만)
+- [x] `CostSummary`
+- [x] lint · build · 커밋
+- [ ] push 후 Vercel에서 확인
 
 ## STEP 07. 동선 지도
 - [ ] `RouteMap` 카카오맵

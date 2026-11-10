@@ -106,6 +106,16 @@
 - `src/mdx-components.tsx`는 App Router에서 필수라 빈 목록으로 만들었다.
 - 임시 MDX로 확인했다. frontmatter는 본문에 나오지 않고 `#`, `**`가 `<h1>`, `<strong>`으로 바뀌었다.
 
+## STEP 06 구현 (2026-11-10)
+- `/reviews/<slug>`는 `generateStaticParams`로 빌드 때 정적 페이지가 된다(광안리 후기 ○). MDX 본문은 `@content/*` 경로 별칭(tsconfig)으로 import한다.
+- `cacheComponents`에서는 `dynamicParams`를 쓸 수 없다(내장 문서 `dynamicParams.md`). 그래서 없는 slug는 요청 때 페이지가 `notFound()`를 부르고, 이 경로도 `outputFileTracingIncludes`에 content를 넣었다.
+- 없는 slug는 404 화면을 보여주지만 HTTP 상태는 200이다. Cache Components는 미리 만든 껍데기를 먼저 보내서 응답이 200으로 시작하기 때문이다(내장 문서 `loading.md`의 Status codes). 대신 Next가 `<meta name="robots" content="noindex">`를 넣어 검색에 나오지 않는다(확인함). 진짜 404 상태가 필요하면 Proxy에서 slug를 검사하는 방법이 있다. 지금은 쓰지 않는다.
+- 후기가 0개가 되면 `generateStaticParams`가 빈 배열이라 빌드가 실패한다(내장 문서 `generate-static-params.md`). 후기를 모두 지울 일이 생기면 다시 본다.
+- 동선, 장소 카드, 비용은 시안 자리에 frontmatter로 그린다. `<PlaceCard id />`, `<RouteMap />`, `<CostSummary />`는 본문에서도 쓸 수 있다. 본문의 `PlaceCard` id가 없으면 빌드가 실패한다. `RouteMap`은 STEP 07 전까지 방문 순서 목록만 그린다.
+- 같은 장소 카드나 비용 상자가 옆 칸과 본문에 함께 나오면 제목 `id`가 겹쳐서, 영역 이름을 `aria-label`로 바꿨다.
+- 확인한 것. 375px 위아래 배치, 1280px 2단, 가로 스크롤 없음, 터치 영역 44px 이상, 정보 없음 4칸, 직접 가봄, 비용 없음 문구, 지역 링크, 목록 카드에서 상세로 이동, 중복 id 없음.
+- 값이 있을 때만 나오는 항목은 임시 값으로 확인하고 되돌렸다. 추천 동행, 유모차, 수유실, 아이 나이, 비용 합계(0원 + 32,000원 + 5,600원 = 37,600원), 본문 안 컴포넌트가 나왔다.
+
 ## STEP 05 구현 (2026-11-10)
 - 헤더와 푸터를 시안에 맞췄다. 해 아이콘 28px, 이름 22px, 메뉴 15px, 현재 메뉴는 강조 바탕 + 링크색 + 700이다. 내용 폭은 `max-w-page`(1200px, `--container-page`)이다. 푸터는 로고 없이 한 줄 소개, 저작권, 메뉴 링크다.
 - `/reviews`는 Partial Prerender다. 제목과 설명은 미리 만들고, 필터와 결과는 `Suspense` 안에서 `searchParams`를 읽어 요청 때 그린다(내장 문서 `08-caching.md`의 "Maximizing the static shell").
