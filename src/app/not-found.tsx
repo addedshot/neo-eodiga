@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6 sm:py-24">
+    <div className="mx-auto w-full max-w-page px-4 py-16 sm:px-6 sm:py-24">
       <h1 className="text-3xl font-extrabold text-ink sm:text-4xl">
         이 주소에는 페이지가 없어요.
       </h1>

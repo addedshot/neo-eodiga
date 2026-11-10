@@ -4,7 +4,7 @@ import { SITE_NAME } from "@/lib/site";
 
 export function SiteLogo() {
   return (
-    <Link href="/" className="inline-flex min-h-11 items-center gap-2 text-ink">
+    <Link href="/" className="inline-flex min-h-11 items-center gap-2.5 text-ink">
       <svg
         aria-hidden="true"
         viewBox="0 0 24 24"
@@ -12,12 +12,12 @@ export function SiteLogo() {
         stroke="currentColor"
         strokeWidth="2"
         strokeLinecap="round"
-        className="size-6 text-sun"
+        className="size-7 text-sun"
       >
         <circle cx="12" cy="12" r="4" />
         <path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
       </svg>
-      <span className="text-xl font-extrabold">{SITE_NAME}</span>
+      <span className="text-[22px] font-extrabold">{SITE_NAME}</span>
     </Link>
   );
 }

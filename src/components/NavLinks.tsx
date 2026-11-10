@@ -1,4 +1,4 @@
-// 헤더 메뉴 링크 목록(현재 주소에 해당하는 메뉴에 밑줄과 aria-current를 단다)
+// 헤더 메뉴 링크 목록(현재 주소에 해당하는 메뉴를 강조 바탕으로 표시하고 aria-current를 단다)
 "use client";
 
 import Link from "next/link";
@@ -13,7 +13,7 @@ export function NavLinks() {
 // currentPath가 null이면 현재 메뉴 표시 없이 링크만 그린다(Suspense 대체 화면용).
 export function NavList({ currentPath }: { currentPath: string | null }) {
   return (
-    <ul className="flex gap-5 sm:gap-6">
+    <ul className="flex flex-wrap gap-1">
       {NAV_ITEMS.map(({ href, label }) => {
         const isCurrent =
           currentPath !== null &&
@@ -23,10 +23,10 @@ export function NavList({ currentPath }: { currentPath: string | null }) {
             <Link
               href={href}
               aria-current={isCurrent ? "page" : undefined}
-              className={`inline-flex min-h-11 items-center border-b-2 font-medium ${
+              className={`inline-flex min-h-11 items-center rounded-[10px] px-3.5 py-3 text-[15px] ${
                 isCurrent
-                  ? "border-primary text-ink"
-                  : "border-transparent text-ink-muted hover:text-ink"
+                  ? "bg-surface-accent font-bold text-link"
+                  : "font-medium text-ink-soft hover:text-ink"
               }`}
             >
               {label}
