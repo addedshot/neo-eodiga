@@ -84,7 +84,7 @@ type Place = {
   name: string;
   sido: string;          // regions.json의 시도, 예: "부산"
   sigungu: string;       // regions.json의 시군구, 예: "기장군"
-  category: "관람" | "식사" | "숙소" | "카페" | "공원";
+  category: "관람" | "식사" | "숙소" | "카페" | "공원" | "해수욕장";
   lat?: number;
   lng?: number;
   hours?: string;        // 운영시간

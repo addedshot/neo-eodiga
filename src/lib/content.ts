@@ -7,7 +7,7 @@ import yaml from "js-yaml";
 import { z } from "zod";
 
 export const COMPANIONS = ["혼자", "커플", "친구", "가족", "아이와"] as const;
-export const PLACE_CATEGORIES = ["관람", "식사", "숙소", "카페", "공원"] as const;
+export const PLACE_CATEGORIES = ["관람", "식사", "숙소", "카페", "공원", "해수욕장"] as const;
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
