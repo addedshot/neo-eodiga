@@ -1,0 +1,15 @@
+{
+  "language": "korean",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"UserPromptSubmit\",\"additionalContext\":\"[너어디가 프로젝트 규칙] 모든 응답, 도구 실행 전후의 진행 안내, 질문, 결과 보고는 처음부터 끝까지 한국어로만 쓴다. 영어 문장을 쓰지 않는다. 코드 식별자, 명령어, 커밋 타입 접두어는 그대로 둔다.\"}}'"
+          }
+        ]
+      }
+    ]
+  }
+}

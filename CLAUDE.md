@@ -16,6 +16,7 @@ UI를 만들거나 바꿀 때는 frontend-design 스킬도 함께 쓴다.
 ## 언어
 - 진행 과정, 질문, 결과 보고는 모두 한국어로만 쓴다. 도구를 실행하기 전후의 짧은 안내 문장도 한국어로 쓴다.
 - 코드 식별자, 명령어, 커밋 타입 접두어(`feat:` 등)는 그대로 둔다.
+- `.claude/settings.json`의 `language: korean` 설정과 `UserPromptSubmit` 훅이 메시지마다 이 규칙을 다시 알려준다.
 
 ## 화면 시안
 - 시안은 https://claude.ai/artifact/FjP3uvcYqpA7H1Ca1v3McW 에 있는 Design 캔버스다. Artifact 도구의 `read`로 `project/*.dc.html` 파일을 읽을 수 있다.
