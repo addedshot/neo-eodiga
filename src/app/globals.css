@@ -30,9 +30,17 @@
   --font-sans: var(--font-noto-sans-kr), ui-sans-serif, system-ui, sans-serif;
 }
 
-body {
-  background: var(--color-surface);
-  color: var(--color-ink);
-  font-weight: 400;
-  line-height: 1.7;
+@layer base {
+  body {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-weight: 400;
+    line-height: 1.7;
+  }
+
+  /* 키보드로 이동할 때 초점 위치를 주 색 외곽선으로 보여준다 */
+  :focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
 }
