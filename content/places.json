@@ -1,1 +1,10 @@
-[]
+[
+  {
+    "id": "gwangalli-beach",
+    "name": "광안리해수욕장",
+    "sido": "부산",
+    "sigungu": "수영구",
+    "category": "해수욕장",
+    "visited": true
+  }
+]
