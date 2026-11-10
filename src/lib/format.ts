@@ -7,6 +7,11 @@ export function formatDate(date: string): string {
   return `${year}년 ${month}월 ${day}일`;
 }
 
+// 12000 → "12,000원"
+export function formatWon(amount: number): string {
+  return `${amount.toLocaleString("ko-KR")}원`;
+}
+
 // 혼자는 인원을 붙이지 않는다. 예: "혼자", "아이와 4명"
 export function formatCompany(review: Pick<Review, "companion" | "people">): string {
   return review.companion === "혼자" ? "혼자" : `${review.companion} ${review.people}명`;
