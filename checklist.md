@@ -113,7 +113,7 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] `sitemap`, `robots`
 - [x] 공유 미리보기 이미지 (공통 1장, 후기마다 1장)
 - [x] lint · build · 커밋
-- [ ] push 후 Vercel에서 확인
+- [x] push 후 Vercel에서 확인 (robots, sitemap 9개, 이미지 2장 PNG, 메타 태그)
 
 ## STEP 11. 사진 위치정보 제거
 - [ ] `npm run strip-exif -- <slug>` (원본 폴더 → 위치정보 지운 사본)
