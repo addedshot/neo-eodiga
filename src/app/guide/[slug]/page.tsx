@@ -1,9 +1,9 @@
 // 이용 안내 상세 페이지(현재 위치, 제목, MDX 본문, 다른 안내로 가는 링크)
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { MDXContent } from "mdx/types";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { GuideLinks } from "@/components/GuideLinks";
 import { loadContent } from "@/lib/content";
 
 // 모든 안내를 빌드 때 정적 페이지로 만든다. 없는 slug는 요청 때 아래에서 404를 낸다.
@@ -38,19 +38,9 @@ export default async function GuideDetailPage({ params }: PageProps<"/guide/[slu
       {others.length > 0 && (
         <nav aria-labelledby="other-guides" className="mt-12 max-w-xl rounded-[20px] bg-surface-muted p-5 sm:p-6">
           <h2 id="other-guides" className="text-lg font-extrabold">다른 안내</h2>
-          <ul className="mt-3 flex flex-col gap-2.5">
-            {others.map((other) => (
-              <li key={other.slug}>
-                <Link
-                  href={`/guide/${other.slug}`}
-                  className="flex min-h-12 items-center justify-between gap-3 rounded-xl border border-line bg-surface px-4 text-[15px] font-bold text-ink"
-                >
-                  {other.title}
-                  <span aria-hidden="true" className="text-link">›</span>
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <div className="mt-3">
+            <GuideLinks guides={others} />
+          </div>
         </nav>
       )}
     </div>
