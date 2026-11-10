@@ -24,6 +24,19 @@
 - Noto Sans KR은 굵기 배열 `["400","500","700","800"]`로 불러온다. Next 폰트 데이터에 `korean` 서브셋이 없어서 `latin`만 미리 불러오고, 한글 글자는 필요할 때 나눠 받는다.
 - 생성기의 `.gitignore`에 `.env*`가 있어서 나중에 만들 `.env.example`도 무시된다. STEP 07에서 `!.env.example`을 더한다.
 
+## STEP 02 결정 (2026-11-10)
+- 사용자가 디자인 계획을 추천안대로 확정했다.
+- 좁은 화면 메뉴는 메뉴 버튼 대신 두 번째 줄로 줄바꿈한다. 메뉴가 셋뿐이라 다 보이게 두는 편이 낫다.
+- 현재 메뉴에 밑줄과 `aria-current`를 단다. `cacheComponents`에서 `usePathname`이 동적 주소에서 멈출 수 있어 `Suspense`로 감싼다(내장 문서 `use-pathname.md`의 Cache Components 항목).
+- 푸터에 연락 방법은 아직 넣지 않는다. 방법이 정해지면 넣는다.
+- 로고는 굵기 800의 "너어디가" 글자 오른쪽 위에 `sun` 색 해(채운 원)를 둔다.
+- 404는 `app/not-found.tsx` 하나로 처리한다. 내장 문서상 루트 not-found가 없는 주소 전체를 맡고, 실험 기능인 `global-not-found`는 필요 없다.
+
+## STEP 02 확인 중 알게 된 것 (2026-11-10)
+- 404 페이지에서는 현재 메뉴 표시가 붙지 않는다. 없는 주소는 미리 만든 `/_not-found` 페이지로 응답하기 때문이다. 404는 해당 메뉴 페이지가 아니므로 이대로 둔다.
+- 현재 메뉴 표시는 임시 페이지 `/reviews`, `/reviews/sample`을 만들어 개발 서버에서 확인한 뒤 지웠다.
+- 임시 페이지를 지운 뒤 `npm run build`가 `.next/dev/types/validator.ts(65,39): error TS2307: Cannot find module '../../../src/app/reviews/page.js'`로 실패했다. `tsconfig.json`이 개발 서버가 만든 `.next/dev/types`를 포함하는데, 지운 페이지 정보가 남아 있었다. `.next/dev`를 지우고 다시 빌드해서 통과했다. 페이지를 지운 뒤 빌드가 이렇게 실패하면 같은 방법을 쓴다.
+
 ## Vercel 배포 (2026-11-10)
 - 사용자가 Vercel Hobby 팀 `ccjy1293-5713's projects`에 프로젝트 `neo-eodiga`를 만들고 GitHub 저장소를 연결했다.
 - GitHub 앱 권한은 `addedshot/neo-eodiga` 저장소 하나에만 주었다.
@@ -70,3 +83,4 @@
 - MDX 처리 라이브러리 (STEP 03에서 Next.js 16 호환성을 확인해 정함)
 - 저장소가 공개로 확인되었다(2026-11-10, GitHub API 비로그인 조회 200). 사진 커밋 전 훅(D안)을 STEP 11에서 더할지 정한다.
 - "혼자면 `people`은 1", "아이와면 `kidAges` 필수" 검사를 더할지
+- 푸터 연락 방법(GitHub 이슈, 이메일 등)을 무엇으로 할지

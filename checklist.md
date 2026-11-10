@@ -25,10 +25,16 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] Vercel 연결 (사용자가 직접, https://neo-eodiga.vercel.app)
 
 ## STEP 02. 공통 레이아웃
-- [ ] 헤더 (1단계 메뉴만, 모바일 메뉴)
-- [ ] 푸터
-- [ ] 404 페이지
-- [ ] lint · build · 커밋
+- [x] 디자인 계획 사용자 확인 (추천안)
+- [x] 메뉴 목록 `NAV_ITEMS`, 로고 `SiteLogo`
+- [x] 헤더 (1단계 메뉴만, 좁은 화면에서 줄바꿈)
+- [x] 현재 메뉴 표시 (`aria-current`, `Suspense`)
+- [x] 푸터
+- [x] 404 페이지 (상태 코드 404)
+- [x] 본문으로 건너뛰기, 키보드 초점 표시, 터치 영역 44px
+- [x] 375px, 1280px 화면 확인
+- [x] lint · build · 커밋
+- [ ] push 후 Vercel 배포 확인
 
 ## STEP 03. 콘텐츠 구조, 지역 데이터, 검증
 - [ ] MDX 라이브러리 선택과 이유 기록
