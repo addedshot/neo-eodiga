@@ -22,7 +22,7 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] `npm run build` 통과
 - [x] 커밋 (기본 설정 / 문서와 스킬)
 - [x] 원격 저장소 연결과 push
-- [ ] Vercel 연결 (사용자가 직접)
+- [x] Vercel 연결 (사용자가 직접, https://neo-eodiga.vercel.app)
 
 ## STEP 02. 공통 레이아웃
 - [ ] 헤더 (1단계 메뉴만, 모바일 메뉴)

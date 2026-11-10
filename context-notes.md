@@ -24,6 +24,12 @@
 - Noto Sans KR은 굵기 배열 `["400","500","700","800"]`로 불러온다. Next 폰트 데이터에 `korean` 서브셋이 없어서 `latin`만 미리 불러오고, 한글 글자는 필요할 때 나눠 받는다.
 - 생성기의 `.gitignore`에 `.env*`가 있어서 나중에 만들 `.env.example`도 무시된다. STEP 07에서 `!.env.example`을 더한다.
 
+## Vercel 배포 (2026-11-10)
+- 사용자가 Vercel Hobby 팀 `ccjy1293-5713's projects`에 프로젝트 `neo-eodiga`를 만들고 GitHub 저장소를 연결했다.
+- GitHub 앱 권한은 `addedshot/neo-eodiga` 저장소 하나에만 주었다.
+- 운영 주소는 https://neo-eodiga.vercel.app 이다. `main`에 push하면 자동으로 배포된다.
+- 첫 배포에서 서체 Noto Sans KR, 제목 굵기 800, 본문 글자색 `#1B2733`, 보조 글자색 `#5B6875`, 줄간격 1.7이 적용된 것을 브라우저에서 확인했다.
+
 ## Plan 확정 (2026-11-10)
 - 사용자가 추천안대로 진행하고 결과를 보며 하나씩 고치기로 했다. 자세한 내용은 `plan.md`의 "결정한 것"에 있다.
 - 검증 항목에 `people`, `kidAges`, `goodFor` 검사를 더했다.
