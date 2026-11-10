@@ -34,7 +34,7 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] 본문으로 건너뛰기, 키보드 초점 표시, 터치 영역 44px
 - [x] 375px, 1280px 화면 확인
 - [x] lint · build · 커밋
-- [ ] push 후 Vercel 배포 확인
+- [x] push 후 Vercel 배포 확인
 
 ## STEP 03. 콘텐츠 구조, 지역 데이터, 검증
 - [ ] MDX 라이브러리 선택과 이유 기록
