@@ -78,7 +78,7 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] `PlaceCard` (기본 항목 "정보 없음", 추천 동행·유모차·수유실은 값 있을 때만)
 - [x] `CostSummary`
 - [x] lint · build · 커밋
-- [ ] push 후 Vercel에서 확인
+- [x] push 후 Vercel에서 확인 (상세 200, 없는 주소 404)
 
 ## STEP 07. 동선 지도
 - [ ] `RouteMap` 카카오맵
