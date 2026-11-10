@@ -108,10 +108,12 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] push 후 Vercel에서 확인
 
 ## STEP 10. 검색 노출
-- [ ] 페이지별 메타데이터
-- [ ] `sitemap`, `robots`
-- [ ] 공유 미리보기 이미지
-- [ ] lint · build · 커밋
+- [x] 계획 사용자 확인 (추천안)
+- [x] 페이지별 메타데이터 (설명, canonical, og)
+- [x] `sitemap`, `robots`
+- [x] 공유 미리보기 이미지 (공통 1장, 후기마다 1장)
+- [x] lint · build · 커밋
+- [ ] push 후 Vercel에서 확인
 
 ## STEP 11. 사진 위치정보 제거
 - [ ] `npm run strip-exif -- <slug>` (원본 폴더 → 위치정보 지운 사본)

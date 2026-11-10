@@ -106,6 +106,18 @@
 - `src/mdx-components.tsx`는 App Router에서 필수라 빈 목록으로 만들었다.
 - 임시 MDX로 확인했다. frontmatter는 본문에 나오지 않고 `#`, `**`가 `<h1>`, `<strong>`으로 바뀌었다.
 
+## STEP 10 구현 (2026-11-10)
+- `SITE_URL`(https://neo-eodiga.vercel.app)을 `site.ts`에 두고 `metadataBase`로 쓴다. 페이지 메타데이터는 `pageMetadata()`(src/lib/metadata.ts)로 같은 모양을 만든다. 제목, 설명, canonical, openGraph(사이트 이름, ko_KR, 제목, 설명, 주소, 이미지)다. 공유 카드는 `summary_large_image`다.
+- 페이지에서 `openGraph`를 정하면 레이아웃의 openGraph를 통째로 대신해서 공통 공유 이미지가 빠졌다(목록, 공지, 안내 페이지에 og:image 없음). 그래서 `pageMetadata()`가 기본으로 공통 이미지를 넣는다. 이렇게 하니 후기 상세도 같은 폴더의 `opengraph-image` 파일 대신 공통 이미지를 썼다. 코드에서 정한 images가 파일보다 우선했기 때문이다. 그래서 후기 상세는 자기 이미지 주소를 직접 넘긴다.
+- 후기 상세 설명은 `describeReview()`로 만든다. 예: "부산 수영구, 2026년 11월 8일, 아이와 4명이 다녀온 여행 기록이에요."
+- 공유 이미지는 `next/og`의 `ImageResponse`(1200×630 PNG)다. 한글 글꼴은 Google Fonts css2 API의 `text=` 부분 글꼴(TTF)을 받는다(800, 500 두 굵기). 받은 파일은 수십 KB다.
+- Cache Components에서는 네트워크 요청이 있으면 이미지를 미리 만들지 못해 처음에 요청 때 그리기(ƒ)였다. 글꼴 받는 함수에 `"use cache"`와 `cacheLife("max")`를 붙여 빌드 때 만들도록 바꿨다(공통 ○, 후기 ●). 내장 문서 `15-route-handlers.md`의 Cache Components 절을 따랐다.
+- 이미지 안에서는 CSS 토큰을 쓸 수 없어 `og.tsx`에만 globals.css와 같은 색 값을 적었다.
+- 한글 제목이 글자 단위로 끊겨서("나/들이") `wordBreak: keep-all`을 넣었다.
+- sitemap은 메인, 세 목록, 모든 상세 주소다. 후기 date는 다녀온 날이라 lastModified를 넣지 않았다. robots는 전체 허용과 sitemap 주소다.
+- 확인한 것. 페이지별 title, description, canonical(후기 목록은 쿼리가 있어도 /reviews), og 태그, 공유 이미지 두 장의 한글 표시, robots.txt, sitemap.xml 9개 주소.
+- 빌드 때 Google Fonts에 접속해야 한다. 인터넷이 없으면 공유 이미지를 만드는 단계에서 빌드가 실패한다.
+
 ## STEP 09 구현 (2026-11-10)
 - 메인은 시안 순서대로 히어로, 공지사항(최신 4개) + 처음 오셨나요?, 최근 여행후기(태그 칩 + 최근 3개)다. 빌드 때 정적 페이지다.
 - 히어로 제목은 "이번 주말, 어디 갈까?", 설명은 "전국 곳곳을 직접 다녀온 여행 기록이에요. 지역과 함께 가는 사람, 태그로 나에게 맞는 후기를 찾아보세요."다. 버튼은 여행후기 보기(주 색), 이용 안내(테두리)다. 시안의 지역 배지, 추천 검색 폼, 이번 주말 축제, 여행지도 안내 띠는 넣지 않았다.
