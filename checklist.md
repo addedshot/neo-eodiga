@@ -1,0 +1,104 @@
+# 너어디가 1단계 체크리스트
+
+STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STEP으로 넘어간다.
+
+## 준비
+- [x] 이전 스킬 `.claude/skills/jumal-eodiga-dev` 확인 (폴더 없음, 지울 것 없음)
+- [x] 새 스킬 `.claude/skills/neo-eodiga-dev` 배치와 읽기
+- [ ] frontend-design 스킬 설치 (마켓플레이스에는 있으나 설치 안 됨, 사용자가 설치)
+- [x] Plan, checklist, context-notes 사용자 확인 (추천안으로 확정)
+- [x] STEP 04 커밋 타입 결정 (`chore(content):`)
+- [x] STEP 11 사진 처리 방식 결정 (C안, 스킬 문구 수정)
+
+## STEP 01. 프로젝트 기본 설정
+- [x] Next.js(App Router, TypeScript, `src`), Tailwind, ESLint, npm으로 생성
+- [x] 패키지 이름 `neo-eodiga`
+- [x] `AGENTS.md`가 있으면 `node_modules/next/dist/docs/` 확인
+- [x] 테마 색을 Tailwind 테마 토큰으로 등록
+- [x] Noto Sans KR(400·500·700·800), `lang="ko"`
+- [x] `src/lib/site.ts`에 사이트 이름 상수
+- [x] 루트 `CLAUDE.md` (`AGENTS.md`가 있으면 맨 위 `@AGENTS.md`)
+- [x] `npm run lint` 통과
+- [x] `npm run build` 통과
+- [ ] 커밋 (기본 설정 / 문서와 스킬)
+- [ ] 원격 저장소 연결과 push
+- [ ] Vercel 연결 (사용자가 직접)
+
+## STEP 02. 공통 레이아웃
+- [ ] 헤더 (1단계 메뉴만, 모바일 메뉴)
+- [ ] 푸터
+- [ ] 404 페이지
+- [ ] lint · build · 커밋
+
+## STEP 03. 콘텐츠 구조, 지역 데이터, 검증
+- [ ] MDX 라이브러리 선택과 이유 기록
+- [ ] 공식 행정구역 코드 자료 확보 (못 받으면 사용자에게 요청)
+- [ ] `content/regions.json` 생성 (시도 17개, 기초자치단체 단위, 시군구 5자리 코드)
+- [ ] 일반구가 상위 시로 합쳐졌는지 확인
+- [ ] 자료 출처와 기준 날짜를 `context-notes.md`에 기록
+- [ ] 변환 스크립트 저장
+- [ ] 타입 정의 (`Region`, `Place`의 `goodFor`, 후기 frontmatter의 `companion`·`people`·`kidAges`)
+- [ ] 필수 필드 누락 시 빌드 실패
+- [ ] 잘못된 `companion` 값이면 빌드 실패
+- [ ] 후기·장소의 시도·시군구 조합이 `regions.json`에 없으면 빌드 실패
+- [ ] `route`의 장소 id가 `places.json`에 없으면 빌드 실패
+- [ ] 위 실패 경우를 일부러 만들어 실제로 실패하는지 확인
+- [ ] lint · build · 커밋
+
+## STEP 04. 샘플 콘텐츠
+- [ ] 샘플 후기 (`companion` 골고루)
+- [ ] 샘플 공지
+- [ ] 샘플 장소 (사실 정보는 사용자에게 받은 것만)
+- [ ] lint · build · 커밋 (`chore(content):`)
+
+## STEP 05. 여행후기 목록과 필터
+- [ ] 시도 → 시군구 2단계 지역 선택
+- [ ] 후기 있는 지역만, 후기 수와 함께 표시
+- [ ] 누구와 필터
+- [ ] 태그 필터
+- [ ] URL 쿼리 `?sido=&sigungu=&companion=&tag=` 유지
+- [ ] 결과 없음 안내
+- [ ] lint · build · 커밋
+
+## STEP 06. 여행후기 상세
+- [ ] 다녀온 날, 누구와, 인원, 교통수단
+- [ ] 아이 나이는 아이와일 때만
+- [ ] 본문 MDX
+- [ ] `PlaceCard` (기본 항목 "정보 없음", 추천 동행·유모차·수유실은 값 있을 때만)
+- [ ] `CostSummary`
+- [ ] lint · build · 커밋
+
+## STEP 07. 동선 지도
+- [ ] `RouteMap` 카카오맵
+- [ ] 지도 중심과 확대를 장소 좌표 범위에 맞춤 (고정 지역 없음)
+- [ ] 키나 좌표가 없으면 방문 순서 목록만
+- [ ] `.env.example` (`.gitignore`에 `!.env.example` 추가)
+- [ ] lint · build · 커밋
+
+## STEP 08. 공지사항과 이용 안내
+- [ ] 공지사항 목록과 상세
+- [ ] 이용 안내 3개 (새 `guide-content.md` 기준)
+- [ ] 사진 개인정보 안내 (다른 사람 얼굴 전체, 아이 얼굴 특히 주의)
+- [ ] lint · build · 커밋
+
+## STEP 09. 메인
+- [ ] 히어로 (특정 동행·지역을 전제하지 않는 문구)
+- [ ] 공지 최근 4개
+- [ ] "처음 오셨나요?" 바로가기 3개
+- [ ] 최근 여행후기 카드
+- [ ] lint · build · 커밋
+
+## STEP 10. 검색 노출
+- [ ] 페이지별 메타데이터
+- [ ] `sitemap`, `robots`
+- [ ] 공유 미리보기 이미지
+- [ ] lint · build · 커밋
+
+## STEP 11. 사진 위치정보 제거
+- [ ] `npm run strip-exif -- <slug>` (원본 폴더 → 위치정보 지운 사본)
+- [ ] 회전 정보 반영 확인
+- [ ] `prebuild` EXIF 검사로 빌드 실패 확인
+- [ ] lint · build · 커밋
+
+## STEP 12. 최종 확인
+- [ ] Vercel 배포 화면에서 전체 페이지 확인
