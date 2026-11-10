@@ -5,6 +5,8 @@ import type { MDXContent } from "mdx/types";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { GuideLinks } from "@/components/GuideLinks";
 import { loadContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
+import { SITE_NAME } from "@/lib/site";
 
 // 모든 안내를 빌드 때 정적 페이지로 만든다. 없는 slug는 요청 때 아래에서 404를 낸다.
 export function generateStaticParams() {
@@ -14,7 +16,9 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/guide/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const guide = loadContent().guides.find((g) => g.slug === slug);
-  return guide ? { title: guide.title } : {};
+  return guide
+    ? pageMetadata({ title: guide.title, description: `${SITE_NAME} 이용 안내 문서예요.`, path: `/guide/${slug}` })
+    : {};
 }
 
 export default async function GuideDetailPage({ params }: PageProps<"/guide/[slug]">) {

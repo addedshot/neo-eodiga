@@ -6,6 +6,8 @@ import type { MDXContent } from "mdx/types";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { loadContent } from "@/lib/content";
 import { formatDate } from "@/lib/format";
+import { pageMetadata } from "@/lib/metadata";
+import { SITE_NAME } from "@/lib/site";
 
 // 모든 공지를 빌드 때 정적 페이지로 만든다. 없는 slug는 요청 때 아래에서 404를 낸다.
 export function generateStaticParams() {
@@ -15,7 +17,13 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/notices/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const notice = loadContent().notices.find((n) => n.slug === slug);
-  return notice ? { title: notice.title } : {};
+  return notice
+    ? pageMetadata({
+        title: notice.title,
+        description: `${formatDate(notice.date)}에 올린 ${SITE_NAME} 공지사항이에요.`,
+        path: `/notices/${slug}`,
+      })
+    : {};
 }
 
 export default async function NoticePage({ params }: PageProps<"/notices/[slug]">) {

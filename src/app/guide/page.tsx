@@ -2,8 +2,13 @@
 import type { Metadata } from "next";
 import { GuideLinks } from "@/components/GuideLinks";
 import { loadContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = { title: "이용 안내" };
+export const metadata: Metadata = pageMetadata({
+  title: "이용 안내",
+  description: "사이트를 쓰는 방법과 후기, 사진을 잘 남기는 방법을 모았어요.",
+  path: "/guide",
+});
 
 export default function GuidePage() {
   const { guides } = loadContent();

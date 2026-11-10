@@ -2,8 +2,14 @@
 import type { Metadata } from "next";
 import { NoticeList } from "@/components/NoticeList";
 import { loadContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
+import { SITE_NAME } from "@/lib/site";
 
-export const metadata: Metadata = { title: "공지사항" };
+export const metadata: Metadata = pageMetadata({
+  title: "공지사항",
+  description: `${SITE_NAME}의 운영 소식과 안내를 모았어요.`,
+  path: "/notices",
+});
 
 export default function NoticesPage() {
   const { notices } = loadContent();

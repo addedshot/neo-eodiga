@@ -1,10 +1,15 @@
 // 메인 페이지(히어로, 공지 최근 4개와 처음 오셨나요?, 최근 여행후기)
+import type { Metadata } from "next";
 import Link from "next/link";
 import { GuideLinks } from "@/components/GuideLinks";
 import { NoticeList } from "@/components/NoticeList";
 import { ReviewCard } from "@/components/ReviewCard";
 import { FILTER_TAGS, loadContent } from "@/lib/content";
+import { pageMetadata } from "@/lib/metadata";
 import { filterHref, filterReviews } from "@/lib/review-filter";
+import { SITE_DESCRIPTION } from "@/lib/site";
+
+export const metadata: Metadata = pageMetadata({ description: SITE_DESCRIPTION, path: "/" });
 
 export default function Home() {
   const { notices, guides, reviews } = loadContent();

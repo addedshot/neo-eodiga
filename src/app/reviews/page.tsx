@@ -2,8 +2,13 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ReviewList } from "@/components/ReviewList";
+import { pageMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = { title: "여행후기" };
+export const metadata: Metadata = pageMetadata({
+  title: "여행후기",
+  description: "지역, 함께 간 사람, 태그로 직접 다녀온 여행 기록을 골라 보세요.",
+  path: "/reviews",
+});
 
 export default function ReviewsPage({ searchParams }: PageProps<"/reviews">) {
   return (

@@ -7,7 +7,8 @@ import { CostSummary } from "@/components/CostSummary";
 import { PlaceCard } from "@/components/PlaceCard";
 import { RouteMap } from "@/components/RouteMap";
 import { loadContent, type Place } from "@/lib/content";
-import { formatDate } from "@/lib/format";
+import { describeReview, formatDate } from "@/lib/format";
+import { pageMetadata } from "@/lib/metadata";
 import { filterHref } from "@/lib/review-filter";
 
 // 모든 후기를 빌드 때 정적 페이지로 만든다. 없는 slug는 요청 때 아래에서 404를 낸다.
@@ -18,7 +19,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/reviews/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const review = loadContent().reviews.find((r) => r.slug === slug);
-  return review ? { title: review.title } : {};
+  return review
+    ? pageMetadata({
+        title: review.title,
+        description: describeReview(review),
+        path: `/reviews/${slug}`,
+        image: { url: `/reviews/${slug}/opengraph-image`, alt: review.title },
+      })
+    : {};
 }
 
 export default async function ReviewPage({ params }: PageProps<"/reviews/[slug]">) {
