@@ -94,7 +94,7 @@ const reviewSchema = z
   });
 
 const noticeSchema = z.object({ title: z.string().min(1), date: dateField }).strict();
-const guideSchema = z.object({ title: z.string().min(1) }).strict();
+const guideSchema = z.object({ title: z.string().min(1), order: z.number().int().min(1) }).strict();
 
 export type Region = z.infer<typeof regionSchema>;
 export type Place = z.infer<typeof placeSchema>;
@@ -217,8 +217,14 @@ export function loadContent(): Content {
     }
   }
 
-  const notices = readMdxDir("notices", noticeSchema, errors);
-  const guides = readMdxDir("guide", guideSchema, errors);
+  // 공지는 최신순, 이용 안내는 order 순으로 돌려준다.
+  const notices = readMdxDir("notices", noticeSchema, errors).sort(
+    (a, b) => b.date.localeCompare(a.date) || a.slug.localeCompare(b.slug),
+  );
+  const guides = readMdxDir("guide", guideSchema, errors).sort((a, b) => a.order - b.order);
+  if (new Set(guides.map((g) => g.order)).size !== guides.length) {
+    errors.push("content/guide: 같은 order가 두 번 이상 있어요.");
+  }
 
   if (errors.length > 0) {
     throw new Error(`콘텐츠 검사에서 문제 ${errors.length}개를 찾았어요.\n- ${errors.join("\n- ")}`);

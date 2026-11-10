@@ -5,10 +5,12 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
-  // 후기 목록과 (빌드 때 없던 주소의) 후기 상세는 요청 때 content 폴더를 읽으므로 서버 번들에 함께 넣는다.
+  // 후기 목록과 (빌드 때 없던 주소의) 상세 페이지는 요청 때 content 폴더를 읽으므로 서버 번들에 함께 넣는다.
   outputFileTracingIncludes: {
     "/reviews": ["./content/**/*"],
     "/reviews/*": ["./content/**/*"],
+    "/notices/*": ["./content/**/*"],
+    "/guide/*": ["./content/**/*"],
   },
   turbopack: {
     rules: {
