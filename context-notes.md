@@ -106,6 +106,15 @@
 - `src/mdx-components.tsx`는 App Router에서 필수라 빈 목록으로 만들었다.
 - 임시 MDX로 확인했다. frontmatter는 본문에 나오지 않고 `#`, `**`가 `<h1>`, `<strong>`으로 바뀌었다.
 
+## STEP 07 구현 (2026-11-10, 키 없이 먼저)
+- 사용자가 카카오맵 키 없이 먼저 진행하라고 했다. 키와 좌표가 들어오면 지도가 나오도록 만들고, 지금은 목록만 보인다.
+- 카카오맵 API는 공식 문서(https://apis.map.kakao.com/web/documentation/)를 내장 브라우저로 열어 확인했다. 문서 본문은 자바스크립트로 그려져서 단순 내려받기로는 목차만 보였다. 확인한 것은 `autoload=false` + `kakao.maps.load(callback)`, `Map(container, { center, level, scrollwheel })`, `LatLngBounds().extend()`, `setBounds(bounds[, top, right, bottom, left])`(기본 여백 32), `CustomOverlay`의 `content`는 Node 또는 HTML 문자열, `Polyline`의 `strokeColor`는 `#xxxxxx`, `strokeStyle` 11종(`shortdash` 등)이다.
+- `RouteMap`(서버)이 키(`NEXT_PUBLIC_KAKAO_MAP_KEY`)와 좌표가 있는 장소를 확인하고, 있으면 `KakaoRouteMap`(클라이언트)을 목록 위에 그린다. 동선 칸과 MDX의 `<RouteMap />`이 같은 컴포넌트를 쓴다.
+- 선 색은 CSS 토큰 `--color-primary`를 읽어 쓴다. 번호 원은 주 색 바탕, 흰 글자, 흰 테두리(시안)다.
+- 키는 빌드 때 페이지에 들어간다(정적 페이지). Vercel에 키를 넣은 뒤에는 다시 배포해야 지도가 나온다.
+- 확인한 것. 키가 없으면 지도 상자와 SDK 요청이 없고 목록만 나온다. 가짜 키와 임시 좌표로 빌드하면 카카오가 SDK 요청에 401(`AccessDeniedError`, "wrong appKey format")로 응답하고, 지도 상자가 사라지며 목록만 남는다. 임시 좌표는 되돌렸다.
+- 실제 지도 표시(번호, 점선, 범위 맞춤)는 사용자가 키와 도메인을 등록하고 좌표를 준 뒤 확인한다.
+
 ## STEP 06 구현 (2026-11-10)
 - `/reviews/<slug>`는 `generateStaticParams`로 빌드 때 정적 페이지가 된다(광안리 후기 ○). MDX 본문은 `@content/*` 경로 별칭(tsconfig)으로 import한다.
 - `cacheComponents`에서는 `dynamicParams`를 쓸 수 없다(내장 문서 `dynamicParams.md`). 그래서 없는 slug는 요청 때 페이지가 `notFound()`를 부르고, 이 경로도 `outputFileTracingIncludes`에 content를 넣었다.

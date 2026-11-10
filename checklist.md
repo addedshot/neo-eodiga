@@ -81,11 +81,14 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] push 후 Vercel에서 확인 (상세 200, 없는 주소 404)
 
 ## STEP 07. 동선 지도
-- [ ] `RouteMap` 카카오맵
-- [ ] 지도 중심과 확대를 장소 좌표 범위에 맞춤 (고정 지역 없음)
-- [ ] 키나 좌표가 없으면 방문 순서 목록만
-- [ ] `.env.example` (`.gitignore`에 `!.env.example` 추가)
-- [ ] lint · build · 커밋
+- [x] `RouteMap` 카카오맵 (코드 완료, 실제 지도는 키와 좌표를 받은 뒤 확인)
+- [x] 지도 중심과 확대를 장소 좌표 범위에 맞춤 (고정 지역 없음)
+- [x] 키나 좌표가 없으면 방문 순서 목록만 (키 없음, 잘못된 키 둘 다 확인)
+- [x] `.env.example` (`.gitignore`에 `!.env.example` 추가)
+- [x] lint · build · 커밋
+- [ ] 사용자: 카카오 JavaScript 키 발급, 도메인 등록(localhost:3000, neo-eodiga.vercel.app), .env.local과 Vercel 환경 변수에 키 입력
+- [ ] 사용자: 광안리해수욕장 좌표 제공
+- [ ] 키를 넣고 다시 배포한 뒤 실제 지도 확인
 
 ## STEP 08. 공지사항과 이용 안내
 - [ ] 공지사항 목록과 상세
