@@ -116,10 +116,14 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] push 후 Vercel에서 확인 (robots, sitemap 9개, 이미지 2장 PNG, 메타 태그)
 
 ## STEP 11. 사진 위치정보 제거
-- [ ] `npm run strip-exif -- <slug>` (원본 폴더 → 위치정보 지운 사본)
-- [ ] 회전 정보 반영 확인
-- [ ] `prebuild` EXIF 검사로 빌드 실패 확인
-- [ ] lint · build · 커밋
+- [x] 계획 사용자 확인 (추천안)
+- [x] `npm run strip-exif -- <slug>` (원본 폴더 → 위치정보 지운 사본, 긴 변 1600px)
+- [x] 회전 정보 반영 확인 (400×200 orientation 6 → 200×400)
+- [x] `prebuild` EXIF 검사로 빌드 실패 확인
+- [x] 커밋 전 검사(D안)로 커밋이 막히는지 확인
+- [x] HEIC 안내 확인
+- [x] lint · build · 커밋
+- [ ] push 후 Vercel에서 확인
 
 ## STEP 12. 최종 확인
 - [ ] Vercel 배포 화면에서 전체 페이지 확인

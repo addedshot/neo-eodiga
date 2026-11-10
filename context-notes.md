@@ -106,6 +106,15 @@
 - `src/mdx-components.tsx`는 App Router에서 필수라 빈 목록으로 만들었다.
 - 임시 MDX로 확인했다. frontmatter는 본문에 나오지 않고 `#`, `**`가 `<h1>`, `<strong>`으로 바뀌었다.
 
+## STEP 11 구현 (2026-11-10)
+- `sharp` 0.35.5(Next.js가 쓰는 것과 같은 버전)를 개발 의존성으로 고정했다. 설치된 sharp는 HEIF 계열 중 `.avif`만 읽고 HEIC는 읽지 못한다.
+- **사진 넣는 법**: 원본을 저장소 밖 `<PHOTO_SOURCE_DIR>/<slug>/`에 두고 `npm run strip-exif -- <slug>`를 실행한다. `.env.local`에 `PHOTO_SOURCE_DIR=D:\neo-eodiga-photos`처럼 적는다(Node 24 `--env-file-if-exists`로 읽는다). 사본은 `public/images/reviews/<slug>/`에 생긴다.
+- 사본은 회전 정보를 화소에 반영(`rotate()`)하고, 긴 변 1600px 안으로 줄이고(작은 사진은 키우지 않음), 흰 바탕 JPEG 품질 82로 저장한다. 출력에는 EXIF, XMP, IPTC가 없다. 만든 뒤 다시 읽어 확인한다.
+- 사본 이름은 원래 이름을 소문자로, 밑줄을 하이픈으로 바꾸고 `.jpg`를 붙인다. 영문 소문자·숫자·하이픈이 아닌 이름(예: 한글)이나 겹치는 이름이면 멈춘다. HEIC가 있으면 JPG로 바꾸라는 안내와 함께 멈춘다.
+- **빌드 전 검사** `npm run check-photos`가 `public/images` 아래 사진의 EXIF, XMP, IPTC를 확인한다. `prebuild`는 콘텐츠 검사 다음에 이 검사를 돌린다.
+- **커밋 전 검사(D안)** `.githooks/pre-commit`이 같은 검사를 돌린다. `npm install`의 `prepare`(`scripts/setup-git-hooks.ts`)가 `git config core.hooksPath .githooks`를 설정한다. git 저장소가 아니면(예: Vercel 빌드) 건너뛴다. 이 검사는 작업 폴더 전체를 보므로, 위치정보가 남은 사진이 폴더에 있으면 다른 파일의 커밋도 막힌다.
+- 확인한 것. GPS와 회전 정보(orientation 6)를 넣은 400×200 시험 JPG는 200×400 사본이 되고 메타데이터가 없다. 3000×2000 반투명 PNG는 1600×1067 JPEG가 된다. 원본을 `public/images`에 넣으면 `npm run build`가 `exit 1`, 그 원본만 커밋하려 하면 커밋이 막힌다(HEAD 그대로). 가짜 HEIC는 안내와 함께 멈춘다. 시험 파일은 모두 지웠다.
+
 ## STEP 10 구현 (2026-11-10)
 - `SITE_URL`(https://neo-eodiga.vercel.app)을 `site.ts`에 두고 `metadataBase`로 쓴다. 페이지 메타데이터는 `pageMetadata()`(src/lib/metadata.ts)로 같은 모양을 만든다. 제목, 설명, canonical, openGraph(사이트 이름, ko_KR, 제목, 설명, 주소, 이미지)다. 공유 카드는 `summary_large_image`다.
 - 페이지에서 `openGraph`를 정하면 레이아웃의 openGraph를 통째로 대신해서 공통 공유 이미지가 빠졌다(목록, 공지, 안내 페이지에 og:image 없음). 그래서 `pageMetadata()`가 기본으로 공통 이미지를 넣는다. 이렇게 하니 후기 상세도 같은 폴더의 `opengraph-image` 파일 대신 공통 이미지를 썼다. 코드에서 정한 images가 파일보다 우선했기 때문이다. 그래서 후기 상세는 자기 이미지 주소를 직접 넘긴다.
@@ -219,6 +228,6 @@
 
 ## 열린 질문
 - 후기 `tags`를 필터의 다섯 값(실내, 야외, 무료, 비 오는 날, 대중교통)으로 제한할지 (지금은 제한하지 않음)
-- 저장소가 공개로 확인되었다(2026-11-10, GitHub API 비로그인 조회 200). 사진 커밋 전 훅(D안)을 STEP 11에서 더할지 정한다.
+- 저장소는 공개다(2026-11-10 확인). 사진 커밋 전 검사(D안)는 STEP 11에서 넣기로 했다(해결).
 - "혼자면 `people`은 1", "아이와면 `kidAges` 필수" 검사를 더할지
 - 푸터 연락 방법(GitHub 이슈, 이메일 등)을 무엇으로 할지. 정해지면 이용 안내 "사이트 이용 방법"에 초안의 "정보가 바뀌었다면 알려주세요. 확인한 뒤 고쳐둘게요." 문장도 되살린다.
