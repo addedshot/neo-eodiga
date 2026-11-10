@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
   /* config options here */
   cacheComponents: true,
   partialPrefetching: true,
+  // 후기 목록은 요청 때 content 폴더를 읽으므로 서버 번들에 함께 넣는다.
+  outputFileTracingIncludes: {
+    "/reviews": ["./content/**/*"],
+  },
   turbopack: {
     rules: {
       "*.css": {

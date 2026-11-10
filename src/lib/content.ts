@@ -8,6 +8,8 @@ import { z } from "zod";
 
 export const COMPANIONS = ["혼자", "커플", "친구", "가족", "아이와"] as const;
 export const PLACE_CATEGORIES = ["관람", "식사", "숙소", "카페", "공원", "해수욕장"] as const;
+// 후기 목록의 태그 필터에 나오는 태그(후기에는 다른 태그도 쓸 수 있다)
+export const FILTER_TAGS = ["실내", "야외", "무료", "비 오는 날", "대중교통"] as const;
 
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
