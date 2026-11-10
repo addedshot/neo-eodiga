@@ -68,7 +68,7 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
 - [x] 결과 없음 안내
 - [x] lint · build · 커밋
 - [x] 헤더·푸터 시안에 맞춤
-- [ ] push 후 Vercel에서 /reviews 확인
+- [x] push 후 Vercel에서 /reviews 확인 (필터 4가지 조합 정상)
 
 ## STEP 06. 여행후기 상세
 - [ ] 다녀온 날, 누구와, 인원, 교통수단
