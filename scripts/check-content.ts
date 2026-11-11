@@ -2,9 +2,9 @@
 import { loadContent } from "../src/lib/content.ts";
 
 try {
-  const { regions, places, reviews, notices, guides } = loadContent();
+  const { regions, places, reviews, notices, guides, festivals } = loadContent();
   console.log(
-    `콘텐츠 검사를 통과했어요. 지역 ${regions.length}, 장소 ${places.length}, 후기 ${reviews.length}, 공지 ${notices.length}, 이용 안내 ${guides.length}.`,
+    `콘텐츠 검사를 통과했어요. 지역 ${regions.length}, 장소 ${places.length}, 후기 ${reviews.length}, 공지 ${notices.length}, 이용 안내 ${guides.length}, 지역축제 ${festivals.length}.`,
   );
 } catch (error) {
   console.error(error instanceof Error ? error.message : error);

@@ -12,7 +12,8 @@
     "prebuild": "npm run check-content && npm run check-photos",
     "strip-exif": "node --env-file-if-exists=.env.local scripts/strip-exif.ts",
     "check-photos": "node scripts/check-photos.ts",
-    "prepare": "node scripts/setup-git-hooks.ts"
+    "prepare": "node scripts/setup-git-hooks.ts",
+    "build-festivals": "node scripts/build-festivals.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

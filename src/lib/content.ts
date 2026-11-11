@@ -93,6 +93,31 @@ const reviewSchema = z
     path: ["kidAges"],
   });
 
+// 지역축제는 scripts/build-festivals.ts가 공공데이터로 만든다. 사람이 쓰지 않으므로 필요한 형식만 확인한다.
+const festivalSchema = z
+  .object({
+    id: z.string().regex(/^[0-9a-f]{10}$/, { error: "10자리 영문 소문자·숫자여야 해요." }),
+    name: z.string().min(1),
+    startDate: dateField,
+    endDate: dateField,
+    sido: z.string().min(1),
+    sigungu: z.string().min(1),
+    place: z.string(),
+    content: z.string().min(1).optional(),
+    organizer: z.string().min(1).optional(),
+    host: z.string().min(1).optional(),
+    phone: z.string().min(1).optional(),
+    homepage: z.url({ protocol: /^https?$/ }).optional(),
+    address: z.string().min(1).optional(),
+    lat: z.number().min(33).max(39).optional(),
+    lng: z.number().min(124).max(132).optional(),
+    referenceDate: dateField.optional(),
+    provider: z.string().min(1).optional(),
+  })
+  .strict()
+  .refine((f) => f.startDate <= f.endDate, { error: "끝나는 날이 시작일보다 앞서요.", path: ["endDate"] });
+const festivalFileSchema = z.object({ source: z.url(), fetchedOn: dateField, festivals: z.array(z.unknown()) }).strict();
+
 const noticeSchema = z.object({ title: z.string().min(1), date: dateField }).strict();
 const guideSchema = z.object({ title: z.string().min(1), order: z.number().int().min(1) }).strict();
 
@@ -103,12 +128,17 @@ export type Review = z.infer<typeof reviewSchema> & { slug: string };
 export type Notice = z.infer<typeof noticeSchema> & { slug: string };
 export type Guide = z.infer<typeof guideSchema> & { slug: string };
 
+export type Festival = z.infer<typeof festivalSchema>;
+
 export type Content = {
   regions: Region[];
   places: Place[];
   reviews: Review[];
   notices: Notice[];
   guides: Guide[];
+  festivals: Festival[];
+  // 축제 자료를 받은 날(YYYY-MM-DD)과 출처 주소
+  festivalSource: { url: string; fetchedOn: string };
 };
 
 const TYPE_NAMES: Record<string, string> = {
@@ -146,6 +176,15 @@ function check<T>(schema: z.ZodType<T>, data: unknown, file: string, errors: str
   if (result.success) return result.data;
   for (const issue of result.error.issues) errors.push(`${file}: ${describeIssue(issue)}`);
   return undefined;
+}
+
+function readJsonValue(file: string, errors: string[]): unknown {
+  const full = path.join(CONTENT_DIR, file);
+  if (!existsSync(full)) {
+    errors.push(`content/${file}: 파일이 없어요.`);
+    return undefined;
+  }
+  return JSON.parse(readFileSync(full, "utf8"));
 }
 
 function readJson(file: string, errors: string[]): unknown[] {
@@ -226,8 +265,29 @@ export function loadContent(): Content {
     errors.push("content/guide: 같은 order가 두 번 이상 있어요.");
   }
 
+  // 지역축제(content/festivals.json)
+  const festivalFile = check(festivalFileSchema, readJsonValue("festivals.json", errors), "content/festivals.json", errors);
+  const festivals = (festivalFile?.festivals ?? [])
+    .map((item, i) => check(festivalSchema, item, `content/festivals.json festivals[${i}]`, errors))
+    .filter((f): f is Festival => f !== undefined);
+  const festivalIds = new Set<string>();
+  for (const festival of festivals) {
+    const where = `content/festivals.json(${festival.id} ${festival.name})`;
+    if (festivalIds.has(festival.id)) errors.push(`${where}: id가 두 번 이상 있어요.`);
+    festivalIds.add(festival.id);
+    checkRegion(where, festival.sido, festival.sigungu);
+  }
+
   if (errors.length > 0) {
     throw new Error(`콘텐츠 검사에서 문제 ${errors.length}개를 찾았어요.\n- ${errors.join("\n- ")}`);
   }
-  return { regions, places, reviews, notices, guides };
+  return {
+    regions,
+    places,
+    reviews,
+    notices,
+    guides,
+    festivals,
+    festivalSource: { url: festivalFile?.source ?? "", fetchedOn: festivalFile?.fetchedOn ?? "" },
+  };
 }
