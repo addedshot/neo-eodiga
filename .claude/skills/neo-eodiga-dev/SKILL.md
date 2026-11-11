@@ -52,7 +52,7 @@ description: 너어디가(누구와, 언제 가는지 고르면 추천 코스를
 사이트맵은 `docs/sitemap.md`에 있다.
 - **여행추천** `/recommend`: 조건 고르기(누구와, 언제), 추천 코스 목록, 코스 상세 `/recommend/[slug]`(방문 순서, 장소, 예약 링크)
 - **여행후기** `/reviews`: 1단계에서 만든 목록과 상세
-- **지역축제** `/festivals`: 달력·목록과 축제 상세 `/festivals/[slug]`
+- **지역축제** `/festivals`: 달력·목록과 축제 포스트 `/festivals/[id]`. 자료는 공공데이터포털 전국문화축제표준데이터이고 `npm run build-festivals`가 `content/festivals.json`을 만든다(주 1회 GitHub Actions 자동 갱신). 기간 미정은 빼고, 끝난 뒤 3일까지만 "종료"로 보여준 뒤 숨긴다. 포스트에 Open-Meteo 예상 날씨를 출처와 함께 단다. 메인에는 공지사항 옆 같은 폭으로 가까운 예정 축제 4개를 둔다.
 - **여행지도** `/map`: 운영자가 다녀온 시군구 기록. 로그인 없이 만든다.
 - **공지사항** `/notices`, **이용 안내** `/guide`: 헤더가 아니라 메인과 푸터에 둔다.
 
@@ -69,6 +69,7 @@ content/
   guide/<slug>.mdx
   places.json
   regions.json
+  festivals.json        # scripts/build-festivals.ts가 만든다. 손으로 고치지 않는다.
 public/images/reviews/<slug>/
 ```
 
