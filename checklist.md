@@ -138,7 +138,9 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
   - [x] 4. 메인에 공지사항과 같은 폭으로 가까운 축제 4개
   - [x] 5. 자동 갱신 (GitHub Actions 주 1회)
   - [x] lint · build · 커밋
-  - [ ] push 후 Vercel 확인, 자동 갱신 작업 한 번 직접 실행
+  - [x] push 후 Vercel 확인 (메인 4개, 달력·목록, 포스트와 날씨, sitemap)
+  - [x] 자동 갱신 작업 GitHub 등록 확인 (active)
+  - [ ] 사용자: GitHub Actions 화면에서 "지역축제 정보 갱신"을 한 번 직접 실행해 보기 (gh 명령이 없어 대신 실행하지 못함)
 - [ ] 여행지도 Plan과 구현
 - [x] 헤더 메뉴 지역축제·여행후기·여행추천·여행지도, 공지사항·이용 안내는 메인과 푸터로
 - [x] 기능 없는 메뉴의 준비 중 페이지 (noindex, sitemap 제외)
