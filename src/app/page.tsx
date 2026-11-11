@@ -1,7 +1,9 @@
-// 메인 페이지(히어로, 공지 최근 4개와 처음 오셨나요?, 최근 여행후기)
+// 메인 페이지(히어로, 공지사항과 지역축제를 반씩, 처음 오셨나요?, 최근 여행후기)
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { GuideLinks } from "@/components/GuideLinks";
+import { MainFestivals } from "@/components/MainFestivals";
 import { NoticeList } from "@/components/NoticeList";
 import { ReviewCard } from "@/components/ReviewCard";
 import { FILTER_TAGS, loadContent } from "@/lib/content";
@@ -42,15 +44,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section aria-label="공지와 이용 안내" className="mt-14 flex flex-wrap items-stretch gap-5">
-        <div className="min-w-0 flex-[999_1_520px] rounded-[20px] border border-line px-6 py-5">
+      <section aria-label="공지사항과 지역축제" className="mt-14 grid items-stretch gap-5 md:grid-cols-2">
+        <div className="min-w-0 rounded-[20px] border border-line px-6 py-5">
           <div className="flex items-center justify-between gap-3">
             <h2 className="text-xl font-extrabold">공지사항</h2>
-            <Link
-              href="/notices"
-              aria-label="공지사항 더보기"
-              className="inline-flex min-h-11 items-center text-sm font-bold text-link"
-            >
+            <Link href="/notices" aria-label="공지사항 더보기" className="inline-flex min-h-11 items-center text-sm font-bold text-link">
               더보기
             </Link>
           </div>
@@ -60,10 +58,22 @@ export default function Home() {
             <p className="py-3 text-ink-muted">아직 공지가 없어요.</p>
           )}
         </div>
-        <div className="min-w-0 flex-[1_1_300px] rounded-[20px] bg-surface-muted px-6 py-5">
-          <h2 className="mb-3 text-xl font-extrabold">처음 오셨나요?</h2>
-          <GuideLinks guides={guides} />
+        <div className="min-w-0 rounded-[20px] border border-line px-6 py-5">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-xl font-extrabold">지역축제</h2>
+            <Link href="/festivals" aria-label="지역축제 더보기" className="inline-flex min-h-11 items-center text-sm font-bold text-link">
+              더보기
+            </Link>
+          </div>
+          <Suspense fallback={<p className="py-3 text-ink-muted">축제 일정을 불러오고 있어요.</p>}>
+            <MainFestivals />
+          </Suspense>
         </div>
+      </section>
+
+      <section aria-labelledby="first-visit" className="mt-5 rounded-[20px] bg-surface-muted px-6 py-5">
+        <h2 id="first-visit" className="mb-3 text-xl font-extrabold">처음 오셨나요?</h2>
+        <GuideLinks guides={guides} row />
       </section>
 
       <section aria-labelledby="recent-reviews" className="mt-14">

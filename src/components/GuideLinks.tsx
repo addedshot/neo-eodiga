@@ -2,9 +2,10 @@
 import Link from "next/link";
 import type { Guide } from "@/lib/content";
 
-export function GuideLinks({ guides }: { guides: Guide[] }) {
+// row가 true면 넓은 화면에서 가로로 나란히 놓는다(메인의 "처음 오셨나요?").
+export function GuideLinks({ guides, row = false }: { guides: Guide[]; row?: boolean }) {
   return (
-    <ul className="flex flex-col gap-2.5">
+    <ul className={row ? "grid gap-2.5 sm:grid-cols-3" : "flex flex-col gap-2.5"}>
       {guides.map((guide) => (
         <li key={guide.slug}>
           <Link
