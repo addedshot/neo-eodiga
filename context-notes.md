@@ -2,6 +2,12 @@
 
 결정한 것, 그 이유, 자료 출처, 아직 열린 질문을 적는다. 새 결정은 위에 추가한다.
 
+## 명소 고르기 구현 (2026-11-13)
+- `npm run build-attractions -- --sido 부산,울산,경남 [--max-calls N]`(`scripts/build-attractions.ts`)이 관광공사 목록(관광지·문화시설·레포츠, 시도별 1,000건씩)과 집중률 목록을 받아 근거를 붙이고 시군구마다 10곳을 고른다. 결과는 `content/attractions.json`, 붐빔 30일치는 `content/attraction-crowd.json`이다. 분류 이름은 `lclsSystmCode2`(246개, 대분류 자연관광·역사관광·문화관광·체험관광·레저스포츠 등)로 바꾼다.
+- 관광공사 하루 한도는 기능별로 따로인 것으로 보인다. 축제 시험으로 상세 기능(detailCommon2, detailIntro2)은 429가 났지만 목록 기능(areaBasedList2, lclsSystmCode2)은 됐다.
+- 근거 맞추기에서 고친 것. 100선은 처음에 이름을 포함하는 곳까지 붙어(통도사 자장암, 태종대온천찜질방, 대왕암공원오토캠핑장, 창녕 포교당·통도사) 38곳이 됐다. 앞의 지명(시도, 시군구에서 시·군·구를 뗀 말)만 떼고 이름이 같을 때만 붙여 22곳이 됐다. 세계유산은 설명 글로만 맞추니 부산의 미륵사·선암사·대각사, 고성의 도산서원이 걸렸다. 집중률 목록의 이름에 관광공사가 붙인 "[유네스코 세계유산]" 표시(이름이 같을 때만)나, 설명에 이름이 나오고 2km 안에 같은 이름의 사적이 있을 때만 붙여 통도사, 남계서원, 해인사 3곳이 됐다.
+- 결과(2026-11-13): 부산·울산·경남 후보 2,715곳 중 39개 시군구 373곳(모두 5곳 이상). 상세 정보는 상세 기능 한도로 0곳이라 다음 날부터 받는다.
+
 ## 근거 자료 받기 구현 (2026-11-13)
 - 사용자가 기능 구성과 파일 내려받기를 허락했다("진행해").
 - `npm run build-reference`(`scripts/build-reference.ts`)가 `content/reference.json`을 만든다. 공공데이터포털 파일은 누리집 버튼과 같은 순서로 받는다(상세 페이지의 publicDataDetailPk → `POST /tcs/dss/selectFileDataDownload.do`로 atchFileId → `/cmm/cmm/fileDownload.do`). 100대 명산 CSV는 UTF-8, 세계유산 CSV는 EUC-KR이다.
