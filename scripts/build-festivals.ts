@@ -1,16 +1,24 @@
 // 한국관광공사 "국문 관광정보 서비스_GW"(TourAPI)로 지역축제 목록(content/festivals.json)을 만드는 스크립트
 // 사용법: npm run build-festivals            (자동 갱신은 .github/workflows/update-festivals.yml이 주 1회 실행한다)
 //         npm run build-festivals -- --refresh (지난 파일의 상세 내용을 다시 쓰지 않고 모두 새로 받는다)
+// 주의: 개발 계정은 하루 호출 한도가 있다(2026-11-13 하루에 약 2,000번 부른 뒤 HTTP 429). --refresh는 한 번에 700번 넘게 부르므로 꼭 필요할 때만 쓴다.
 // 인증키는 환경 변수 TOUR_API_KEY(로컬은 .env.local, GitHub는 Secrets)에서 읽는다. 키 값은 화면에 찍지 않는다.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { addDays, KEEP_DAYS_AFTER_END, todayInKorea } from "../src/lib/festivals.ts";
+import { addDays, distanceMeters, KEEP_DAYS_AFTER_END, todayInKorea } from "../src/lib/festivals.ts";
 
 const SOURCE_URL = "https://www.data.go.kr/data/15101578/openapi.do";
 const API_BASE = "https://apis.data.go.kr/B551011/KorService2/";
 const OUTPUT = path.join(process.cwd(), "content", "festivals.json");
 const LODGING_RADIUS_M = 2000;
 const LODGING_COUNT = 5;
+// 주변 정보: 먹을 곳과 볼거리는 2km 안 3곳, 주차장은 1km 안 3곳
+const NEARBY_RADIUS_M = 2000;
+const NEARBY_COUNT = 3;
+const PARKING_RADIUS_M = 1000;
+const PARKING_COUNT = 3;
+const PARKING_DATASET_PK = "15012896"; // 공공데이터포털 전국주차장정보표준데이터(인증키 없음)
+const PARKING_SOURCE_URL = `https://www.data.go.kr/data/${PARKING_DATASET_PK}/standard.do`;
 // 공공누리 1유형(출처표시), 3유형(출처표시, 변경금지) 사진만 쓴다.
 const ALLOWED_IMAGE_TYPES = new Set(["Type1", "Type3"]);
 // 이 말이 들어간 문장을 예약 안내 근거로 보여준다.
@@ -33,6 +41,8 @@ const SIDO_SHORT: Record<string, string> = {
 type Item = Record<string, string | undefined>;
 type Link = { label?: string; url: string };
 type Lodging = { name: string; distance: number; address?: string; phone?: string; reservationUrl?: string };
+type NearPlace = { name: string; distance: number; address?: string };
+type Parking = { name: string; distance: number; kind?: string; spaces?: number; feeType?: string; basicFee?: string; weekdayHours?: string };
 type FestivalImage = { url: string; license: "Type1" | "Type3" };
 type Festival = {
   id: string;
@@ -61,10 +71,20 @@ type Festival = {
   bookingNotes: string[];
   image?: FestivalImage;
   lodgings?: Lodging[];
+  foods?: NearPlace[];
+  sights?: NearPlace[];
+  parkings?: Parking[];
   modifiedTime: string;
 };
-type OngoingEvent = Omit<Festival, "lodgings" | "bookingNotes" | "discount" | "spendTime" | "subEvent">;
-type Output = { source: string; fetchedOn: string; festivals: Festival[]; ongoingEvents: OngoingEvent[] };
+const FESTIVAL_ONLY_KEYS = ["lodgings", "foods", "sights", "parkings", "bookingNotes", "discount", "spendTime", "subEvent"] as const;
+type OngoingEvent = Omit<Festival, (typeof FESTIVAL_ONLY_KEYS)[number]>;
+type Output = {
+  source: string;
+  fetchedOn: string;
+  parkingSource: { url: string; referenceDate: string };
+  festivals: Festival[];
+  ongoingEvents: OngoingEvent[];
+};
 
 function fail(message: string): never {
   console.error(`지역축제 목록을 만들지 못했어요. ${message} 기존 파일은 그대로 두었어요.`);
@@ -253,6 +273,109 @@ async function fetchLodgings(lat: number, lng: number): Promise<Lodging[]> {
   });
 }
 
+// 회사 이름으로 등록된 항목(주식회사, (주))은 먹을 곳이나 볼거리로 보기 어려워 뺀다.
+const isCompanyName = (name: string) => /주식회사|(주)|㈜/.test(name);
+
+// 관광공사 자료에서 축제 좌표 근처의 장소를 거리순으로 찾는다. 여러 분류를 합쳐 가까운 count곳만 남긴다.
+async function fetchNearby(lat: number, lng: number, contentTypeIds: string[], count: number): Promise<NearPlace[]> {
+  const found: NearPlace[] = [];
+  for (const contentTypeId of contentTypeIds) {
+    const items = await call("locationBasedList2", {
+      mapX: String(lng),
+      mapY: String(lat),
+      radius: String(NEARBY_RADIUS_M),
+      contentTypeId,
+      arrange: "E",
+      numOfRows: String(count),
+      pageNo: "1",
+    });
+    for (const item of items) {
+      const name = value(item.title);
+      if (!name || isCompanyName(name) || found.some((p) => p.name === name)) continue;
+      const address = value([item.addr1, item.addr2].filter(Boolean).join(" "));
+      found.push({ name, distance: Math.round(Number(item.dist) || 0), ...(address ? { address } : {}) });
+    }
+  }
+  return found.sort((a, b) => a.distance - b.distance).slice(0, count);
+}
+
+type ParkingLot = { info: Omit<Parking, "distance">; lat: number; lng: number };
+
+// 공공데이터포털 전국주차장정보표준데이터를 받는다. 실패하면 undefined를 돌려주고, 그때는 지난 파일의 주차장 정보를 쓴다.
+async function fetchParkingLots(): Promise<{ lots: ParkingLot[]; referenceDate: string } | undefined> {
+  const headers = { "User-Agent": "Mozilla/5.0 (neo-eodiga festival updater)", "X-Requested-With": "XMLHttpRequest", Referer: PARKING_SOURCE_URL };
+  try {
+    const headRes = await fetch(`https://www.data.go.kr/download/columList.json?pk=${PARKING_DATASET_PK}&ext=JSON`, { headers });
+    if (!headRes.ok) throw new Error(`HTTP ${headRes.status}`);
+    const head = (await headRes.json()) as { totalCount: number; tableVO: { colNmList: string[]; svcTableNm: string } };
+    const rows: Item[] = [];
+    for (let page = 1; page <= Math.ceil(head.totalCount / 10000); page++) {
+      const query = new URLSearchParams([
+        ["publicDataPk", PARKING_DATASET_PK],
+        ...head.tableVO.colNmList.map((c) => ["colNmList", c]),
+        ["totalCount", String(head.totalCount)],
+        ["svcTableNm", head.tableVO.svcTableNm],
+        ["perPage", "10000"],
+        ["page", String(page)],
+      ]);
+      const res = await fetch(`https://www.data.go.kr/download/standard.json?${query}`, { headers });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      rows.push(...((await res.json()) as Item[]));
+    }
+    if (rows.length < head.totalCount * 0.9) throw new Error(`받은 건수(${rows.length})가 전체(${head.totalCount})보다 너무 적어요.`);
+    const hhmm = (v?: string) => (/^\d{2}:\d{2}$/.test(v ?? "") ? v! : undefined);
+    const lots: ParkingLot[] = [];
+    let referenceDate = "";
+    for (const row of rows) {
+      const lat = toCoordinate(row.LATITUDE, 33, 39);
+      const lng = toCoordinate(row.LONGITUDE, 124, 132);
+      const name = value(row.PRKPLCE_NM);
+      if (lat === undefined || lng === undefined || !name) continue;
+      const ref = toDate((row.REFERENCE_DATE ?? "").replace(/-/g, ""));
+      if (ref > referenceDate) referenceDate = ref;
+      const spaces = Number(row.PRKCMPRT);
+      const basicTime = Number(row.BASIC_TIME);
+      const basicCharge = Number(row.BASIC_CHARGE);
+      const feeType = value(row.PARKINGCHRGE_INFO);
+      const open = hhmm(row.WEEKDAY_OPER_OPEN_HHMM);
+      const close = hhmm(row.WEEKDAY_OPER_COLSE_HHMM);
+      const allDay = open && close && open <= "00:01" && close >= "23:59";
+      lots.push({
+        lat,
+        lng,
+        info: {
+        name,
+        ...(value(row.PRKPLCE_SE) ? { kind: value(row.PRKPLCE_SE) } : {}),
+        ...(Number.isInteger(spaces) && spaces > 0 ? { spaces } : {}),
+        ...(feeType ? { feeType } : {}),
+        ...(feeType !== "무료" && basicTime > 0 && basicCharge >= 0 && row.BASIC_CHARGE
+          ? { basicFee: `기본 ${basicTime}분 ${basicCharge.toLocaleString("ko-KR")}원` }
+          : {}),
+        ...(allDay ? { weekdayHours: "24시간" } : open && close ? { weekdayHours: `${open}~${close}` } : {}),
+        },
+      });
+    }
+    return { lots, referenceDate };
+  } catch (error) {
+    console.warn(`주차장 자료를 받지 못해 지난 파일의 주차장 정보를 그대로 써요. (${(error as Error).message})`);
+    return undefined;
+  }
+}
+
+function nearestParkings(lots: ParkingLot[], lat: number, lng: number): Parking[] {
+  const near = lots
+    .map((lot) => ({ lot, distance: distanceMeters({ lat, lng }, lot) }))
+    .filter((n) => n.distance <= PARKING_RADIUS_M)
+    .sort((a, b) => a.distance - b.distance);
+  const picked: Parking[] = [];
+  for (const { lot, distance } of near) {
+    if (picked.some((p) => p.name === lot.info.name)) continue; // 같은 이름이 여러 줄로 들어 있는 경우
+    picked.push({ ...lot.info, distance });
+    if (picked.length === PARKING_COUNT) break;
+  }
+  return picked;
+}
+
 const today = todayInKorea();
 const from = addDays(today, -KEEP_DAYS_AFTER_END); // 이날 이후에 끝나는 축제만 받는다
 const list: Item[] = [];
@@ -296,9 +419,12 @@ const built = await mapLimit(prepared, 4, async ({ item, id, startDate, endDate,
   const modifiedTime = item.modifiedtime ?? "";
   const old = previous.get(id);
   // 수정 시각이 같으면 지난번에 받은 상세 내용을 다시 쓴다(날짜와 지역은 목록 값으로 새로 넣는다).
-  if (old && old.modifiedTime === modifiedTime && ("lodgings" in old || ongoing)) {
+  if (old && old.modifiedTime === modifiedTime && (ongoing || ("lodgings" in old && "foods" in old && "sights" in old))) {
     reused++;
-    return { ongoing, record: { ...old, startDate, endDate, ...region, lat, lng } as Festival };
+    const record = { ...old, startDate, endDate, ...region, lat, lng } as Festival;
+    if (record.foods) record.foods = record.foods.filter((p) => !isCompanyName(p.name));
+    if (record.sights) record.sights = record.sights.filter((p) => !isCompanyName(p.name));
+    return { ongoing, record };
   }
   const [common] = await call("detailCommon2", { contentId: id });
   const [intro] = await call("detailIntro2", { contentId: id, contentTypeId: "15" });
@@ -339,9 +465,27 @@ const built = await mapLimit(prepared, 4, async ({ item, id, startDate, endDate,
     ...(imageUrl && ALLOWED_IMAGE_TYPES.has(license) ? { image: { url: imageUrl, license: license as FestivalImage["license"] } } : {}),
     modifiedTime,
   };
-  if (!ongoing) record.lodgings = await fetchLodgings(lat, lng);
+  if (!ongoing) {
+    record.lodgings = await fetchLodgings(lat, lng);
+    record.foods = await fetchNearby(lat, lng, ["39"], NEARBY_COUNT); // 음식점
+    record.sights = await fetchNearby(lat, lng, ["12", "14"], NEARBY_COUNT); // 관광지, 문화시설
+  }
   return { ongoing, record };
 });
+
+// 주차장은 축제 내용과 관계없이 바뀔 수 있어 매번 새로 고른다. 받기에 실패하면 지난 파일의 값을 쓴다.
+const parkingData = await fetchParkingLots();
+const oldOutput = existsSync(OUTPUT) ? (JSON.parse(readFileSync(OUTPUT, "utf8")) as Partial<Output>) : {};
+for (const { ongoing, record } of built) {
+  if (ongoing) continue;
+  record.parkings = parkingData
+    ? nearestParkings(parkingData.lots, record.lat, record.lng)
+    : ((previous.get(record.id) as Festival | undefined)?.parkings ?? []);
+}
+const parkingSource = {
+  url: PARKING_SOURCE_URL,
+  referenceDate: parkingData?.referenceDate || oldOutput.parkingSource?.referenceDate || today,
+};
 
 // localeCompare는 실행하는 컴퓨터(Windows, GitHub의 Linux)마다 순서가 달라서, 내용이 같아도 파일이 바뀐 것으로 보인다.
 // 그래서 글자 코드 순서로 정렬하고 id로 마지막 순서를 정한다. 화면의 순서는 화면 코드가 따로 정한다.
@@ -352,13 +496,13 @@ const festivals = built.filter((b) => !b.ongoing).map((b) => b.record).sort(bySt
 const ongoingEvents: OngoingEvent[] = built
   .filter((b) => b.ongoing)
   .map(({ record }) => {
-    // 상설 행사에는 숙소, 예약 문장, 할인, 소요 시간, 부대행사를 담지 않는다.
+    // 상설 행사에는 숙소, 주변 정보, 예약 문장, 할인, 소요 시간, 부대행사를 담지 않는다.
     const rest: Partial<Festival> = { ...record };
-    for (const key of ["lodgings", "bookingNotes", "discount", "spendTime", "subEvent"] as const) delete rest[key];
+    for (const key of FESTIVAL_ONLY_KEYS) delete rest[key];
     return rest as OngoingEvent;
   })
   .sort(byStart);
-const output: Output = { source: SOURCE_URL, fetchedOn: today, festivals, ongoingEvents };
+const output: Output = { source: SOURCE_URL, fetchedOn: today, parkingSource, festivals, ongoingEvents };
 writeFileSync(OUTPUT, `${JSON.stringify(output, null, 2)}\n`, "utf8");
 
 console.log(

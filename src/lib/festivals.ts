@@ -82,3 +82,15 @@ export function distanceMeters(a: { lat: number; lng: number }, b: { lat: number
 export function formatDistance(meters: number): string {
   return meters < 1000 ? `${meters}m` : `${(meters / 1000).toFixed(1)}km`;
 }
+
+// 요약의 바탕이 되는 원문(이름, 소개, 프로그램, 부대행사)의 해시(FNV-1a 32비트, 16진수 8자리).
+// 원문이 바뀌면 값이 달라져서 요약을 다시 만들고, 그 전까지 화면은 요약 대신 원문 앞부분을 보여준다.
+export function festivalSourceHash(f: { name: string; overview?: string; program?: string; subEvent?: string }): string {
+  const text = [f.name, f.overview ?? "", f.program ?? "", f.subEvent ?? ""].join("\u0000");
+  let hash = 0x811c9dc5;
+  for (let i = 0; i < text.length; i++) {
+    hash ^= text.charCodeAt(i);
+    hash = Math.imul(hash, 0x01000193) >>> 0;
+  }
+  return hash.toString(16).padStart(8, "0");
+}

@@ -1,6 +1,6 @@
 // 축제 포스트의 부품(대표 사진, 한눈에 보기, 예약·신청 안내, 근처 숙소, 주변 상설 행사, 출처)
 // 내용은 모두 한국관광공사 관광정보 API의 값이다. 자료에 없는 내용은 만들지 않는다.
-import type { Festival, OngoingEvent } from "@/lib/content";
+import type { Festival, FestivalSummary, OngoingEvent } from "@/lib/content";
 import { formatDistance } from "@/lib/festivals";
 import { formatDate } from "@/lib/format";
 
@@ -10,6 +10,7 @@ const KOGL_PAGE: Record<"Type1" | "Type3", { label: string; url: string }> = {
 };
 
 const outLink = "text-link underline underline-offset-2";
+type NearPlace = Festival["foods"][number];
 
 function hostOf(url: string): string {
   try {
@@ -217,15 +218,197 @@ export function FestivalNearbyEvents({ events }: { events: { event: OngoingEvent
   );
 }
 
-export function FestivalSourceLine({ source }: { source: { url: string; fetchedOn: string } }) {
+export function FestivalSourceLine({
+  source,
+  parkingSource,
+  summarized,
+}: {
+  source: { url: string; fetchedOn: string };
+  parkingSource: { url: string; referenceDate: string };
+  summarized: boolean;
+}) {
   return (
     <p className="text-sm leading-relaxed text-ink-muted">
       이 글은{" "}
       <a href={source.url} className={outLink} target="_blank" rel="noopener noreferrer">
         한국관광공사 관광정보 서비스
       </a>
-      의 자료로 만들었고, 자료는 {formatDate(source.fetchedOn)}에 받았어요. 일정과 요금은 바뀔 수 있으니 가기 전에 주최 측 안내를
-      확인해 주세요.
+      의 자료로 만들었고, 자료는 {formatDate(source.fetchedOn)}에 받았어요.
+      {summarized && " 위의 짧은 소개는 원문 소개 글을 AI로 줄인 것이에요."} 주차장은{" "}
+      <a href={parkingSource.url} className={outLink} target="_blank" rel="noopener noreferrer">
+        공공데이터포털 전국주차장정보표준데이터
+      </a>
+      ({formatDate(parkingSource.referenceDate)} 기준)예요. 일정과 요금은 바뀔 수 있으니 가기 전에 주최 측 안내를 확인해 주세요.
     </p>
+  );
+}
+
+// 요약이 없을 때 보여줄 원문 앞부분. 문장 단위로 maxLength자 안에서 자른다.
+function leadOf(text: string, maxLength = 140): string {
+  const sentences = text.replace(/\n+/g, " ").split(/(?<=[.!?])\s+/);
+  let lead = "";
+  for (const s of sentences) {
+    if ((lead + s).length > maxLength) break;
+    lead = lead ? `${lead} ${s}` : s;
+  }
+  return lead || `${text.slice(0, maxLength).trim()}…`;
+}
+
+// 짧은 소개. 요약(한 줄 소개, 볼거리·할거리, 알아둘 점)이 있으면 그것을, 없으면 원문 앞부분을 보여준다.
+export function FestivalSummaryBlock({ festival, summary }: { festival: Festival; summary?: FestivalSummary }) {
+  if (!summary) {
+    if (!festival.overview) return null;
+    return (
+      <section aria-label="짧은 소개">
+        <p className="text-[18px] leading-[1.8]">{leadOf(festival.overview)}</p>
+      </section>
+    );
+  }
+  return (
+    <section aria-label="짧은 소개" className="flex flex-col gap-5">
+      <p className="text-[20px] font-bold leading-[1.6] sm:text-[22px]">{summary.oneLine}</p>
+      <div>
+        <h2 className="text-[17px] font-extrabold">볼거리·할거리</h2>
+        <ul className="mt-2.5 flex flex-col gap-2">
+          {summary.highlights.map((h) => (
+            <li key={h} className="flex gap-2.5 text-[16px] leading-relaxed">
+              <span aria-hidden className="mt-[0.6em] size-1.5 shrink-0 rounded-full bg-sun" />
+              {h}
+            </li>
+          ))}
+        </ul>
+      </div>
+      {summary.notes.length > 0 && (
+        <div className="rounded-2xl bg-point-bg px-4 py-3.5">
+          <h2 className="text-[15px] font-extrabold text-point-ink">알아둘 점</h2>
+          <ul className="mt-1.5 flex flex-col gap-1 text-[15px] leading-relaxed">
+            {summary.notes.map((n) => (
+              <li key={n}>{n}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </section>
+  );
+}
+
+// 카카오맵 링크(키 없이 쓰는 주소 형식). 이름에 쉼표가 있으면 주소가 깨져서 빈칸으로 바꾼다.
+function kakaoMapLinks(name: string, lat: number, lng: number) {
+  const label = encodeURIComponent(name.replace(/,/g, " "));
+  return {
+    map: `https://map.kakao.com/link/map/${label},${lat},${lng}`,
+    route: `https://map.kakao.com/link/to/${label},${lat},${lng}`,
+  };
+}
+
+function NearList({ title, places, empty }: { title: string; places: NearPlace[]; empty: string }) {
+  return (
+    <div>
+      <h3 className="text-[17px] font-extrabold">{title}</h3>
+      {places.length === 0 ? (
+        <p className="mt-2 text-[15px] text-ink-muted">{empty}</p>
+      ) : (
+        <ul className="mt-2 flex flex-col gap-2.5">
+          {places.map((p) => (
+            <li key={p.name} className="text-[15px] leading-snug">
+              <span className="font-bold">{p.name}</span>
+              <span className="ml-1.5 text-ink-muted">{formatDistance(p.distance)}</span>
+              {p.address && <span className="mt-0.5 block text-[13px] text-ink-muted">{p.address}</span>}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+// 위치와 주변 정보(주소, 카카오맵, 주차장, 먹을 곳, 볼거리). 축제 좌표를 기준으로 찾은 것이다.
+export function FestivalLocation({ festival }: { festival: Festival }) {
+  const links = kakaoMapLinks(festival.place || festival.name, festival.lat, festival.lng);
+  const buttonClass = "inline-flex min-h-11 items-center rounded-xl border px-4 text-[14px] font-bold";
+  return (
+    <section aria-labelledby="festival-location">
+      <h2 id="festival-location" className="text-[22px] font-extrabold">
+        위치와 주변
+      </h2>
+      <div className="mt-3 rounded-[20px] border border-line p-5 sm:p-6">
+        <p className="text-[16px] font-bold">{festival.place || festival.name}</p>
+        {festival.address && <p className="mt-1 text-[15px] text-ink-muted">{festival.address}</p>}
+        <div className="mt-4 flex flex-wrap gap-2">
+          <a href={links.map} target="_blank" rel="noopener noreferrer" className={`${buttonClass} border-primary text-primary`}>
+            카카오맵에서 보기
+          </a>
+          <a href={links.route} target="_blank" rel="noopener noreferrer" className={`${buttonClass} border-line-strong text-ink-soft`}>
+            길찾기
+          </a>
+        </div>
+
+        <h3 className="mt-7 text-[17px] font-extrabold">주차장</h3>
+        {festival.parkings.length === 0 ? (
+          <p className="mt-2 text-[15px] text-ink-muted">
+            1km 안에 등록된 공영·민영 주차장 자료가 없어요. 대중교통이나 주최 측 주차 안내를 확인해 주세요.
+          </p>
+        ) : (
+          <ul className="mt-2 divide-y divide-line">
+            {festival.parkings.map((p) => (
+              <li key={p.name} className="py-3 first:pt-1 last:pb-0">
+                <p className="text-[15px]">
+                  <span className="font-bold">{p.name}</span>
+                  <span className="ml-1.5 text-ink-muted">{formatDistance(p.distance)}</span>
+                </p>
+                <p className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-[14px] text-ink-muted">
+                  {p.kind && <span>{p.kind}</span>}
+                  {p.spaces && <span>{p.spaces.toLocaleString("ko-KR")}면</span>}
+                  {p.feeType && <span>{p.basicFee ?? p.feeType}</span>}
+                  {p.weekdayHours && <span>평일 {p.weekdayHours}</span>}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
+
+        <div className="mt-7 grid gap-6 sm:grid-cols-2">
+          <NearList title="먹을 곳" places={festival.foods} empty="2km 안에 관광공사 자료에 등록된 음식점이 없어요." />
+          <NearList title="함께 볼 곳" places={festival.sights} empty="2km 안에 관광공사 자료에 등록된 관광지가 없어요." />
+        </div>
+        <p className="mt-6 text-[13px] text-ink-muted">거리는 축제 장소에서 잰 직선거리예요.</p>
+      </div>
+    </section>
+  );
+}
+
+// 원문 소개와 프로그램 전체. 기본은 접혀 있다.
+export function FestivalFullText({ festival }: { festival: Festival }) {
+  if (!festival.overview && !festival.program && !festival.subEvent) return null;
+  const textClass = "whitespace-pre-line text-[16px] leading-[1.85]";
+  return (
+    <details className="group rounded-[20px] border border-line">
+      <summary className="flex min-h-12 cursor-pointer list-none items-center justify-between gap-3 px-5 font-bold [&::-webkit-details-marker]:hidden">
+        소개 전문과 프로그램 보기
+        <span aria-hidden className="text-ink-muted transition-transform group-open:rotate-180">
+          ▾
+        </span>
+      </summary>
+      <div className="flex flex-col gap-6 border-t border-line px-5 py-5">
+        {festival.overview && (
+          <div>
+            <h3 className="text-[17px] font-extrabold">소개</h3>
+            <p className={`mt-2 ${textClass}`}>{festival.overview}</p>
+          </div>
+        )}
+        {festival.program && (
+          <div>
+            <h3 className="text-[17px] font-extrabold">프로그램</h3>
+            <p className={`mt-2 ${textClass}`}>{festival.program}</p>
+          </div>
+        )}
+        {festival.subEvent && (
+          <div>
+            <h3 className="text-[17px] font-extrabold">부대행사</h3>
+            <p className={`mt-2 ${textClass}`}>{festival.subEvent}</p>
+          </div>
+        )}
+      </div>
+    </details>
   );
 }

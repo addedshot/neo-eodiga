@@ -121,6 +121,7 @@ const eventFields = {
   image: z.object({ url: webUrl, license: z.enum(["Type1", "Type3"]) }).strict().optional(),
   modifiedTime: z.string().regex(/^\d{14}$/, { error: "수정 시각은 14자리 숫자여야 해요." }),
 };
+const nearPlace = z.object({ name: text, distance: z.number().int().min(0), address: text.optional() }).strict();
 const festivalSchema = z
   .object({
     ...eventFields,
@@ -140,14 +141,47 @@ const festivalSchema = z
         })
         .strict(),
     ),
+    // 축제 좌표 기준 주변 정보(관광공사 자료의 음식점, 관광지·문화시설과 공공데이터포털 주차장 표준데이터)
+    foods: z.array(nearPlace),
+    sights: z.array(nearPlace),
+    parkings: z.array(
+      z
+        .object({
+          name: text,
+          distance: z.number().int().min(0),
+          kind: text.optional(),
+          spaces: z.number().int().min(1).optional(),
+          feeType: text.optional(),
+          basicFee: text.optional(),
+          weekdayHours: text.optional(),
+        })
+        .strict(),
+    ),
   })
   .strict()
   .refine((f) => f.startDate <= f.endDate, { error: "끝나는 날이 시작일보다 앞서요.", path: ["endDate"] });
 // 1월 1일~12월 31일로 적힌 상설 행사. 목록에는 없고 축제 포스트의 "주변 상설 행사"에만 나온다.
 const ongoingEventSchema = z.object(eventFields).strict();
 const festivalFileSchema = z
-  .object({ source: z.url(), fetchedOn: dateField, festivals: z.array(z.unknown()), ongoingEvents: z.array(z.unknown()) })
+  .object({
+    source: z.url(),
+    fetchedOn: dateField,
+    parkingSource: z.object({ url: z.url(), referenceDate: dateField }).strict(),
+    festivals: z.array(z.unknown()),
+    ongoingEvents: z.array(z.unknown()),
+  })
   .strict();
+// 축제 요약(scripts/summarize-festivals.ts가 운영자 PC에서 만든다). 원문 해시가 지금 원문과 같을 때만 화면에 쓴다.
+const festivalSummarySchema = z
+  .object({
+    sourceHash: z.string().regex(/^[0-9a-f]{8}$/, { error: "16진수 8자리여야 해요." }),
+    oneLine: text,
+    highlights: z.array(text).min(1).max(3),
+    notes: z.array(text).max(2),
+    summarizedOn: dateField,
+  })
+  .strict();
+const festivalSummaryFileSchema = z.object({ summaries: z.record(z.string().regex(/^\d+$/), festivalSummarySchema) }).strict();
 
 const noticeSchema = z.object({ title: z.string().min(1), date: dateField }).strict();
 const guideSchema = z.object({ title: z.string().min(1), order: z.number().int().min(1) }).strict();
@@ -161,6 +195,7 @@ export type Guide = z.infer<typeof guideSchema> & { slug: string };
 
 export type Festival = z.infer<typeof festivalSchema>;
 export type OngoingEvent = z.infer<typeof ongoingEventSchema>;
+export type FestivalSummary = z.infer<typeof festivalSummarySchema>;
 
 export type Content = {
   regions: Region[];
@@ -170,8 +205,11 @@ export type Content = {
   guides: Guide[];
   festivals: Festival[];
   ongoingEvents: OngoingEvent[];
-  // 축제 자료를 받은 날(YYYY-MM-DD)과 출처 주소
+  // 축제 id별 요약. 요약 파일이 없으면 빈 묶음이다.
+  festivalSummaries: Record<string, FestivalSummary>;
+  // 축제 자료를 받은 날(YYYY-MM-DD)과 출처 주소, 주차장 자료의 기준일과 출처 주소
   festivalSource: { url: string; fetchedOn: string };
+  parkingSource: { url: string; referenceDate: string };
 };
 
 const TYPE_NAMES: Record<string, string> = {
@@ -314,6 +352,12 @@ export function loadContent(): Content {
     checkRegion(where, event.sido, event.sigungu);
   }
 
+  // 축제 요약(content/festival-summaries.json). 아직 만들지 않았으면 없어도 된다.
+  const summaryFile = existsSync(path.join(CONTENT_DIR, "festival-summaries.json"))
+    ? check(festivalSummaryFileSchema, readJsonValue("festival-summaries.json", errors), "content/festival-summaries.json", errors)
+    : undefined;
+  const festivalSummaries = summaryFile?.summaries ?? {};
+
   if (errors.length > 0) {
     throw new Error(`콘텐츠 검사에서 문제 ${errors.length}개를 찾았어요.\n- ${errors.join("\n- ")}`);
   }
@@ -325,6 +369,8 @@ export function loadContent(): Content {
     guides,
     festivals,
     ongoingEvents,
+    festivalSummaries,
     festivalSource: { url: festivalFile?.source ?? "", fetchedOn: festivalFile?.fetchedOn ?? "" },
+    parkingSource: festivalFile?.parkingSource ?? { url: "", referenceDate: "" },
   };
 }

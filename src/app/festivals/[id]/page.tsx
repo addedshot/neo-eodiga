@@ -8,15 +8,18 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import {
   FestivalAtAGlance,
   FestivalBooking,
+  FestivalFullText,
+  FestivalLocation,
   FestivalLodgings,
   FestivalNearbyEvents,
   FestivalPhoto,
   FestivalSourceLine,
+  FestivalSummaryBlock,
 } from "@/components/FestivalDetails";
 import { FestivalStatusBadge } from "@/components/FestivalList";
 import { FestivalWeather } from "@/components/FestivalWeather";
 import { loadContent } from "@/lib/content";
-import { distanceMeters, festivalStatus, formatPeriod, todayInKorea } from "@/lib/festivals";
+import { distanceMeters, festivalSourceHash, festivalStatus, formatPeriod, todayInKorea } from "@/lib/festivals";
 import { pageMetadata } from "@/lib/metadata";
 
 // 주변 상설 행사는 축제 장소에서 이 거리 안의 것만, 가까운 순으로 몇 개까지 보여준다.
@@ -60,10 +63,13 @@ async function FestivalPost({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   await connection();
   const today = todayInKorea();
-  const { festivals, ongoingEvents, festivalSource } = loadContent();
+  const { festivals, ongoingEvents, festivalSummaries, festivalSource, parkingSource } = loadContent();
   const festival = festivals.find((f) => f.id === id);
   const status = festival ? festivalStatus(festival, today) : null;
   if (!festival || !status) notFound();
+  // 원문이 바뀐 뒤 아직 다시 요약하지 않았으면 옛 요약을 쓰지 않는다.
+  const savedSummary = festivalSummaries[festival.id];
+  const summary = savedSummary?.sourceHash === festivalSourceHash(festival) ? savedSummary : undefined;
 
   const nearby = ongoingEvents
     .map((event) => ({ event, distance: distanceMeters(festival, event) }))
@@ -76,7 +82,6 @@ async function FestivalPost({ params }: { params: Promise<{ id: string }> }) {
     ["주최", festival.host],
     ["주관", festival.organizer !== festival.host ? festival.organizer : undefined],
   ];
-  const textClass = "whitespace-pre-line text-[17px] leading-[1.85]";
 
   return (
     <>
@@ -97,25 +102,19 @@ async function FestivalPost({ params }: { params: Promise<{ id: string }> }) {
         </aside>
 
         <article className="flex min-w-0 flex-col gap-10 lg:order-1">
+          <FestivalSummaryBlock festival={festival} summary={summary} />
           <FestivalPhoto festival={festival} />
           <FestivalBooking festival={festival} />
-          {festival.overview && (
-            <Section id="festival-overview" title="소개">
-              <p className={textClass}>{festival.overview}</p>
+          <FestivalLocation festival={festival} />
+          <FestivalLodgings festival={festival} />
+          <FestivalNearbyEvents events={nearby} />
+          {status !== "종료" && (
+            <Section id="festival-weather" title="예상 날씨">
+              <FestivalWeather festival={festival} today={today} />
             </Section>
           )}
-          {(festival.program || festival.subEvent) && (
-            <Section id="festival-program" title="프로그램">
-              {festival.program && <p className={textClass}>{festival.program}</p>}
-              {festival.subEvent && (
-                <>
-                  <h3 className="mt-5 text-[17px] font-extrabold">부대행사</h3>
-                  <p className={`mt-1.5 ${textClass}`}>{festival.subEvent}</p>
-                </>
-              )}
-            </Section>
-          )}
-          <Section id="festival-contact" title="오시는 길과 문의">
+          <FestivalFullText festival={festival} />
+          <Section id="festival-contact" title="문의">
             <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-5 gap-y-2.5 text-[15px]">
               {contacts.map(
                 ([label, value]) =>
@@ -128,14 +127,7 @@ async function FestivalPost({ params }: { params: Promise<{ id: string }> }) {
               )}
             </dl>
           </Section>
-          {status !== "종료" && (
-            <Section id="festival-weather" title="예상 날씨">
-              <FestivalWeather festival={festival} today={today} />
-            </Section>
-          )}
-          <FestivalLodgings festival={festival} />
-          <FestivalNearbyEvents events={nearby} />
-          <FestivalSourceLine source={festivalSource} />
+          <FestivalSourceLine source={festivalSource} parkingSource={parkingSource} summarized={summary !== undefined} />
           <Link href="/festivals" className="inline-flex min-h-11 items-center self-start font-bold text-link">
             지역축제 목록으로
           </Link>
