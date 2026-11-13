@@ -1,6 +1,10 @@
 {
   "source": "https://www.data.go.kr/data/15101578/openapi.do",
   "fetchedOn": "2026-11-13",
+  "parkingSource": {
+    "url": "https://www.data.go.kr/data/15012896/standard.do",
+    "referenceDate": "2026-10-30"
+  },
   "festivals": [
     {
       "id": "3481597",
@@ -73,6 +77,67 @@
           "phone": "0507-1353-9348",
           "reservationUrl": "https://www.airbnb.co.kr/rooms/21991961"
         }
+      ],
+      "foods": [
+        {
+          "name": "오양회참치",
+          "distance": 506,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        },
+        {
+          "name": "청송옥",
+          "distance": 579,
+          "address": "서울특별시 중구 서소문로11길 14"
+        },
+        {
+          "name": "동경우동",
+          "distance": 625,
+          "address": "서울특별시 종로구 새문안로9길 28 (도렴동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 611,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 1306,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "초전섬유·퀼트박물관",
+          "distance": 1685,
+          "address": "서울특별시 중구 퇴계로18길 66 (남산동1가)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "이화여고앞 공영주차장",
+          "kind": "공영",
+          "spaces": 13,
+          "feeType": "유료",
+          "basicFee": "기본 5분 250원",
+          "weekdayHours": "09:00~20:00",
+          "distance": 290
+        },
+        {
+          "name": "충현동 제1공영",
+          "kind": "공영",
+          "spaces": 63,
+          "feeType": "유료",
+          "weekdayHours": "10:00~19:00",
+          "distance": 596
+        },
+        {
+          "name": "미근동 공영",
+          "kind": "공영",
+          "spaces": 27,
+          "feeType": "유료",
+          "weekdayHours": "24시간",
+          "distance": 682
+        }
       ]
     },
     {
@@ -104,7 +169,16 @@
         "license": "Type3"
       },
       "modifiedTime": "20260630184428",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "어부의집",
+          "distance": 1377,
+          "address": "인천광역시 영종구 남북로142번길 2 (남북동)"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "4067214",
@@ -168,6 +242,66 @@
           "address": "전남광주통합특별시 여수시 오동도로 61-15",
           "phone": "061-690-8000"
         }
+      ],
+      "foods": [
+        {
+          "name": "아구할미 서대대감",
+          "distance": 144,
+          "address": "전남광주통합특별시 여수시 교동남2길 5"
+        },
+        {
+          "name": "순심원",
+          "distance": 170,
+          "address": "전남광주통합특별시 여수시 교동남1길 5-17"
+        },
+        {
+          "name": "옛날그집",
+          "distance": 223,
+          "address": "전남광주통합특별시 여수시 통제영3길 6 1층"
+        }
+      ],
+      "sights": [
+        {
+          "name": "장군도",
+          "distance": 701,
+          "address": "전남광주통합특별시 여수시 남산동"
+        },
+        {
+          "name": "이사부크루즈",
+          "distance": 1094,
+          "address": "전남광주통합특별시 여수시 돌산읍 돌산로 3617-18"
+        },
+        {
+          "name": "거북선대교",
+          "distance": 1219,
+          "address": "전남광주통합특별시 여수시 종화동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "이순신광장",
+          "kind": "공영",
+          "spaces": 102,
+          "feeType": "유료",
+          "weekdayHours": "08:00~20:00",
+          "distance": 68
+        },
+        {
+          "name": "이순신광장로(2)",
+          "kind": "공영",
+          "spaces": 24,
+          "feeType": "유료",
+          "weekdayHours": "08:00~20:00",
+          "distance": 94
+        },
+        {
+          "name": "진남관",
+          "kind": "공영",
+          "spaces": 95,
+          "feeType": "유료",
+          "weekdayHours": "08:00~20:00",
+          "distance": 216
+        }
       ]
     },
     {
@@ -201,7 +335,53 @@
         "license": "Type3"
       },
       "modifiedTime": "20260331103623",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "커스(KUTH)",
+          "distance": 107,
+          "address": "경기도 안양시 만안구 예술공원로 168 (안양동)"
+        },
+        {
+          "name": "사이숲",
+          "distance": 344,
+          "address": "경기도 안양시 만안구 예술공원로131번길 31 (석수동)"
+        },
+        {
+          "name": "보리수한정식",
+          "distance": 863,
+          "address": "경기도 안양시 만안구 예술공원로103번길 91 (석수동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "예술공원노외 주차장",
+          "kind": "공영",
+          "spaces": 168,
+          "feeType": "유료",
+          "basicFee": "기본 30분 400원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 518
+        },
+        {
+          "name": "수목원입구노외 주차장",
+          "kind": "공영",
+          "spaces": 44,
+          "feeType": "유료",
+          "basicFee": "기본 30분 400원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 649
+        },
+        {
+          "name": "김중업건축박물관 뒤 주차장",
+          "kind": "공영",
+          "spaces": 56,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 685
+        }
+      ]
     },
     {
       "id": "3488655",
@@ -233,7 +413,43 @@
         "license": "Type3"
       },
       "modifiedTime": "20260630184428",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "갤러리24",
+          "distance": 1659,
+          "address": "전남광주통합특별시 서구 천변좌로 14"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "운암동쌈지",
+          "kind": "공영",
+          "spaces": 9,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 659
+        },
+        {
+          "name": "동운고가밑",
+          "kind": "공영",
+          "spaces": 62,
+          "feeType": "유료",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "08:00~22:00",
+          "distance": 733
+        },
+        {
+          "name": "운암어린이공원 지하공영주차장",
+          "kind": "공영",
+          "spaces": 57,
+          "feeType": "혼합",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "08:00~23:59",
+          "distance": 856
+        }
+      ]
     },
     {
       "id": "3488421",
@@ -274,6 +490,50 @@
           "distance": 869,
           "address": "경기도 파주시 탄현면 샘철길 38-12"
         }
+      ],
+      "foods": [
+        {
+          "name": "토향",
+          "distance": 417,
+          "address": "경기도 파주시 탄현면 성동로 19-87"
+        },
+        {
+          "name": "석죽재물고기나무",
+          "distance": 461,
+          "address": "경기도 파주시 탄현면 헤이리마을길 18-61"
+        },
+        {
+          "name": "궈세이",
+          "distance": 463,
+          "address": "경기도 파주시 탄현면 필승로 506 (로드빌) 207호"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "헤이리GATE1",
+          "kind": "공영",
+          "spaces": 189,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 553
+        },
+        {
+          "name": "탄현 1",
+          "kind": "공영",
+          "spaces": 150,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 710
+        },
+        {
+          "name": "헤이리GATE9",
+          "kind": "공영",
+          "spaces": 65,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 896
+        }
       ]
     },
     {
@@ -306,7 +566,64 @@
         "license": "Type3"
       },
       "modifiedTime": "20260630184428",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "잉글랜드왕돈까스",
+          "distance": 266,
+          "address": "인천광역시 제물포구 우현로90번길 7 (인현동)"
+        },
+        {
+          "name": "삼미소문난냉면",
+          "distance": 279,
+          "address": "인천광역시 제물포구 화평로 10"
+        },
+        {
+          "name": "앤드아워",
+          "distance": 283,
+          "address": "인천광역시 제물포구 수문통로 27 (화평동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "술작가 양조장",
+          "distance": 842,
+          "address": "인천광역시 제물포구 금곡로 52 (금곡동) 1층"
+        },
+        {
+          "name": "(구)인천일본제58은행지점",
+          "distance": 1070,
+          "address": "인천광역시 제물포구 신포로23번길 69-1 제물포구음식업지부"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "송현시장 부근",
+          "kind": "공영",
+          "spaces": 16,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 203
+        },
+        {
+          "name": "솔마루어린이공원공영주차장",
+          "kind": "공영",
+          "spaces": 67,
+          "feeType": "혼합",
+          "basicFee": "기본 0.5분 400원",
+          "weekdayHours": "08:00~20:00",
+          "distance": 245
+        },
+        {
+          "name": "구인천여고",
+          "kind": "공영",
+          "spaces": 90,
+          "feeType": "유료",
+          "basicFee": "기본 30분 400원",
+          "weekdayHours": "24시간",
+          "distance": 264
+        }
+      ]
     },
     {
       "id": "3377038",
@@ -343,6 +660,59 @@
           "distance": 1755,
           "address": "서울특별시 강남구 테헤란로43길 19 (역삼동)"
         }
+      ],
+      "foods": [
+        {
+          "name": "길목",
+          "distance": 379,
+          "address": "서울특별시 강남구 영동대로129길 10 (삼성동)"
+        },
+        {
+          "name": "스시히로바 삼성동본점",
+          "distance": 461,
+          "address": "서울특별시 강남구 삼성로 620 (삼성동)"
+        },
+        {
+          "name": "아메리칸테이블",
+          "distance": 715,
+          "address": "서울특별시 강남구 영동대로112길 66 (삼성동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "조은숙아트앤라이프스타일",
+          "distance": 1579,
+          "address": "서울특별시 강남구 압구정로80길 37 (청담동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "삼성1동문화센터",
+          "kind": "공영",
+          "spaces": 66,
+          "feeType": "유료",
+          "basicFee": "기본 5분 400원",
+          "weekdayHours": "24시간",
+          "distance": 463
+        },
+        {
+          "name": "삼성로별관 부설",
+          "kind": "공영",
+          "spaces": 42,
+          "feeType": "유료",
+          "basicFee": "기본 5분 300원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 495
+        },
+        {
+          "name": "영동대로106길",
+          "kind": "공영",
+          "spaces": 19,
+          "feeType": "유료",
+          "basicFee": "기본 5분 300원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 541
+        }
       ]
     },
     {
@@ -376,7 +746,16 @@
         "license": "Type3"
       },
       "modifiedTime": "20260407152926",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [],
+      "sights": [
+        {
+          "name": "박두진 시비",
+          "distance": 368,
+          "address": "경기도 안성시 보개면 남사당로 198-11"
+        }
+      ],
+      "parkings": []
     },
     {
       "id": "4058556",
@@ -407,7 +786,36 @@
         "license": "Type3"
       },
       "modifiedTime": "20260417101807",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "한우갑",
+          "distance": 214,
+          "address": "경기도 수원시 영통구 도청로18번길 26 (이의동)"
+        },
+        {
+          "name": "행궁정찬",
+          "distance": 496,
+          "address": "경기도 수원시 영통구 광교중앙로 140 수원컨벤션센터 3층 300호"
+        },
+        {
+          "name": "오봉베르",
+          "distance": 672,
+          "address": "경기도 수원시 영통구 센트럴파크로127번길 142 (이의동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "카페거리1공영",
+          "kind": "공영",
+          "spaces": 64,
+          "feeType": "유료",
+          "basicFee": "기본 60분 300원",
+          "weekdayHours": "24시간",
+          "distance": 726
+        }
+      ]
     },
     {
       "id": "3111722",
@@ -444,6 +852,50 @@
           "phone": "010-2946-1708",
           "reservationUrl": "https://www.wehome.me/rooms/2008207"
         }
+      ],
+      "foods": [
+        {
+          "name": "가양칼국수버섯매운탕",
+          "distance": 635,
+          "address": "서울특별시 영등포구 국제금융로 78 (여의도동)"
+        },
+        {
+          "name": "성하",
+          "distance": 800,
+          "address": "서울특별시 영등포구 국제금융로6길 30"
+        },
+        {
+          "name": "청수우동메밀냉면",
+          "distance": 877,
+          "address": "서울특별시 영등포구 국제금융로 112 (여의도동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "KBS온",
+          "distance": 1498,
+          "address": "서울특별시 영등포구 여의공원로 13 (여의도동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "여의서로",
+          "kind": "공영",
+          "spaces": 84,
+          "feeType": "유료",
+          "basicFee": "기본 5분 280원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 399
+        },
+        {
+          "name": "원효대교 남단",
+          "kind": "공영",
+          "spaces": 13,
+          "feeType": "유료",
+          "basicFee": "기본 5분 280원",
+          "weekdayHours": "24시간",
+          "distance": 639
+        }
       ]
     },
     {
@@ -476,7 +928,10 @@
         "license": "Type3"
       },
       "modifiedTime": "20260508135106",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "2720203",
@@ -543,6 +998,69 @@
           "phone": "0507-1308-1192",
           "reservationUrl": "https://booking.naver.com/booking/3/bizes/942780"
         }
+      ],
+      "foods": [
+        {
+          "name": "동경우동",
+          "distance": 99,
+          "address": "서울특별시 종로구 새문안로9길 28 (도렴동)"
+        },
+        {
+          "name": "오양회참치",
+          "distance": 329,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        },
+        {
+          "name": "디라이프스타일키친 광화문점",
+          "distance": 371,
+          "address": "서울특별시 중구 세종대로 136 파이낸스빌딩 파이낸스빌딩SFC몰 지하1층 101A호"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 451,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 591,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "distance": 1211,
+          "address": "서울시 종로구 익선동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "세종로",
+          "kind": "공영",
+          "spaces": 1260,
+          "feeType": "유료",
+          "basicFee": "기본 5분 430원",
+          "weekdayHours": "24시간",
+          "distance": 211
+        },
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 422
+        },
+        {
+          "name": "서울글로벌센터",
+          "kind": "공영",
+          "spaces": 44,
+          "feeType": "유료",
+          "basicFee": "기본 5분 700원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 459
+        }
       ]
     },
     {
@@ -605,6 +1123,69 @@
           "name": "서울 타이완 게스트하우스",
           "distance": 814,
           "address": "서울특별시 중구 퇴계로10길 20-18 (회현동1가)"
+        }
+      ],
+      "foods": [
+        {
+          "name": "낙동강",
+          "distance": 267,
+          "address": "서울특별시 중구 을지로1길 34 (다동)"
+        },
+        {
+          "name": "바캉스커피",
+          "distance": 311,
+          "address": "서울특별시 중구 남대문로9길 12 (다동)"
+        },
+        {
+          "name": "삼성 빨간양념 숯불구이",
+          "distance": 318,
+          "address": "서울특별시 중구 남대문로1길 39"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 293,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "초전섬유·퀼트박물관",
+          "distance": 942,
+          "address": "서울특별시 중구 퇴계로18길 66 (남산동1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 1010,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "코오롱빌딩옆 공영주차장",
+          "kind": "공영",
+          "spaces": 10,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 247
+        },
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 287
+        },
+        {
+          "name": "해운센터앞 공영주차장",
+          "kind": "공영",
+          "spaces": 9,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~20:00",
+          "distance": 307
         }
       ]
     },
@@ -673,7 +1254,42 @@
           "phone": "0507-1414-0676",
           "reservationUrl": "https://map.naver.com/p/entry/place/1600465376"
         }
-      ]
+      ],
+      "foods": [
+        {
+          "name": "까델루뽀",
+          "distance": 173,
+          "address": "서울특별시 종로구 자하문로16길 5-5"
+        },
+        {
+          "name": "내자상회",
+          "distance": 777,
+          "address": "서울특별시 종로구 사직로10길 3 (내자동)"
+        },
+        {
+          "name": "스미스가 좋아하는 한옥",
+          "distance": 798,
+          "address": "서울특별시 종로구 삼청로 22-7"
+        }
+      ],
+      "sights": [
+        {
+          "name": "[K드라마 촬영지] 공근혜갤러리",
+          "distance": 613,
+          "address": "서울특별시 종로구 삼청로7길 38"
+        },
+        {
+          "name": "청운문학도서관",
+          "distance": 1081,
+          "address": "서울특별시 종로구 자하문로36길 40 (청운동)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 1283,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        }
+      ],
+      "parkings": []
     },
     {
       "id": "1032770",
@@ -744,6 +1360,59 @@
           "address": "부산광역시 수영구 민락수변로 9 (민락동)",
           "phone": "0507-1389-5108"
         }
+      ],
+      "foods": [
+        {
+          "name": "엄용백 돼지국밥",
+          "distance": 1020,
+          "address": "부산광역시 수영구 수영로680번길 39"
+        },
+        {
+          "name": "그린노마드",
+          "distance": 1228,
+          "address": "부산광역시 수영구 좌수영로 161-10 (망미동)"
+        },
+        {
+          "name": "꽃피는 4월 밀익는 5월",
+          "distance": 1442,
+          "address": "부산광역시 수영구 망미번영로70번길 16 (수영동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "동서대학교 소향씨어터 신한카드홀",
+          "distance": 238,
+          "address": "부산광역시 해운대구 센텀중앙로 55 (우동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "APEC 나루공원 공영",
+          "kind": "공영",
+          "spaces": 49,
+          "feeType": "유료",
+          "basicFee": "기본 10분 300원",
+          "weekdayHours": "24시간",
+          "distance": 349
+        },
+        {
+          "name": "센텀Q주차장",
+          "kind": "민영",
+          "spaces": 399,
+          "feeType": "유료",
+          "basicFee": "기본 60분 2,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 461
+        },
+        {
+          "name": "지에스타임즈스테이션센텀필주차장",
+          "kind": "민영",
+          "spaces": 290,
+          "feeType": "유료",
+          "basicFee": "기본 30분 1,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 619
+        }
       ]
     },
     {
@@ -776,7 +1445,51 @@
         "license": "Type3"
       },
       "modifiedTime": "20260813102611",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "아케이드커피",
+          "distance": 463,
+          "address": "대전광역시 유성구 대학로 48-17 (봉명동)"
+        },
+        {
+          "name": "대손관 본점",
+          "distance": 627,
+          "address": "대전광역시 유성구 한밭대로492번길 20 (봉명동) 1~2층"
+        },
+        {
+          "name": "맛존매콤닭불고기",
+          "distance": 889,
+          "address": "대전광역시 유성구 대학로155번길 38"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "계룡스파텔 정문앞",
+          "kind": "공영",
+          "spaces": 30,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 34
+        },
+        {
+          "name": "모나빌아파트 앞",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 222
+        },
+        {
+          "name": "온천공원 앞",
+          "kind": "공영",
+          "spaces": 29,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 229
+        }
+      ]
     },
     {
       "id": "3399432",
@@ -808,7 +1521,21 @@
         "license": "Type3"
       },
       "modifiedTime": "20260611132042",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "미스틱3도",
+          "distance": 347,
+          "address": "제주특별자치도 제주시 1100로 2894-49 (노형동)"
+        },
+        {
+          "name": "리보스코화덕피자",
+          "distance": 1886,
+          "address": "제주특별자치도 제주시 수목원길 27 (연동)"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "617992",
@@ -843,7 +1570,48 @@
         "license": "Type3"
       },
       "modifiedTime": "20260831101143",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "갤러리24",
+          "distance": 1882,
+          "address": "전남광주통합특별시 서구 천변좌로 14"
+        }
+      ],
+      "sights": [
+        {
+          "name": "뜻모아센터",
+          "distance": 1773,
+          "address": "전남광주통합특별시 북구 서하로245번길 42 (오치동) 3층 302호"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "용봉동 제1공영주차장",
+          "kind": "공영",
+          "spaces": 17,
+          "feeType": "혼합",
+          "basicFee": "기본 30분 400원",
+          "weekdayHours": "24시간",
+          "distance": 607
+        },
+        {
+          "name": "매곡동쌈지",
+          "kind": "공영",
+          "spaces": 19,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 661
+        },
+        {
+          "name": "매곡동주민센터",
+          "kind": "공영",
+          "spaces": 7,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 767
+        }
+      ]
     },
     {
       "id": "2987791",
@@ -875,7 +1643,27 @@
         "license": "Type3"
       },
       "modifiedTime": "20261013132443",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "포비 DMZ",
+          "distance": 485,
+          "address": "경기도 파주시 문산읍 임진각로 177"
+        },
+        {
+          "name": "임진각샘뜰두부집",
+          "distance": 1507,
+          "address": "경기도 파주시 문산읍 사목로 227"
+        }
+      ],
+      "sights": [
+        {
+          "name": "임진강 독개다리",
+          "distance": 725,
+          "address": "경기도 파주시 문산읍 마정리 1400-5"
+        }
+      ],
+      "parkings": []
     },
     {
       "id": "2563387",
@@ -905,7 +1693,41 @@
         "license": "Type3"
       },
       "modifiedTime": "20261021170051",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "카페목천",
+          "distance": 1145,
+          "address": "충청남도 천안시 동남구 충절로 986-37 1층"
+        },
+        {
+          "name": "진성참숯석갈비병천수제순대",
+          "distance": 1500,
+          "address": "충청남도 천안시 동남구 충절로 1166 무지개식당"
+        },
+        {
+          "name": "에이게이트카페",
+          "distance": 1671,
+          "address": "충청남도 천안시 동남구 동리2길 183"
+        }
+      ],
+      "sights": [
+        {
+          "name": "이동녕선생 생가지",
+          "distance": 1252,
+          "address": "충청남도 천안시 동남구 목천읍 동리4길 36"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "목천읍사무소주차장",
+          "kind": "공영",
+          "spaces": 30,
+          "feeType": "무료",
+          "weekdayHours": "09:00~18:00",
+          "distance": 525
+        }
+      ]
     },
     {
       "id": "4127713",
@@ -975,6 +1797,51 @@
           "phone": "010-5190-1529",
           "reservationUrl": "https://www.airbnb.co.kr/rooms/1302642825411800116"
         }
+      ],
+      "foods": [
+        {
+          "name": "정돈 대학로본점",
+          "distance": 243,
+          "address": "서울특별시 종로구 대학로9길 12 (명륜4가)"
+        },
+        {
+          "name": "순대실록 대학로본점",
+          "distance": 281,
+          "address": "서울특별시 종로구 동숭길 113 (동숭동)"
+        },
+        {
+          "name": "깔리",
+          "distance": 419,
+          "address": "서울특별시 종로구 대학로11길 43 (명륜4가)171번지 2층"
+        }
+      ],
+      "sights": [
+        {
+          "name": "유니플렉스",
+          "distance": 90,
+          "address": "서울특별시 종로구 대학로12길 64 (동숭동)"
+        },
+        {
+          "name": "대학로자유극장",
+          "distance": 257,
+          "address": "서울특별시 종로구 대학로12길 31 (동숭동)"
+        },
+        {
+          "name": "한생연융합교육과학관",
+          "distance": 1129,
+          "address": "서울특별시 종로구 성균관로15길 32 (명륜1가)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "삼선동",
+          "kind": "공영",
+          "spaces": 133,
+          "feeType": "유료",
+          "basicFee": "기본 5분 150원",
+          "weekdayHours": "24시간",
+          "distance": 594
+        }
       ]
     },
     {
@@ -1012,7 +1879,60 @@
         "license": "Type3"
       },
       "modifiedTime": "20261106091317",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "송월냉면",
+          "distance": 1079,
+          "address": "서울특별시 강동구 천중로18길 57 (천호동) 1층"
+        },
+        {
+          "name": "브랜뉴하이몬드",
+          "distance": 1215,
+          "address": "서울특별시 강동구 천호옛14길 11"
+        },
+        {
+          "name": "비스타 워커힐 서울 피자힐",
+          "distance": 1229,
+          "address": "서울특별시 광진구 워커힐로 177 워커힐호텔"
+        }
+      ],
+      "sights": [
+        {
+          "name": "빛의 시어터",
+          "distance": 1229,
+          "address": "서울특별시 광진구 워커힐로 177 (광장동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "천호유수지 공영주차장",
+          "kind": "공영",
+          "spaces": 168,
+          "feeType": "유료",
+          "basicFee": "기본 5분 150원",
+          "weekdayHours": "24시간",
+          "distance": 347
+        },
+        {
+          "name": "천호2동 공영주차장",
+          "kind": "공영",
+          "spaces": 13,
+          "feeType": "유료",
+          "basicFee": "기본 5분 250원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 704
+        },
+        {
+          "name": "천호2동 제2노상공영주차장",
+          "kind": "공영",
+          "spaces": 7,
+          "feeType": "유료",
+          "basicFee": "기본 5분 250원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 761
+        }
+      ]
     },
     {
       "id": "3468240",
@@ -1075,6 +1995,58 @@
           "address": "전북특별자치도 전주시 완산구 경기전길 57-6",
           "phone": "010-8774-1963"
         }
+      ],
+      "foods": [
+        {
+          "name": "한울밥상",
+          "distance": 902,
+          "address": "전북특별자치도 전주시 완산구 기린대로 104 (남노송동)"
+        },
+        {
+          "name": "오원집",
+          "distance": 1226,
+          "address": "전북특별자치도 전주시 완산구 공북로 82 (태평동)"
+        },
+        {
+          "name": "옛날팥죽집",
+          "distance": 1990,
+          "address": "전북특별자치도 전주시 완산구 백제대로 276 (중화산동2가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "착한공작소(착한공작소협동조합)",
+          "distance": 217,
+          "address": "전북특별자치도 전주시 완산구 전라감영로 36"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "고사동 전주영화제작소 옆",
+          "kind": "공영",
+          "spaces": 14,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 389
+        },
+        {
+          "name": "전주천",
+          "kind": "공영",
+          "spaces": 117,
+          "feeType": "유료",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 449
+        },
+        {
+          "name": "역사도심",
+          "kind": "공영",
+          "spaces": 11,
+          "feeType": "유료",
+          "basicFee": "기본 30분 900원",
+          "weekdayHours": "24시간",
+          "distance": 487
+        }
       ]
     },
     {
@@ -1134,6 +2106,69 @@
           "name": "능마루게스트하우스(Nungmaru Guesthouse)",
           "distance": 844,
           "address": "서울특별시 중구 퇴계로20나길 2-15 (남산동2가)"
+        }
+      ],
+      "foods": [
+        {
+          "name": "원형들",
+          "distance": 366,
+          "address": "서울특별시 중구 창경궁로1길 38 (충무로4가)"
+        },
+        {
+          "name": "평래옥",
+          "distance": 715,
+          "address": "서울특별시 중구 마른내로 21-1 (저동2가)"
+        },
+        {
+          "name": "서울다이닝",
+          "distance": 792,
+          "address": "서울특별시 중구 동호로 272 (장충동2가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "초전섬유·퀼트박물관",
+          "distance": 945,
+          "address": "서울특별시 중구 퇴계로18길 66 (남산동1가)"
+        },
+        {
+          "name": "동대문디자인플라자(DDP)",
+          "distance": 1507,
+          "address": "서울특별시 중구 을지로 281 (을지로7가)"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "distance": 1631,
+          "address": "서울시 종로구 익선동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "남산한옥마을",
+          "kind": "공영",
+          "spaces": 16,
+          "feeType": "유료",
+          "basicFee": "기본 5분 500원",
+          "weekdayHours": "09:00~20:00",
+          "distance": 150
+        },
+        {
+          "name": "필동 공영주차장",
+          "kind": "공영",
+          "spaces": 47,
+          "feeType": "유료",
+          "basicFee": "기본 5분 200원",
+          "weekdayHours": "24시간",
+          "distance": 342
+        },
+        {
+          "name": "남산예장",
+          "kind": "공영",
+          "spaces": 39,
+          "feeType": "유료",
+          "basicFee": "기본 5분 500원",
+          "weekdayHours": "06:00~23:59",
+          "distance": 512
         }
       ]
     },
@@ -1201,6 +2236,67 @@
           "address": "서울특별시 중구 소공로6가길 22 (회현동2가)",
           "phone": "010-3488-6838"
         }
+      ],
+      "foods": [
+        {
+          "name": "후암편백",
+          "distance": 467,
+          "address": "서울특별시 용산구 후암로 57-1"
+        },
+        {
+          "name": "은호식당",
+          "distance": 505,
+          "address": "서울특별시 중구 남대문시장4길 28-4 (남창동)"
+        },
+        {
+          "name": "미나미야마 본점",
+          "distance": 655,
+          "address": "서울특별시 중구 소파로 105"
+        }
+      ],
+      "sights": [
+        {
+          "name": "초전섬유·퀼트박물관",
+          "distance": 579,
+          "address": "서울특별시 중구 퇴계로18길 66 (남산동1가)"
+        },
+        {
+          "name": "별책부록",
+          "distance": 1292,
+          "address": "서울특별시 용산구 신흥로16길 7 (용산동2가)"
+        },
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 1430,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "남산공원 소월로",
+          "kind": "공영",
+          "spaces": 12,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 50
+        },
+        {
+          "name": "남산공원 소파로",
+          "kind": "공영",
+          "spaces": 21,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 156
+        },
+        {
+          "name": "남산파출소",
+          "kind": "공영",
+          "spaces": 13,
+          "feeType": "유료",
+          "basicFee": "기본 5분 340원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 234
+        }
       ]
     },
     {
@@ -1235,6 +2331,57 @@
           "distance": 229,
           "address": "경상북도 포항시 북구 삼호로 73 (대신동)",
           "phone": "010-2011-1259"
+        }
+      ],
+      "foods": [
+        {
+          "name": "고바우식당",
+          "distance": 1156,
+          "address": "경상북도 포항시 북구 중앙상가5길 15"
+        },
+        {
+          "name": "THE 신촌s 덮죽",
+          "distance": 1165,
+          "address": "경상북도 포항시 북구 중앙로294번길 10-7"
+        },
+        {
+          "name": "차이홍",
+          "distance": 1353,
+          "address": "경상북도 포항시 북구 해안로 119 3층"
+        }
+      ],
+      "sights": [
+        {
+          "name": "덕수공원",
+          "distance": 710,
+          "address": "경상북도 포항시 북구 중앙로 373 (덕수동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "학산유료주차장",
+          "kind": "민영",
+          "spaces": 12,
+          "feeType": "유료",
+          "basicFee": "기본 30분 1,000원",
+          "weekdayHours": "24시간",
+          "distance": 133
+        },
+        {
+          "name": "중앙동 노상10",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 167
+        },
+        {
+          "name": "중앙동 노상5",
+          "kind": "공영",
+          "spaces": 6,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 283
         }
       ]
     },
@@ -1271,7 +2418,52 @@
         "license": "Type3"
       },
       "modifiedTime": "20261015164834",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "아라한참치",
+          "distance": 598,
+          "address": "대구광역시 수성구 들안로 41 (상동)"
+        },
+        {
+          "name": "울진왕돌참가자미회",
+          "distance": 1633,
+          "address": "대구광역시 수성구 청수로3길 5"
+        },
+        {
+          "name": "루미너스",
+          "distance": 1860,
+          "address": "대구광역시 수성구 희망로 204 (황금동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "두산동 끝동공영주차장",
+          "kind": "공영",
+          "spaces": 16,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 363
+        },
+        {
+          "name": "울루루광장공영주차장",
+          "kind": "공영",
+          "spaces": 66,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "09:00~20:00",
+          "distance": 525
+        },
+        {
+          "name": "상동덕화공영주차장",
+          "kind": "공영",
+          "spaces": 12,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 787
+        }
+      ]
     },
     {
       "id": "4134331",
@@ -1337,6 +2529,62 @@
           "address": "경상북도 안동시 금곡길 21-8 (금곡동)",
           "phone": "010-3538-0785"
         }
+      ],
+      "foods": [
+        {
+          "name": "일직식당",
+          "distance": 92,
+          "address": "경상북도 안동시 경동로 676 (운흥동)"
+        },
+        {
+          "name": "안동한우갈비",
+          "distance": 129,
+          "address": "경상북도 안동시 경동로 677-10"
+        },
+        {
+          "name": "안동 유진찜닭",
+          "distance": 545,
+          "address": "경상북도 안동시 번영1길 47"
+        }
+      ],
+      "sights": [
+        {
+          "name": "관광커뮤니티센터 여기",
+          "distance": 253,
+          "address": "경상북도 안동시 축제장길 210 탈춤공연장"
+        },
+        {
+          "name": "안동시장 찜닭골목",
+          "distance": 482,
+          "address": "경상북도 안동시 번영길 30"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "구산림청앞-대안로 노상유료",
+          "kind": "공영",
+          "spaces": 9,
+          "feeType": "혼합",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "10:00~19:00",
+          "distance": 154
+        },
+        {
+          "name": "삼성생명 북편",
+          "kind": "공영",
+          "spaces": 13,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 185
+        },
+        {
+          "name": "운흥동 산림조합서편 마을공동주차장",
+          "kind": "공영",
+          "spaces": 16,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 195
+        }
       ]
     },
     {
@@ -1368,7 +2616,54 @@
         "license": "Type3"
       },
       "modifiedTime": "20261020180336",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "회싸나이 운정역점",
+          "distance": 547,
+          "address": "경기도 파주시 운정1길 84 (야당동)"
+        },
+        {
+          "name": "초담추어탕",
+          "distance": 655,
+          "address": "경기도 파주시 와석순환로 511 (와동동)"
+        },
+        {
+          "name": "샹배베이커리",
+          "distance": 904,
+          "address": "경기도 파주시 가온로 284 (와동동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "운정호수공원 공영주차장",
+          "kind": "공영",
+          "spaces": 253,
+          "feeType": "유료",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "09:00~22:00",
+          "distance": 317
+        },
+        {
+          "name": "야당역 환승",
+          "kind": "공영",
+          "spaces": 302,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "09:00~22:00",
+          "distance": 547
+        },
+        {
+          "name": "운정역환승주차장",
+          "kind": "공영",
+          "spaces": 384,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "09:00~22:00",
+          "distance": 869
+        }
+      ]
     },
     {
       "id": "4114621",
@@ -1407,6 +2702,34 @@
           "address": "제주특별자치도 서귀포시 태평로 121 (호근동)",
           "phone": "064-739-1901"
         }
+      ],
+      "foods": [
+        {
+          "name": "카페 귤꽃다락",
+          "distance": 881,
+          "address": "제주특별자치도 서귀포시 이어도로1027번길 34"
+        },
+        {
+          "name": "화고 흑돼지 신시가지점",
+          "distance": 893,
+          "address": "제주특별자치도 서귀포시 신서로32번길 20 (강정동)"
+        },
+        {
+          "name": "문치비",
+          "distance": 904,
+          "address": "제주특별자치도 서귀포시 신서로32번길 14 (강정동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "국토교통인재개발원 동측 공영주차장",
+          "kind": "공영",
+          "spaces": 110,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 63
+        }
       ]
     },
     {
@@ -1437,7 +2760,32 @@
         "license": "Type3"
       },
       "modifiedTime": "20261102170820",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "더부엌",
+          "distance": 1436,
+          "address": "경상남도 김해시 율하카페길 97-17 (관동동)"
+        },
+        {
+          "name": "보름달",
+          "distance": 1639,
+          "address": "경상남도 김해시 율하카페길 71-13"
+        },
+        {
+          "name": "한우천따지",
+          "distance": 1678,
+          "address": "경상남도 김해시 관동로71번길 3"
+        }
+      ],
+      "sights": [
+        {
+          "name": "클라우드 베리체험농장",
+          "distance": 1963,
+          "address": "경상남도 김해시 이동 19-18"
+        }
+      ],
+      "parkings": []
     },
     {
       "id": "4144229",
@@ -1502,6 +2850,69 @@
           "distance": 1010,
           "address": "서울특별시 중구 퇴계로10길 20-18 (회현동1가)"
         }
+      ],
+      "foods": [
+        {
+          "name": "디라이프스타일키친 광화문점",
+          "distance": 229,
+          "address": "서울특별시 중구 세종대로 136 파이낸스빌딩 파이낸스빌딩SFC몰 지하1층 101A호"
+        },
+        {
+          "name": "붓처스컷 광화문점",
+          "distance": 229,
+          "address": "서울특별시 중구 세종대로 136 (태평로1가)"
+        },
+        {
+          "name": "오양회참치",
+          "distance": 235,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 76,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 954,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "초전섬유·퀼트박물관",
+          "distance": 1176,
+          "address": "서울특별시 중구 퇴계로18길 66 (남산동1가)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 162
+        },
+        {
+          "name": "코오롱빌딩옆 공영주차장",
+          "kind": "공영",
+          "spaces": 10,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 175
+        },
+        {
+          "name": "한국관광공사옆 공영주차장",
+          "kind": "공영",
+          "spaces": 9,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~20:00",
+          "distance": 499
+        }
       ]
     },
     {
@@ -1534,6 +2945,59 @@
           "name": "아리네 게스트하우스",
           "distance": 1808,
           "address": "전남광주통합특별시 남구 천변좌로428번길 6 (양림동)"
+        }
+      ],
+      "foods": [
+        {
+          "name": "루치아",
+          "distance": 643,
+          "address": "전남광주통합특별시 남구 월산로116번길 22-1"
+        },
+        {
+          "name": "황솔촌 충장점",
+          "distance": 1285,
+          "address": "전남광주통합특별시 동구 중앙로160번길 16-10"
+        },
+        {
+          "name": "진스통",
+          "distance": 1374,
+          "address": "전남광주통합특별시 동구 충장로안길 26 (황금동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "컬러브릿지협동조합",
+          "distance": 1903,
+          "address": "전남광주통합특별시 남구 백서로 101-2 (양림동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "양동전통시장 연합 공영주차장",
+          "kind": "공영",
+          "spaces": 148,
+          "feeType": "유료",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "24시간",
+          "distance": 174
+        },
+        {
+          "name": "양동복개상가상하부주차장",
+          "kind": "공영",
+          "spaces": 249,
+          "feeType": "유료",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "24시간",
+          "distance": 174
+        },
+        {
+          "name": "양동닭전길시장공영주차장",
+          "kind": "공영",
+          "spaces": 82,
+          "feeType": "유료",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "24시간",
+          "distance": 192
         }
       ]
     },
@@ -1573,6 +3037,53 @@
           "distance": 1511,
           "address": "서울특별시 서초구 바우뫼로11길 71 (우면동, 행복한집) 2층 201호",
           "phone": "010-5326-0626"
+        }
+      ],
+      "foods": [
+        {
+          "name": "양재해장국",
+          "distance": 99,
+          "address": "서울특별시 서초구 강남대로10길 11 (양재동)"
+        },
+        {
+          "name": "배나무골오리집 양재본점",
+          "distance": 661,
+          "address": "서울특별시 서초구 마방로2길 12 (양재동)"
+        },
+        {
+          "name": "보아즈",
+          "distance": 884,
+          "address": "서울특별시 서초구 양재천로 53 (양재동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "양재2동주민센터",
+          "kind": "공영",
+          "spaces": 32,
+          "feeType": "유료",
+          "basicFee": "기본 5분 150원",
+          "weekdayHours": "07:00~21:00",
+          "distance": 370
+        },
+        {
+          "name": "매헌시민의숲(매헌)역",
+          "kind": "공영",
+          "spaces": 46,
+          "feeType": "유료",
+          "basicFee": "기본 5분 250원",
+          "weekdayHours": "24시간",
+          "distance": 397
+        },
+        {
+          "name": "동산마을",
+          "kind": "공영",
+          "spaces": 121,
+          "feeType": "유료",
+          "basicFee": "기본 5분 250원",
+          "weekdayHours": "24시간",
+          "distance": 438
         }
       ]
     },
@@ -1636,6 +3147,69 @@
           "distance": 1000,
           "address": "서울특별시 종로구 삼일대로 439"
         }
+      ],
+      "foods": [
+        {
+          "name": "디라이프스타일키친 광화문점",
+          "distance": 89,
+          "address": "서울특별시 중구 세종대로 136 파이낸스빌딩 파이낸스빌딩SFC몰 지하1층 101A호"
+        },
+        {
+          "name": "붓처스컷 광화문점",
+          "distance": 89,
+          "address": "서울특별시 중구 세종대로 136 (태평로1가)"
+        },
+        {
+          "name": "오양회참치",
+          "distance": 178,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 182,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 712,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "distance": 1231,
+          "address": "서울시 종로구 익선동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 130
+        },
+        {
+          "name": "코오롱빌딩옆 공영주차장",
+          "kind": "공영",
+          "spaces": 10,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 174
+        },
+        {
+          "name": "서울글로벌센터",
+          "kind": "공영",
+          "spaces": 44,
+          "feeType": "유료",
+          "basicFee": "기본 5분 700원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 353
+        }
       ]
     },
     {
@@ -1664,7 +3238,34 @@
         "license": "Type3"
       },
       "modifiedTime": "20261027184740",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "광화문미진",
+          "distance": 1387,
+          "address": "세종특별자치시 한누리대로 194 (나성동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "어진동(C47)",
+          "kind": "공영",
+          "spaces": 208,
+          "feeType": "무료",
+          "weekdayHours": "07:00~23:00",
+          "distance": 728
+        },
+        {
+          "name": "나성동 공영주차장",
+          "kind": "공영",
+          "spaces": 71,
+          "feeType": "유료",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "08:00~22:00",
+          "distance": 987
+        }
+      ]
     },
     {
       "id": "4113301",
@@ -1692,7 +3293,32 @@
         "license": "Type3"
       },
       "modifiedTime": "20261105123249",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "가포영도장어구이전문점",
+          "distance": 1232,
+          "address": "경상남도 창원시 마산합포구 가포해안길 47 가포영도장어구이"
+        },
+        {
+          "name": "동굴집",
+          "distance": 1252,
+          "address": "경상남도 창원시 마산합포구 가포해안길 35"
+        },
+        {
+          "name": "상하이717",
+          "distance": 1722,
+          "address": "경상남도 창원시 성산구 삼귀로 167 플로팅717 3층"
+        }
+      ],
+      "sights": [
+        {
+          "name": "마산항",
+          "distance": 1813,
+          "address": "경상남도 창원시 마산합포구 월포동 1-4 (월포동)"
+        }
+      ],
+      "parkings": []
     },
     {
       "id": "3557873",
@@ -1724,7 +3350,16 @@
         "license": "Type3"
       },
       "modifiedTime": "20261104094631",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "언더힐",
+          "distance": 436,
+          "address": "충청남도 아산시 송곡남길 90 1층"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "4115096",
@@ -1767,6 +3402,54 @@
           "distance": 1675,
           "address": "부산광역시 동구 망양로525번길 22 (초량동)",
           "phone": "051-467-0289"
+        }
+      ],
+      "foods": [
+        {
+          "name": "고관함박",
+          "distance": 1402,
+          "address": "부산광역시 동구 중앙대로349번길 14 (수정동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "이바구공작소",
+          "distance": 1158,
+          "address": "부산광역시 동구 망양로486번길 14-13 (초량동)"
+        },
+        {
+          "name": "장기려기념 더 나눔센터",
+          "distance": 1304,
+          "address": "부산광역시 동구 영초윗길 48 (초량동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "중앙대로236번길 제4노상",
+          "kind": "공영",
+          "spaces": 14,
+          "feeType": "유료",
+          "basicFee": "기본 10분 500원",
+          "weekdayHours": "08:00~21:00",
+          "distance": 476
+        },
+        {
+          "name": "중앙대로196번길 노상",
+          "kind": "공영",
+          "spaces": 14,
+          "feeType": "유료",
+          "basicFee": "기본 10분 500원",
+          "weekdayHours": "08:00~21:00",
+          "distance": 522
+        },
+        {
+          "name": "중앙대로236번길 제2노상",
+          "kind": "공영",
+          "spaces": 8,
+          "feeType": "유료",
+          "basicFee": "기본 10분 500원",
+          "weekdayHours": "08:00~21:00",
+          "distance": 533
         }
       ]
     },
@@ -1833,6 +3516,69 @@
           "distance": 425,
           "address": "전남광주통합특별시 순천시 금곡길 60 다올재"
         }
+      ],
+      "foods": [
+        {
+          "name": "양지쌈밥",
+          "distance": 210,
+          "address": "전남광주통합특별시 순천시 금곡길 8 (행동)"
+        },
+        {
+          "name": "원조동경낙지",
+          "distance": 233,
+          "address": "전남광주통합특별시 순천시 금곡길 11 (행동)"
+        },
+        {
+          "name": "금빈회관",
+          "distance": 345,
+          "address": "전남광주통합특별시 순천시 장명4길 8 금빈회관"
+        }
+      ],
+      "sights": [
+        {
+          "name": "드로잉라이프",
+          "distance": 305,
+          "address": "전남광주통합특별시 순천시 서문로 2 (저전동)"
+        },
+        {
+          "name": "다올재 협동조합",
+          "distance": 449,
+          "address": "전남광주통합특별시 순천시 금곡길 60"
+        },
+        {
+          "name": "순솝",
+          "distance": 1821,
+          "address": "전남광주통합특별시 순천시 덕암삼거리길 2 (덕암동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "시민 공영주차장",
+          "kind": "공영",
+          "spaces": 52,
+          "feeType": "유료",
+          "basicFee": "기본 60분 500원",
+          "weekdayHours": "08:00~20:00",
+          "distance": 137
+        },
+        {
+          "name": "성동 공영주차장",
+          "kind": "공영",
+          "spaces": 84,
+          "feeType": "유료",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "08:00~20:00",
+          "distance": 193
+        },
+        {
+          "name": "강남로 제2공영주차장",
+          "kind": "공영",
+          "spaces": 13,
+          "feeType": "유료",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "08:00~20:00",
+          "distance": 247
+        }
       ]
     },
     {
@@ -1866,7 +3612,35 @@
         "license": "Type3"
       },
       "modifiedTime": "20261111084802",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "고원3 주차장",
+          "kind": "공영",
+          "spaces": 22,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 196
+        },
+        {
+          "name": "중앙3 주차장",
+          "kind": "공영",
+          "spaces": 27,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 406
+        },
+        {
+          "name": "고원2 주차장",
+          "kind": "공영",
+          "spaces": 121,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 509
+        }
+      ]
     },
     {
       "id": "4115275",
@@ -1933,6 +3707,51 @@
           "address": "서울특별시 종로구 창신길 159-1 (창신동, 동문아트빌라)",
           "reservationUrl": "https://www.airbnb.co.kr/rooms/1105640844049053053"
         }
+      ],
+      "foods": [
+        {
+          "name": "순대실록 대학로본점",
+          "distance": 76,
+          "address": "서울특별시 종로구 동숭길 113 (동숭동)"
+        },
+        {
+          "name": "정돈 대학로본점",
+          "distance": 308,
+          "address": "서울특별시 종로구 대학로9길 12 (명륜4가)"
+        },
+        {
+          "name": "금문",
+          "distance": 337,
+          "address": "서울특별시 종로구 창경궁로 269-1 (혜화동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "대학로자유극장",
+          "distance": 100,
+          "address": "서울특별시 종로구 대학로12길 31 (동숭동)"
+        },
+        {
+          "name": "유니플렉스",
+          "distance": 272,
+          "address": "서울특별시 종로구 대학로12길 64 (동숭동)"
+        },
+        {
+          "name": "TINC",
+          "distance": 857,
+          "address": "서울특별시 성북구 동소문로10길 34-16 명성교회"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "삼선동",
+          "kind": "공영",
+          "spaces": 133,
+          "feeType": "유료",
+          "basicFee": "기본 5분 150원",
+          "weekdayHours": "24시간",
+          "distance": 343
+        }
       ]
     },
     {
@@ -1965,7 +3784,36 @@
         "license": "Type3"
       },
       "modifiedTime": "20260928113159",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "베스타",
+          "distance": 665,
+          "address": "대전광역시 서구 만년로 70 (만년동)"
+        },
+        {
+          "name": "더 빛나",
+          "distance": 1126,
+          "address": "대전광역시 유성구 엑스포로 131 (도룡동)"
+        },
+        {
+          "name": "시장스시",
+          "distance": 1155,
+          "address": "대전광역시 서구 만년로18번길 9 (만년동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "만년동서구보건소주변",
+          "kind": "공영",
+          "spaces": 111,
+          "feeType": "유료",
+          "basicFee": "기본 10분 300원",
+          "weekdayHours": "11:00~20:00",
+          "distance": 625
+        }
+      ]
     },
     {
       "id": "3016659",
@@ -2023,6 +3871,51 @@
           "address": "부산광역시 부산진구 전포대로224번길 26 (전포동) 2층",
           "phone": "에어비앤비 또는 위홈 메시지",
           "reservationUrl": "https://www.wehome.me/rooms/2014568"
+        }
+      ],
+      "foods": [
+        {
+          "name": "급행장",
+          "distance": 814,
+          "address": "부산광역시 부산진구 서면문화로 4"
+        },
+        {
+          "name": "양정기사식당",
+          "distance": 1927,
+          "address": "부산광역시 부산진구 중앙대로970번길 38"
+        },
+        {
+          "name": "아시오",
+          "distance": 1997,
+          "address": "부산광역시 부산진구 초읍동 165-10"
+        }
+      ],
+      "sights": [
+        {
+          "name": "부산진 별빛산책길",
+          "distance": 275,
+          "address": "부산광역시 부산진구 범전동 212-191"
+        },
+        {
+          "name": "그런고로",
+          "distance": 1073,
+          "address": "부산광역시 부산진구 서전로 40 (전포동)"
+        },
+        {
+          "name": "전포 삼거리",
+          "distance": 1852,
+          "address": "부산광역시 부산진구 진남로 320 (전포동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "유원오피스텔 뒤",
+          "kind": "공영",
+          "spaces": 12,
+          "feeType": "유료",
+          "basicFee": "기본 10분 700원",
+          "weekdayHours": "24시간",
+          "distance": 658
         }
       ]
     },
@@ -2090,6 +3983,55 @@
           "phone": "051-746-2183",
           "reservationUrl": "https://www.instagram.com/canvashostel"
         }
+      ],
+      "foods": [
+        {
+          "name": "요이쿠마 본점",
+          "distance": 1141,
+          "address": "부산광역시 수영구 광안해변로307번길 20 1층"
+        },
+        {
+          "name": "사마정",
+          "distance": 1496,
+          "address": "부산광역시 해운대구 마린시티3로 46 (우동, 우신골든메르시아)"
+        },
+        {
+          "name": "우봉",
+          "distance": 1514,
+          "address": "부산광역시 해운대구 마린시티1로 155 (우동, 해운대현대하이페리온)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "동서대학교 소향씨어터 신한카드홀",
+          "distance": 1048,
+          "address": "부산광역시 해운대구 센텀중앙로 55 (우동)"
+        },
+        {
+          "name": "부산 영화의 거리",
+          "distance": 1465,
+          "address": "부산광역시 해운대구 마린시티1로 91 (우동, 마린시티두산위브포세이돈)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "APEC 나루공원 공영",
+          "kind": "공영",
+          "spaces": 49,
+          "feeType": "유료",
+          "basicFee": "기본 10분 300원",
+          "weekdayHours": "24시간",
+          "distance": 740
+        },
+        {
+          "name": "센텀Q주차장",
+          "kind": "민영",
+          "spaces": 399,
+          "feeType": "유료",
+          "basicFee": "기본 60분 2,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 857
+        }
       ]
     },
     {
@@ -2127,6 +4069,56 @@
           "distance": 947,
           "address": "경상북도 포항시 북구 삼호로 73 (대신동)",
           "phone": "010-2011-1259"
+        }
+      ],
+      "foods": [
+        {
+          "name": "차이홍",
+          "distance": 713,
+          "address": "경상북도 포항시 북구 해안로 119 3층"
+        },
+        {
+          "name": "헤이안",
+          "distance": 1551,
+          "address": "경상북도 포항시 북구 해안로 219"
+        },
+        {
+          "name": "THE 신촌s 덮죽",
+          "distance": 1831,
+          "address": "경상북도 포항시 북구 중앙로294번길 10-7"
+        }
+      ],
+      "sights": [
+        {
+          "name": "덕수공원",
+          "distance": 1412,
+          "address": "경상북도 포항시 북구 중앙로 373 (덕수동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "중앙동 노상4",
+          "kind": "공영",
+          "spaces": 25,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 69
+        },
+        {
+          "name": "항구동 공영주차장",
+          "kind": "공영",
+          "spaces": 353,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 104
+        },
+        {
+          "name": "북부해수욕장 공영주차장",
+          "kind": "공영",
+          "spaces": 12,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 122
         }
       ]
     },
@@ -2191,6 +4183,68 @@
           "distance": 805,
           "address": "서울특별시 중구 동호로 290-9 (장충동2가,에스.비.하우스)"
         }
+      ],
+      "foods": [
+        {
+          "name": "마복림할머니 막내아들네",
+          "distance": 600,
+          "address": "서울특별시 중구 다산로 221 (신당동)"
+        },
+        {
+          "name": "하니칼국수",
+          "distance": 679,
+          "address": "서울특별시 중구 퇴계로 411-15 (흥인동)"
+        },
+        {
+          "name": "에베레스트 레스토랑 동대문본점",
+          "distance": 769,
+          "address": "서울특별시 종로구 종로51가길 2-1"
+        }
+      ],
+      "sights": [
+        {
+          "name": "동대문디자인플라자(DDP)",
+          "distance": 6,
+          "address": "서울특별시 중구 을지로 281 (을지로7가)"
+        },
+        {
+          "name": "유니플렉스",
+          "distance": 1767,
+          "address": "서울특별시 종로구 대학로12길 64 (동숭동)"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "distance": 1927,
+          "address": "서울시 종로구 익선동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "동대문",
+          "kind": "공영",
+          "spaces": 1092,
+          "feeType": "유료",
+          "basicFee": "기본 5분 360원",
+          "weekdayHours": "24시간",
+          "distance": 256
+        },
+        {
+          "name": "DDP동측(양쪽)",
+          "kind": "공영",
+          "spaces": 20,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 263
+        },
+        {
+          "name": "남평화시장앞 공영주차장",
+          "kind": "공영",
+          "spaces": 32,
+          "feeType": "유료",
+          "basicFee": "기본 5분 500원",
+          "weekdayHours": "24시간",
+          "distance": 318
+        }
       ]
     },
     {
@@ -2223,7 +4277,54 @@
         "license": "Type3"
       },
       "modifiedTime": "20261007093756",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "라온",
+          "distance": 445,
+          "address": "인천광역시 남동구 성말로32번길 6-1"
+        },
+        {
+          "name": "취홍",
+          "distance": 487,
+          "address": "인천광역시 남동구 예술로192번길 25"
+        },
+        {
+          "name": "유노미",
+          "distance": 552,
+          "address": "인천광역시 남동구 성말로 43 (구월동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "문화예술회관부설주차장",
+          "kind": "공영",
+          "spaces": 779,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "24시간",
+          "distance": 3
+        },
+        {
+          "name": "문예회관",
+          "kind": "공영",
+          "spaces": 779,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "24시간",
+          "distance": 61
+        },
+        {
+          "name": "로데오1, 2",
+          "kind": "공영",
+          "spaces": 29,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 249
+        }
+      ]
     },
     {
       "id": "4151221",
@@ -2257,7 +4358,43 @@
         "license": "Type3"
       },
       "modifiedTime": "20261111084803",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "프로스트",
+          "distance": 1044,
+          "address": "강원특별자치도 원주시 감영길 28 1층"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "학성공영주차장",
+          "kind": "공영",
+          "spaces": 115,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "08:00~20:00",
+          "distance": 169
+        },
+        {
+          "name": "원주역주차장",
+          "kind": "민영",
+          "spaces": 34,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 269
+        },
+        {
+          "name": "중앙로구간공영주차장",
+          "kind": "공영",
+          "spaces": 84,
+          "feeType": "유료",
+          "basicFee": "기본 30분 600원",
+          "weekdayHours": "08:00~20:00",
+          "distance": 275
+        }
+      ]
     },
     {
       "id": "4151220",
@@ -2294,6 +4431,53 @@
           "distance": 1339,
           "address": "서울특별시 서초구 바우뫼로11길 71 (우면동, 행복한집) 2층 201호",
           "phone": "010-5326-0626"
+        }
+      ],
+      "foods": [
+        {
+          "name": "양재해장국",
+          "distance": 165,
+          "address": "서울특별시 서초구 강남대로10길 11 (양재동)"
+        },
+        {
+          "name": "배나무골오리집 양재본점",
+          "distance": 542,
+          "address": "서울특별시 서초구 마방로2길 12 (양재동)"
+        },
+        {
+          "name": "보아즈",
+          "distance": 727,
+          "address": "서울특별시 서초구 양재천로 53 (양재동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "매헌시민의숲(매헌)역",
+          "kind": "공영",
+          "spaces": 46,
+          "feeType": "유료",
+          "basicFee": "기본 5분 250원",
+          "weekdayHours": "24시간",
+          "distance": 245
+        },
+        {
+          "name": "양재2동주민센터",
+          "kind": "공영",
+          "spaces": 32,
+          "feeType": "유료",
+          "basicFee": "기본 5분 150원",
+          "weekdayHours": "07:00~21:00",
+          "distance": 324
+        },
+        {
+          "name": "매헌시민의숲동측",
+          "kind": "공영",
+          "spaces": 143,
+          "feeType": "유료",
+          "basicFee": "기본 5분 250원",
+          "weekdayHours": "24시간",
+          "distance": 455
         }
       ]
     },
@@ -2360,6 +4544,69 @@
           "phone": "0507-1337-1976, 010-3672-1976",
           "reservationUrl": "http://www.zazabackpackers.com/"
         }
+      ],
+      "foods": [
+        {
+          "name": "오양회참치",
+          "distance": 110,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        },
+        {
+          "name": "디라이프스타일키친 광화문점",
+          "distance": 226,
+          "address": "서울특별시 중구 세종대로 136 파이낸스빌딩 파이낸스빌딩SFC몰 지하1층 101A호"
+        },
+        {
+          "name": "붓처스컷 광화문점",
+          "distance": 226,
+          "address": "서울특별시 중구 세종대로 136 (태평로1가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 87,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 914,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "초전섬유·퀼트박물관",
+          "distance": 1304,
+          "address": "서울특별시 중구 퇴계로18길 66 (남산동1가)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 183
+        },
+        {
+          "name": "코오롱빌딩옆 공영주차장",
+          "kind": "공영",
+          "spaces": 10,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 225
+        },
+        {
+          "name": "서울글로벌센터",
+          "kind": "공영",
+          "spaces": 44,
+          "feeType": "유료",
+          "basicFee": "기본 5분 700원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 540
+        }
       ]
     },
     {
@@ -2391,7 +4638,16 @@
         "license": "Type3"
       },
       "modifiedTime": "20261109095851",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "꽃게랑 낙지랑",
+          "distance": 891,
+          "address": "전남광주통합특별시 무안군 삼향읍 남악리 2421-1"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "3470738",
@@ -2422,7 +4678,51 @@
         "license": "Type3"
       },
       "modifiedTime": "20261027092613",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "남해의숲",
+          "distance": 287,
+          "address": "경상남도 남해군 삼동면 독일로 152-8"
+        },
+        {
+          "name": "은성쌈밥",
+          "distance": 641,
+          "address": "경상남도 남해군 삼동면 동부대로 1305"
+        },
+        {
+          "name": "완벽한인생 브루어리",
+          "distance": 1324,
+          "address": "경상남도 남해군 삼동면 독일로 30"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "화암 주차장",
+          "kind": "공영",
+          "spaces": 249,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 222
+        },
+        {
+          "name": "원예예술촌 주차장",
+          "kind": "공영",
+          "spaces": 130,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 673
+        },
+        {
+          "name": "독일마을 주차장",
+          "kind": "공영",
+          "spaces": 91,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 753
+        }
+      ]
     },
     {
       "id": "2410727",
@@ -2469,6 +4769,64 @@
           "address": "서울특별시 송파구 백제고분로22길 5 (삼전동)",
           "phone": "0507-1461-1061"
         }
+      ],
+      "foods": [
+        {
+          "name": "한티옥",
+          "distance": 1293,
+          "address": "서울특별시 강남구 도곡로 418 (대치동)"
+        },
+        {
+          "name": "연화산",
+          "distance": 1503,
+          "address": "서울특별시 강남구 테헤란로92길 11"
+        },
+        {
+          "name": "장수설렁탕해장국",
+          "distance": 1524,
+          "address": "서울특별시 송파구 백제고분로 148 호성빌딩"
+        }
+      ],
+      "sights": [
+        {
+          "name": "2025 서울 카페&베이커리페어",
+          "distance": 6,
+          "address": "서울특별시 강남구 남부순환로 3104 (대치동) SETEC"
+        },
+        {
+          "name": "한생연 실험누리과학관",
+          "distance": 1379,
+          "address": "서울특별시 강남구 도곡로 408 (대치동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "학여울역",
+          "kind": "공영",
+          "spaces": 180,
+          "feeType": "유료",
+          "basicFee": "기본 5분 370원",
+          "weekdayHours": "05:00~01:00",
+          "distance": 110
+        },
+        {
+          "name": "영동6교밑",
+          "kind": "공영",
+          "spaces": 39,
+          "feeType": "유료",
+          "basicFee": "기본 5분 370원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 111
+        },
+        {
+          "name": "개포동공원",
+          "kind": "공영",
+          "spaces": 146,
+          "feeType": "유료",
+          "basicFee": "기본 5분 200원",
+          "weekdayHours": "24시간",
+          "distance": 737
+        }
       ]
     },
     {
@@ -2500,7 +4858,58 @@
         "license": "Type3"
       },
       "modifiedTime": "20261112113745",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "아키라커피 본점",
+          "distance": 373,
+          "address": "인천광역시 제물포구 차이나타운로44번길 16-24"
+        },
+        {
+          "name": "공화춘",
+          "distance": 444,
+          "address": "인천광역시 제물포구 차이나타운로 43 (북성동3가)"
+        },
+        {
+          "name": "태림봉",
+          "distance": 488,
+          "address": "인천광역시 제물포구 차이나타운로59번길 23"
+        }
+      ],
+      "sights": [
+        {
+          "name": "(구)인천일본제58은행지점",
+          "distance": 697,
+          "address": "인천광역시 제물포구 신포로23번길 69-1 제물포구음식업지부"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "라이언경로당앞공영주차장",
+          "kind": "공영",
+          "spaces": 16,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 225
+        },
+        {
+          "name": "월미로50번길제2노상주차장",
+          "kind": "공영",
+          "spaces": 21,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 288
+        },
+        {
+          "name": "차이나타운공영주차장",
+          "kind": "공영",
+          "spaces": 186,
+          "feeType": "유료",
+          "basicFee": "기본 30분 1,000원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 327
+        }
+      ]
     },
     {
       "id": "3368470",
@@ -2539,6 +4948,59 @@
           "address": "경기도 수원시 팔달구 갓매산로 72-1 (고등동)",
           "phone": "0507-1447-8881"
         }
+      ],
+      "foods": [
+        {
+          "name": "카페아고",
+          "distance": 286,
+          "address": "경기도 수원시 권선구 세화로 134 (서둔동) 1층 카페아고"
+        },
+        {
+          "name": "넓은뜰",
+          "distance": 578,
+          "address": "경기도 수원시 권선구 세화로 104 (평동)"
+        },
+        {
+          "name": "고등반점",
+          "distance": 1061,
+          "address": "경기도 수원시 팔달구 팔달로52번길 43 (고등동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "해움미술관",
+          "distance": 1700,
+          "address": "경기도 수원시 팔달구 매산로 133 (교동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "수원역환승",
+          "kind": "공영",
+          "spaces": 129,
+          "feeType": "유료",
+          "basicFee": "기본 60분 600원",
+          "weekdayHours": "24시간",
+          "distance": 189
+        },
+        {
+          "name": "고등동",
+          "kind": "공영",
+          "spaces": 40,
+          "feeType": "유료",
+          "basicFee": "기본 60분 500원",
+          "weekdayHours": "24시간",
+          "distance": 830
+        },
+        {
+          "name": "역세권1지구",
+          "kind": "공영",
+          "spaces": 100,
+          "feeType": "유료",
+          "basicFee": "기본 60분 500원",
+          "weekdayHours": "24시간",
+          "distance": 865
+        }
       ]
     },
     {
@@ -2570,7 +5032,16 @@
         "license": "Type3"
       },
       "modifiedTime": "20261028174950",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "순창맛집",
+          "distance": 213,
+          "address": "전북특별자치도 순창군 순창읍 민속마을길 6-3"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "4151224",
@@ -2632,6 +5103,53 @@
           "address": "전북특별자치도 전주시 완산구 경기전길 57-6",
           "phone": "010-8774-1963"
         }
+      ],
+      "foods": [
+        {
+          "name": "한울밥상",
+          "distance": 844,
+          "address": "전북특별자치도 전주시 완산구 기린대로 104 (남노송동)"
+        },
+        {
+          "name": "오원집",
+          "distance": 1148,
+          "address": "전북특별자치도 전주시 완산구 공북로 82 (태평동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "착한공작소(착한공작소협동조합)",
+          "distance": 285,
+          "address": "전북특별자치도 전주시 완산구 전라감영로 36"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "고사동 전주영화제작소 옆",
+          "kind": "공영",
+          "spaces": 14,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 347
+        },
+        {
+          "name": "오거리",
+          "kind": "공영",
+          "spaces": 183,
+          "feeType": "유료",
+          "basicFee": "기본 30분 900원",
+          "weekdayHours": "24시간",
+          "distance": 526
+        },
+        {
+          "name": "전주천",
+          "kind": "공영",
+          "spaces": 117,
+          "feeType": "유료",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 548
+        }
       ]
     },
     {
@@ -2690,6 +5208,56 @@
           "address": "강원특별자치도 강릉시 동부시장길 39 (옥천동)",
           "phone": "033-645-5353, 033-645-6262"
         }
+      ],
+      "foods": [
+        {
+          "name": "원조 춘하추동 본점",
+          "distance": 426,
+          "address": "강원특별자치도 강릉시 임영로116번길 4 (성내동)"
+        },
+        {
+          "name": "소바위트",
+          "distance": 448,
+          "address": "강원특별자치도 강릉시 경강로 2015 (명주동) 1층"
+        },
+        {
+          "name": "더카페 강릉중앙점",
+          "distance": 525,
+          "address": "강원특별자치도 강릉시 중앙시장2길 19 (성남동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "기린사우나",
+          "distance": 535,
+          "address": "강원특별자치도 강릉시 남부로125번길 18 (노암동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "은마 연립주택 근처 주차장",
+          "kind": "공영",
+          "spaces": 3,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 280
+        },
+        {
+          "name": "성내동 광장 주차장(택시부광장 주차장)",
+          "kind": "공영",
+          "spaces": 56,
+          "feeType": "유료",
+          "weekdayHours": "10:00~23:59",
+          "distance": 360
+        },
+        {
+          "name": "명주동 주차장",
+          "kind": "공영",
+          "spaces": 11,
+          "feeType": "무료",
+          "weekdayHours": "08:00~23:59",
+          "distance": 366
+        }
       ]
     },
     {
@@ -2725,7 +5293,46 @@
         "license": "Type3"
       },
       "modifiedTime": "20261104092934",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "갈비구락부",
+          "distance": 1361,
+          "address": "울산광역시 울주군 삼남읍 남상평2길 34-12"
+        },
+        {
+          "name": "동부분식",
+          "distance": 1390,
+          "address": "울산광역시 울주군 언양읍 남문길 35-1"
+        }
+      ],
+      "sights": [
+        {
+          "name": "마마스홈퀴진",
+          "distance": 1482,
+          "address": "울산광역시 울주군 삼남읍 교동로 130"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "언양강변공영주차장",
+          "kind": "공영",
+          "spaces": 339,
+          "feeType": "유료",
+          "basicFee": "기본 120분 600원",
+          "weekdayHours": "24시간",
+          "distance": 633
+        },
+        {
+          "name": "구언양터미널임시",
+          "kind": "공영",
+          "spaces": 128,
+          "feeType": "유료",
+          "basicFee": "기본 120분 600원",
+          "weekdayHours": "24시간",
+          "distance": 989
+        }
+      ]
     },
     {
       "id": "3437916",
@@ -2797,6 +5404,59 @@
           "address": "부산광역시 수영구 민락수변로 9 (민락동)",
           "phone": "0507-1389-5108"
         }
+      ],
+      "foods": [
+        {
+          "name": "엄용백 돼지국밥",
+          "distance": 1012,
+          "address": "부산광역시 수영구 수영로680번길 39"
+        },
+        {
+          "name": "그린노마드",
+          "distance": 1230,
+          "address": "부산광역시 수영구 좌수영로 161-10 (망미동)"
+        },
+        {
+          "name": "요이쿠마 본점",
+          "distance": 1438,
+          "address": "부산광역시 수영구 광안해변로307번길 20 1층"
+        }
+      ],
+      "sights": [
+        {
+          "name": "동서대학교 소향씨어터 신한카드홀",
+          "distance": 247,
+          "address": "부산광역시 해운대구 센텀중앙로 55 (우동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "APEC 나루공원 공영",
+          "kind": "공영",
+          "spaces": 49,
+          "feeType": "유료",
+          "basicFee": "기본 10분 300원",
+          "weekdayHours": "24시간",
+          "distance": 341
+        },
+        {
+          "name": "센텀Q주차장",
+          "kind": "민영",
+          "spaces": 399,
+          "feeType": "유료",
+          "basicFee": "기본 60분 2,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 469
+        },
+        {
+          "name": "지에스타임즈스테이션센텀필주차장",
+          "kind": "민영",
+          "spaces": 290,
+          "feeType": "유료",
+          "basicFee": "기본 30분 1,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 627
+        }
       ]
     },
     {
@@ -2835,6 +5495,35 @@
           "address": "경기도 고양시 일산서구 킨텍스로 255-3 (대화동)",
           "phone": "031-540-2400"
         }
+      ],
+      "foods": [
+        {
+          "name": "올리코",
+          "distance": 312,
+          "address": "경기도 고양시 호수로856번길 (7-16)"
+        },
+        {
+          "name": "미도향",
+          "distance": 1281,
+          "address": "경기도 고양시 일산서구 대산로223번길 8-4 (대화동)"
+        },
+        {
+          "name": "꽃피우는기와보쌈 일산본점",
+          "distance": 1385,
+          "address": "경기도 고양시 일산서구 대산로212번길 9 (대화동)"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "전시장",
+          "kind": "공영",
+          "spaces": 255,
+          "feeType": "유료",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "08:00~22:00",
+          "distance": 208
+        }
       ]
     },
     {
@@ -2867,7 +5556,44 @@
         "license": "Type3"
       },
       "modifiedTime": "20261111175754",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [],
+      "sights": [
+        {
+          "name": "레이홉",
+          "distance": 1717,
+          "address": "울산광역시 남구 월평로21번길 15 (신정동) 1층"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "동문주차장",
+          "kind": "공영",
+          "spaces": 518,
+          "feeType": "혼합",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "24시간",
+          "distance": 86
+        },
+        {
+          "name": "남문주차장",
+          "kind": "공영",
+          "spaces": 989,
+          "feeType": "혼합",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "24시간",
+          "distance": 86
+        },
+        {
+          "name": "정문주차장",
+          "kind": "공영",
+          "spaces": 333,
+          "feeType": "혼합",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "24시간",
+          "distance": 86
+        }
+      ]
     },
     {
       "id": "2048902",
@@ -2911,6 +5637,59 @@
           "address": "부산광역시 해운대구 달맞이길117번라길 100 (중동)",
           "reservationUrl": "https://www.airbnb.co.kr/users/show/580763294"
         }
+      ],
+      "foods": [
+        {
+          "name": "일품한우",
+          "distance": 220,
+          "address": "부산광역시 해운대구 해운대로570번길 49"
+        },
+        {
+          "name": "해목",
+          "distance": 338,
+          "address": "부산광역시 해운대구 구남로24번길 8 (우동)"
+        },
+        {
+          "name": "할매집",
+          "distance": 525,
+          "address": "부산광역시 해운대구 중동2로10번길 7 해운대온천센터 1층"
+        }
+      ],
+      "sights": [
+        {
+          "name": "부산 영화의 거리",
+          "distance": 1592,
+          "address": "부산광역시 해운대구 마린시티1로 91 (우동, 마린시티두산위브포세이돈)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "흥안인더스트리",
+          "kind": "민영",
+          "spaces": 9,
+          "feeType": "유료",
+          "basicFee": "기본 60분 4,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 141
+        },
+        {
+          "name": "광장주차장",
+          "kind": "민영",
+          "spaces": 57,
+          "feeType": "유료",
+          "basicFee": "기본 30분 2,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 142
+        },
+        {
+          "name": "해우주차장",
+          "kind": "민영",
+          "spaces": 24,
+          "feeType": "유료",
+          "basicFee": "기본 30분 2,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 217
+        }
       ]
     },
     {
@@ -2941,7 +5720,16 @@
         "license": "Type3"
       },
       "modifiedTime": "20261112133755",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "시골식당",
+          "distance": 1287,
+          "address": "경기도 포천시 신북면 호국로 2006"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "4153641",
@@ -2972,7 +5760,42 @@
         "license": "Type3"
       },
       "modifiedTime": "20261112085809",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [],
+      "sights": [
+        {
+          "name": "국조전(칠곡)",
+          "distance": 1962,
+          "address": "경상북도 칠곡군 왜관읍 석전로15길 20"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "왜관 남부 공영주차장",
+          "kind": "공영",
+          "spaces": 197,
+          "feeType": "혼합",
+          "basicFee": "기본 30분 500원",
+          "weekdayHours": "24시간",
+          "distance": 0
+        },
+        {
+          "name": "왜관역앞 노상주차장",
+          "kind": "공영",
+          "spaces": 21,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 74
+        },
+        {
+          "name": "군청 앞 공영주차장",
+          "kind": "공영",
+          "spaces": 85,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 246
+        }
+      ]
     },
     {
       "id": "3522322",
@@ -3009,7 +5832,58 @@
         "license": "Type3"
       },
       "modifiedTime": "20261030145111",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "아키라커피 본점",
+          "distance": 393,
+          "address": "인천광역시 제물포구 차이나타운로44번길 16-24"
+        },
+        {
+          "name": "공화춘",
+          "distance": 475,
+          "address": "인천광역시 제물포구 차이나타운로 43 (북성동3가)"
+        },
+        {
+          "name": "태림봉",
+          "distance": 533,
+          "address": "인천광역시 제물포구 차이나타운로59번길 23"
+        }
+      ],
+      "sights": [
+        {
+          "name": "(구)인천일본제58은행지점",
+          "distance": 742,
+          "address": "인천광역시 제물포구 신포로23번길 69-1 제물포구음식업지부"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "라이언경로당앞공영주차장",
+          "kind": "공영",
+          "spaces": 16,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 175
+        },
+        {
+          "name": "월미로50번길제2노상주차장",
+          "kind": "공영",
+          "spaces": 21,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 244
+        },
+        {
+          "name": "차이나타운공영주차장",
+          "kind": "공영",
+          "spaces": 186,
+          "feeType": "유료",
+          "basicFee": "기본 30분 1,000원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 351
+        }
+      ]
     },
     {
       "id": "4108260",
@@ -3052,7 +5926,26 @@
           "distance": 1567,
           "address": "서울특별시 마포구 월드컵로20길 41-5 (성산동)"
         }
-      ]
+      ],
+      "foods": [
+        {
+          "name": "와이키키마켓",
+          "distance": 1037,
+          "address": "서울특별시 마포구 마포나루길 332 (상암동)"
+        },
+        {
+          "name": "정광수의돈까스가게",
+          "distance": 1081,
+          "address": "서울특별시 마포구 포은로 128 (망원동) 1층"
+        },
+        {
+          "name": "청아라 생선구이",
+          "distance": 1151,
+          "address": "서울특별시 마포구 망원로 52"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "4095478",
@@ -3122,6 +6015,55 @@
           "address": "부산광역시 수영구 민락수변로 9 (민락동)",
           "phone": "0507-1389-5108"
         }
+      ],
+      "foods": [
+        {
+          "name": "요이쿠마 본점",
+          "distance": 1484,
+          "address": "부산광역시 수영구 광안해변로307번길 20 1층"
+        },
+        {
+          "name": "엄용백 돼지국밥",
+          "distance": 1695,
+          "address": "부산광역시 수영구 수영로680번길 39"
+        },
+        {
+          "name": "우봉",
+          "distance": 1707,
+          "address": "부산광역시 해운대구 마린시티1로 155 (우동, 해운대현대하이페리온)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "동서대학교 소향씨어터 신한카드홀",
+          "distance": 872,
+          "address": "부산광역시 해운대구 센텀중앙로 55 (우동)"
+        },
+        {
+          "name": "부산 영화의 거리",
+          "distance": 1736,
+          "address": "부산광역시 해운대구 마린시티1로 91 (우동, 마린시티두산위브포세이돈)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "센텀Q주차장",
+          "kind": "민영",
+          "spaces": 399,
+          "feeType": "유료",
+          "basicFee": "기본 60분 2,000원",
+          "weekdayHours": "10:00~22:00",
+          "distance": 591
+        },
+        {
+          "name": "APEC 나루공원 공영",
+          "kind": "공영",
+          "spaces": 49,
+          "feeType": "유료",
+          "basicFee": "기본 10분 300원",
+          "weekdayHours": "24시간",
+          "distance": 801
+        }
       ]
     },
     {
@@ -3190,6 +6132,69 @@
           "phone": "0507-1308-1192",
           "reservationUrl": "https://booking.naver.com/booking/3/bizes/942780"
         }
+      ],
+      "foods": [
+        {
+          "name": "동경우동",
+          "distance": 97,
+          "address": "서울특별시 종로구 새문안로9길 28 (도렴동)"
+        },
+        {
+          "name": "오양회참치",
+          "distance": 329,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        },
+        {
+          "name": "디라이프스타일키친 광화문점",
+          "distance": 372,
+          "address": "서울특별시 중구 세종대로 136 파이낸스빌딩 파이낸스빌딩SFC몰 지하1층 101A호"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 451,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 593,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "distance": 1212,
+          "address": "서울시 종로구 익선동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "세종로",
+          "kind": "공영",
+          "spaces": 1260,
+          "feeType": "유료",
+          "basicFee": "기본 5분 430원",
+          "weekdayHours": "24시간",
+          "distance": 210
+        },
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 423
+        },
+        {
+          "name": "서울글로벌센터",
+          "kind": "공영",
+          "spaces": 44,
+          "feeType": "유료",
+          "basicFee": "기본 5분 700원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 461
+        }
       ]
     },
     {
@@ -3251,6 +6256,69 @@
           "name": "시은재",
           "distance": 990,
           "address": "서울특별시 종로구 삼일대로 439"
+        }
+      ],
+      "foods": [
+        {
+          "name": "디라이프스타일키친 광화문점",
+          "distance": 97,
+          "address": "서울특별시 중구 세종대로 136 파이낸스빌딩 파이낸스빌딩SFC몰 지하1층 101A호"
+        },
+        {
+          "name": "붓처스컷 광화문점",
+          "distance": 97,
+          "address": "서울특별시 중구 세종대로 136 (태평로1가)"
+        },
+        {
+          "name": "오양회참치",
+          "distance": 185,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 197,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 698,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "distance": 1222,
+          "address": "서울시 종로구 익선동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 143
+        },
+        {
+          "name": "코오롱빌딩옆 공영주차장",
+          "kind": "공영",
+          "spaces": 10,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 186
+        },
+        {
+          "name": "서울글로벌센터",
+          "kind": "공영",
+          "spaces": 44,
+          "feeType": "유료",
+          "basicFee": "기본 5분 700원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 346
         }
       ]
     },
@@ -3314,6 +6382,69 @@
           "name": "시은재",
           "distance": 1000,
           "address": "서울특별시 종로구 삼일대로 439"
+        }
+      ],
+      "foods": [
+        {
+          "name": "디라이프스타일키친 광화문점",
+          "distance": 89,
+          "address": "서울특별시 중구 세종대로 136 파이낸스빌딩 파이낸스빌딩SFC몰 지하1층 101A호"
+        },
+        {
+          "name": "붓처스컷 광화문점",
+          "distance": 89,
+          "address": "서울특별시 중구 세종대로 136 (태평로1가)"
+        },
+        {
+          "name": "오양회참치",
+          "distance": 179,
+          "address": "서울특별시 중구 세종대로21길 49 (태평로1가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 183,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 711,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        },
+        {
+          "name": "익선동 한옥거리",
+          "distance": 1231,
+          "address": "서울시 종로구 익선동"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "뉴국제호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 18,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 130
+        },
+        {
+          "name": "코오롱빌딩옆 공영주차장",
+          "kind": "공영",
+          "spaces": 10,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~21:00",
+          "distance": 174
+        },
+        {
+          "name": "서울글로벌센터",
+          "kind": "공영",
+          "spaces": 44,
+          "feeType": "유료",
+          "basicFee": "기본 5분 700원",
+          "weekdayHours": "09:00~18:00",
+          "distance": 352
         }
       ]
     },
@@ -3382,6 +6513,51 @@
           "address": "서울특별시 종로구 창신길 159-1 (창신동, 동문아트빌라)",
           "reservationUrl": "https://www.airbnb.co.kr/rooms/1105640844049053053"
         }
+      ],
+      "foods": [
+        {
+          "name": "순대실록 대학로본점",
+          "distance": 76,
+          "address": "서울특별시 종로구 동숭길 113 (동숭동)"
+        },
+        {
+          "name": "정돈 대학로본점",
+          "distance": 308,
+          "address": "서울특별시 종로구 대학로9길 12 (명륜4가)"
+        },
+        {
+          "name": "금문",
+          "distance": 337,
+          "address": "서울특별시 종로구 창경궁로 269-1 (혜화동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "대학로자유극장",
+          "distance": 100,
+          "address": "서울특별시 종로구 대학로12길 31 (동숭동)"
+        },
+        {
+          "name": "유니플렉스",
+          "distance": 272,
+          "address": "서울특별시 종로구 대학로12길 64 (동숭동)"
+        },
+        {
+          "name": "TINC",
+          "distance": 857,
+          "address": "서울특별시 성북구 동소문로10길 34-16 명성교회"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "삼선동",
+          "kind": "공영",
+          "spaces": 133,
+          "feeType": "유료",
+          "basicFee": "기본 5분 150원",
+          "weekdayHours": "24시간",
+          "distance": 343
+        }
       ]
     },
     {
@@ -3449,6 +6625,69 @@
           "address": "서울특별시 중구 퇴계로24길 12 (남산동3가)",
           "phone": "02-755-5437"
         }
+      ],
+      "foods": [
+        {
+          "name": "다동 황소막창",
+          "distance": 98,
+          "address": "서울특별시 중구 남대문로 60-5 (명동2가)"
+        },
+        {
+          "name": "명동부대찌개 명동황기족발",
+          "distance": 114,
+          "address": "서울특별시 중구 명동길 25-7"
+        },
+        {
+          "name": "더 스팟 패뷸러스",
+          "distance": 117,
+          "address": "서울특별시 중구 명동2길 22 (명동2가)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "초전섬유·퀼트박물관",
+          "distance": 593,
+          "address": "서울특별시 중구 퇴계로18길 66 (남산동1가)"
+        },
+        {
+          "name": "경성 부민관 폭탄 의거지",
+          "distance": 710,
+          "address": "서울특별시 중구 세종대로 125 (태평로1가)"
+        },
+        {
+          "name": "보성사터",
+          "distance": 1173,
+          "address": "서울특별시 종로구 우정국로 55 (견지동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "조선호텔앞 공영주차장",
+          "kind": "공영",
+          "spaces": 4,
+          "feeType": "유료",
+          "basicFee": "기본 30분 1,500원",
+          "weekdayHours": "24시간",
+          "distance": 72
+        },
+        {
+          "name": "해운센터앞 공영주차장",
+          "kind": "공영",
+          "spaces": 9,
+          "feeType": "유료",
+          "basicFee": "기본 5분 600원",
+          "weekdayHours": "09:00~20:00",
+          "distance": 193
+        },
+        {
+          "name": "동국제강",
+          "kind": "공영",
+          "spaces": 13,
+          "feeType": "유료",
+          "basicFee": "기본 5분 700원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 430
+        }
       ]
     },
     {
@@ -3479,7 +6718,51 @@
         "license": "Type3"
       },
       "modifiedTime": "20261103102721",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "자매식당",
+          "distance": 261,
+          "address": "강원특별자치도 평창군 진부면 진부중앙로 44"
+        },
+        {
+          "name": "다래순대",
+          "distance": 366,
+          "address": "강원특별자치도 평창군 진부면 청송로 90-8"
+        },
+        {
+          "name": "새참",
+          "distance": 404,
+          "address": "강원특별자치도 평창군 진부면 청송로 89"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "진부주공아파트앞 공영주차장",
+          "kind": "공영",
+          "spaces": 164,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 52
+        },
+        {
+          "name": "진부면민체육공원B",
+          "kind": "공영",
+          "spaces": 113,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 126
+        },
+        {
+          "name": "진부면민체육공원A",
+          "kind": "공영",
+          "spaces": 106,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 149
+        }
+      ]
     },
     {
       "id": "507599",
@@ -3511,7 +6794,46 @@
         "license": "Type3"
       },
       "modifiedTime": "20260618130324",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [],
+      "sights": [
+        {
+          "name": "낭천산림욕장",
+          "distance": 437,
+          "address": "강원특별자치도 화천군 화천읍 중리 221"
+        },
+        {
+          "name": "붕어섬&황톳길",
+          "distance": 1746,
+          "address": "강원특별자치도 화천군 화천읍 강변로 2-54"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "명성빌라 앞 주차장",
+          "kind": "공영",
+          "spaces": 5,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 508
+        },
+        {
+          "name": "상리 공영주차장",
+          "kind": "공영",
+          "spaces": 5,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 549
+        },
+        {
+          "name": "중리 주차장",
+          "kind": "공영",
+          "spaces": 23,
+          "feeType": "무료",
+          "weekdayHours": "24시간",
+          "distance": 624
+        }
+      ]
     },
     {
       "id": "1882134",
@@ -3541,7 +6863,16 @@
         "license": "Type3"
       },
       "modifiedTime": "20261102151438",
-      "lodgings": []
+      "lodgings": [],
+      "foods": [
+        {
+          "name": "한탄강빵명장",
+          "distance": 1468,
+          "address": "강원특별자치도 철원군 한탄강길 28"
+        }
+      ],
+      "sights": [],
+      "parkings": []
     },
     {
       "id": "3367405",
@@ -3591,6 +6922,64 @@
           "address": "서울특별시 송파구 올림픽로 99 (잠실동,잠실엘스128-1503)",
           "phone": "02-484-5009, 010-5649-7568"
         }
+      ],
+      "foods": [
+        {
+          "name": "시골진지상",
+          "distance": 470,
+          "address": "서울특별시 강남구 삼성로 535 (삼성동)"
+        },
+        {
+          "name": "연화산",
+          "distance": 542,
+          "address": "서울특별시 강남구 테헤란로92길 11"
+        },
+        {
+          "name": "스시히로바 삼성동본점",
+          "distance": 680,
+          "address": "서울특별시 강남구 삼성로 620 (삼성동)"
+        }
+      ],
+      "sights": [
+        {
+          "name": "한생연 실험누리과학관",
+          "distance": 1723,
+          "address": "서울특별시 강남구 도곡로 408 (대치동)"
+        },
+        {
+          "name": "조은숙아트앤라이프스타일",
+          "distance": 1967,
+          "address": "서울특별시 강남구 압구정로80길 37 (청담동)"
+        }
+      ],
+      "parkings": [
+        {
+          "name": "삼성1동문화센터",
+          "kind": "공영",
+          "spaces": 66,
+          "feeType": "유료",
+          "basicFee": "기본 5분 400원",
+          "weekdayHours": "24시간",
+          "distance": 409
+        },
+        {
+          "name": "영동대로106길",
+          "kind": "공영",
+          "spaces": 19,
+          "feeType": "유료",
+          "basicFee": "기본 5분 300원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 436
+        },
+        {
+          "name": "영동대로96길",
+          "kind": "공영",
+          "spaces": 35,
+          "feeType": "유료",
+          "basicFee": "기본 5분 300원",
+          "weekdayHours": "09:00~19:00",
+          "distance": 463
+        }
       ]
     },
     {
@@ -3632,6 +7021,51 @@
           "distance": 956,
           "address": "전남광주통합특별시 서구 상무연하로 31",
           "phone": "062-714-1000"
+        }
+      ],
+      "foods": [
+        {
+          "name": "르시엘블루",
+          "distance": 433,
+          "address": "전남광주통합특별시 서구 상무대로 718"
+        },
+        {
+          "name": "다도해물나라",
+          "distance": 541,
+          "address": "전남광주통합특별시 서구 마륵복개로 57"
+        },
+        {
+          "name": "서플라이",
+          "distance": 570,
+          "address": "전남광주통합특별시 서구 상무자유로 32"
+        }
+      ],
+      "sights": [],
+      "parkings": [
+        {
+          "name": "치평동 공영주차장",
+          "kind": "공영",
+          "spaces": 54,
+          "feeType": "유료",
+          "basicFee": "기본 30분 700원",
+          "weekdayHours": "24시간",
+          "distance": 333
+        },
+        {
+          "name": "치평동주민센터",
+          "kind": "공영",
+          "spaces": 6,
+          "feeType": "무료",
+          "weekdayHours": "09:00~23:59",
+          "distance": 426
+        },
+        {
+          "name": "상무시민공원 공영주차장",
+          "kind": "공영",
+          "spaces": 219,
+          "feeType": "무료",
+          "weekdayHours": "09:00~23:59",
+          "distance": 613
         }
       ]
     }
