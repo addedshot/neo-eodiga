@@ -2,6 +2,12 @@
 
 결정한 것, 그 이유, 자료 출처, 아직 열린 질문을 적는다. 새 결정은 위에 추가한다.
 
+## 근거 자료 받기 구현 (2026-11-13)
+- 사용자가 기능 구성과 파일 내려받기를 허락했다("진행해").
+- `npm run build-reference`(`scripts/build-reference.ts`)가 `content/reference.json`을 만든다. 공공데이터포털 파일은 누리집 버튼과 같은 순서로 받는다(상세 페이지의 publicDataDetailPk → `POST /tcs/dss/selectFileDataDownload.do`로 atchFileId → `/cmm/cmm/fileDownload.do`). 100대 명산 CSV는 UTF-8, 세계유산 CSV는 EUC-KR이다.
+- 결과(2026-11-13): 100대 명산 100(좌표는 위도·경도, 모두 국내 범위), 세계유산 15(내용 칸에 구성 장소가 있다. 예: 산사는 통도사, 부석사, 봉정사, 법주사, 마곡사, 선암사, 대흥사), 국가유산 713(지정 해제 제외, 사적 570, 명승 143, 좌표 없음 83).
+- 해수욕장 개폐장일정 파일(15056091)은 첨부 파일 번호가 오지 않아(로그인 필요로 보임) 받지 못했다. 해수욕장은 관광공사 자료의 이름(해수욕장, 해변)으로 찾는다.
+
 ## 대표 명소 근거 자료 조사 (2026-11-13)
 - 한국관광 100선(2025~2026): 웹 페이지에는 목록이 없고 문체부 보도자료(https://www.mcst.go.kr/site/s_notice/press/pressView.jsp?pSeq=21611) 첨부 PDF·HWPX에만 있다. 사용자 허락을 받아 PDF(약 1MB)를 저장소 밖 임시 폴더에 내려받았다. 내려받기 주소는 `/servlets/eduport/front/upload/UplDownloadFile?pFileName=&pRealName=&pPath=0302000000`이다. `pdftotext -enc UTF-8`로 4쪽 붙임 1을 꺼내 `content/korea-top100.json`에 옮겼다. 시도별 개수(서울 9, 인천 3, 경기 10, 강원 11, 대전 1, 세종 1, 충북 5, 충남 8, 광주 2, 전북 8, 전남 8, 부산 6, 대구 3, 울산 3, 경북 7, 경남 9, 제주 6)가 맞는 것을 확인했다. 보도자료에는 시군구가 없어 적지 않았다.
 - 국가유산청 오픈 API: 공공데이터포털 15034324는 "바로가기(LINK)" 방식이라 활용신청이 없다. `https://www.khs.go.kr/cha/SearchKindOpenapiList.do?ccbaKdcd=<종류>&pageUnit=&pageIndex=`가 **인증키 없이** XML로 응답한다. 항목은 ccmaName(종류), ccbaMnm1(이름), ccbaCtcdNm(시도), ccsiName(시군구), longitude, latitude 등이다. 2026-11-13 건수는 국보(11) 372, 사적(13) 611, 명승(15) 146, 천연기념물(16) 613이다. 명소 근거로는 사적과 명승을 쓴다(국보는 박물관 소장품이 많다).
