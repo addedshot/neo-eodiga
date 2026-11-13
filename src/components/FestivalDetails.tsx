@@ -164,6 +164,7 @@ export function FestivalLodgings({ festival }: { festival: Festival }) {
                   <p className="font-bold">
                     {lodging.name}
                     <span className="ml-2 text-[14px] font-medium text-ink-muted">{formatDistance(lodging.distance)}</span>
+                    {lodging.grade && <OfficialBadge label={`${lodging.grade} 호텔`} className="ml-2 align-middle" />}
                   </p>
                   {lodging.address && <p className="mt-0.5 text-[14px] text-ink-muted">{lodging.address}</p>}
                 </div>
@@ -234,7 +235,9 @@ export function FestivalSourceLine({
         한국관광공사 관광정보 서비스
       </a>
       의 자료로 만들었고, 자료는 {formatDate(source.fetchedOn)}에 받았어요.
-      {summarized && " 위의 짧은 소개는 원문 소개 글을 AI로 줄인 것이에요."} 주차장은{" "}
+      {summarized && " 위의 짧은 소개는 원문 소개 글을 AI로 줄인 것이에요."} 먹을 곳의 모범음식점·백년가게와 숙소의
+      호텔 등급은 행정안전부, 소상공인시장진흥공단, 문화체육관광부의 지정·결정 자료로 붙인 공식 표시이고 맛이나 서비스 평가는 아니에요.
+      주차장은{" "}
       <a href={parkingSource.url} className={outLink} target="_blank" rel="noopener noreferrer">
         공공데이터포털 전국주차장정보표준데이터
       </a>
@@ -301,6 +304,15 @@ function kakaoMapLinks(name: string, lat: number, lng: number) {
   };
 }
 
+// 공식 인증·지정 표시(모범음식점, 백년가게, 호텔 등급). 맛 평가로 보이지 않게 차분한 색을 쓴다.
+function OfficialBadge({ label, className = "" }: { label: string; className?: string }) {
+  return (
+    <span className={`inline-flex rounded-md border border-line-strong bg-surface-muted px-1.5 py-px text-[12px] font-bold text-ink-soft ${className}`}>
+      {label}
+    </span>
+  );
+}
+
 function NearList({ title, places, empty }: { title: string; places: NearPlace[]; empty: string }) {
   return (
     <div>
@@ -313,6 +325,13 @@ function NearList({ title, places, empty }: { title: string; places: NearPlace[]
             <li key={p.name} className="text-[15px] leading-snug">
               <span className="font-bold">{p.name}</span>
               <span className="ml-1.5 text-ink-muted">{formatDistance(p.distance)}</span>
+              {p.badges && (
+                <span className="mt-1 flex flex-wrap gap-1">
+                  {p.badges.map((b) => (
+                    <OfficialBadge key={b} label={b} />
+                  ))}
+                </span>
+              )}
               {p.address && <span className="mt-0.5 block text-[13px] text-ink-muted">{p.address}</span>}
             </li>
           ))}

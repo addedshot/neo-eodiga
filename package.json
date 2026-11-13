@@ -16,7 +16,8 @@
     "build-festivals": "node --env-file-if-exists=.env.local scripts/build-festivals.ts",
     "summarize-festivals": "node scripts/summarize-festivals.ts",
     "build-reference": "node scripts/build-reference.ts",
-    "build-attractions": "node --env-file-if-exists=.env.local scripts/build-attractions.ts"
+    "build-attractions": "node --env-file-if-exists=.env.local scripts/build-attractions.ts",
+    "build-badges": "node --env-file-if-exists=.env.local scripts/build-badges.ts"
   },
   "dependencies": {
     "@mdx-js/loader": "^3.1.1",

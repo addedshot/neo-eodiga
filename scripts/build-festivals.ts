@@ -5,6 +5,7 @@
 // 인증키는 환경 변수 TOUR_API_KEY(로컬은 .env.local, GitHub는 Secrets)에서 읽는다. 키 값은 화면에 찍지 않는다.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { badgeKey } from "../src/lib/badges.ts";
 import { addDays, distanceMeters, KEEP_DAYS_AFTER_END, todayInKorea } from "../src/lib/festivals.ts";
 
 const SOURCE_URL = "https://www.data.go.kr/data/15101578/openapi.do";
@@ -40,8 +41,8 @@ const SIDO_SHORT: Record<string, string> = {
 
 type Item = Record<string, string | undefined>;
 type Link = { label?: string; url: string };
-type Lodging = { name: string; distance: number; address?: string; phone?: string; reservationUrl?: string };
-type NearPlace = { name: string; distance: number; address?: string };
+type Lodging = { name: string; distance: number; address?: string; phone?: string; reservationUrl?: string; grade?: string };
+type NearPlace = { name: string; distance: number; address?: string; badges?: string[] };
 type Parking = { name: string; distance: number; kind?: string; spaces?: number; feeType?: string; basicFee?: string; weekdayHours?: string };
 type FestivalImage = { url: string; license: "Type1" | "Type3" };
 type Festival = {
@@ -474,6 +475,26 @@ const built = await mapLimit(prepared, 4, async ({ item, id, startDate, endDate,
 });
 
 // 주차장은 축제 내용과 관계없이 바뀔 수 있어 매번 새로 고른다. 받기에 실패하면 지난 파일의 값을 쓴다.
+// 공식 인증·지정 표시(content/badge-index.json, npm run build-badges). 색인이 없으면 표시 없이 만든다.
+const BADGE_INDEX = path.join(process.cwd(), "content", "badge-index.json");
+const badgeIndex = existsSync(BADGE_INDEX)
+  ? (JSON.parse(readFileSync(BADGE_INDEX, "utf8")) as { restaurants: Record<string, string[]>; hotels: Record<string, string> })
+  : undefined;
+if (!badgeIndex) console.warn("content/badge-index.json이 없어 먹을 곳·숙소 표시를 붙이지 않아요. npm run build-badges를 먼저 실행해 주세요.");
+for (const { ongoing, record } of built) {
+  if (ongoing || !badgeIndex) continue;
+  record.foods = record.foods?.map(({ badges: _old, ...p }) => {
+    void _old;
+    const badges = badgeIndex.restaurants[badgeKey(p.name, p.address) ?? ""];
+    return badges ? { ...p, badges } : p;
+  });
+  record.lodgings = record.lodgings?.map(({ grade: _old, ...l }) => {
+    void _old;
+    const grade = badgeIndex.hotels[badgeKey(l.name, l.address) ?? ""];
+    return grade ? { ...l, grade } : l;
+  });
+}
+
 const parkingData = await fetchParkingLots();
 const oldOutput = existsSync(OUTPUT) ? (JSON.parse(readFileSync(OUTPUT, "utf8")) as Partial<Output>) : {};
 for (const { ongoing, record } of built) {

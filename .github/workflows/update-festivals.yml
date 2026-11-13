@@ -22,19 +22,24 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # 먹을 곳·숙소의 공식 표시 색인(모범음식점, 백년가게, 호텔 등급). 실패해도 지난 색인으로 축제를 갱신한다.
+      - run: npm run build-badges
+        continue-on-error: true
+        env:
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
       - run: npm run build-festivals
         env:
           TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
       - run: npm run check-content
       - name: 바뀐 내용이 있으면 커밋하고 올리기
         run: |
-          if git diff --quiet -- content/festivals.json; then
+          if git diff --quiet -- content/festivals.json content/badge-index.json; then
             echo "바뀐 축제 정보가 없어요."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add content/festivals.json
+          git add content/festivals.json content/badge-index.json
           git commit -m "chore(content): 지역축제 정보 갱신"
           # 작업이 도는 동안 main에 새 커밋이 올라왔을 수 있으니 최신 main 위에 얹어서 올린다.
           git pull --rebase origin main
