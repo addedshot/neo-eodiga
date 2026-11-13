@@ -3,7 +3,7 @@
 결정한 것, 그 이유, 자료 출처, 아직 열린 질문을 적는다. 새 결정은 위에 추가한다.
 
 ## 대표 명소 근거 자료 조사 (2026-11-13)
-- 한국관광 100선(2025~2026): 웹 페이지에는 목록이 없고 문체부 보도자료(https://www.mcst.go.kr/site/s_notice/press/pressView.jsp?pSeq=21611) 첨부 PDF·HWPX에만 있다. 내려받기는 사용자 확인을 받는다.
+- 한국관광 100선(2025~2026): 웹 페이지에는 목록이 없고 문체부 보도자료(https://www.mcst.go.kr/site/s_notice/press/pressView.jsp?pSeq=21611) 첨부 PDF·HWPX에만 있다. 사용자 허락을 받아 PDF(약 1MB)를 저장소 밖 임시 폴더에 내려받았다. 내려받기 주소는 `/servlets/eduport/front/upload/UplDownloadFile?pFileName=&pRealName=&pPath=0302000000`이다. `pdftotext -enc UTF-8`로 4쪽 붙임 1을 꺼내 `content/korea-top100.json`에 옮겼다. 시도별 개수(서울 9, 인천 3, 경기 10, 강원 11, 대전 1, 세종 1, 충북 5, 충남 8, 광주 2, 전북 8, 전남 8, 부산 6, 대구 3, 울산 3, 경북 7, 경남 9, 제주 6)가 맞는 것을 확인했다. 보도자료에는 시군구가 없어 적지 않았다.
 - 국가유산청 오픈 API: 공공데이터포털 15034324는 "바로가기(LINK)" 방식이라 활용신청이 없다. `https://www.khs.go.kr/cha/SearchKindOpenapiList.do?ccbaKdcd=<종류>&pageUnit=&pageIndex=`가 **인증키 없이** XML로 응답한다. 항목은 ccmaName(종류), ccbaMnm1(이름), ccbaCtcdNm(시도), ccsiName(시군구), longitude, latitude 등이다. 2026-11-13 건수는 국보(11) 372, 사적(13) 611, 명승(15) 146, 천연기념물(16) 613이다. 명소 근거로는 사적과 명승을 쓴다(국보는 박물관 소장품이 많다).
 - 키 없이 받는 파일: 산림청 숲나들e 100대명산(15112801, CSV, 좌표 있음), 국가유산청 유네스코 세계유산(15107994, CSV, 15건, 좌표 없음), 해양수산부 해수욕장 개폐장일정(15056091, XLSX, 283곳, 좌표 없음). 국립공원 경계(15017313)는 도형(SHP)이라 쓰지 않고 관광공사 자료에서 이름으로 찾는다.
 
