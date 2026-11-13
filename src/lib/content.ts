@@ -93,30 +93,61 @@ const reviewSchema = z
     path: ["kidAges"],
   });
 
-// 지역축제는 scripts/build-festivals.ts가 공공데이터로 만든다. 사람이 쓰지 않으므로 필요한 형식만 확인한다.
+// 지역축제는 scripts/build-festivals.ts가 한국관광공사 관광정보 API로 만든다. 사람이 쓰지 않으므로 필요한 형식만 확인한다.
+const webUrl = z.url({ protocol: /^https?$/ });
+const text = z.string().min(1);
+const eventFields = {
+  id: z.string().regex(/^\d+$/, { error: "관광공사 콘텐츠 id(숫자)여야 해요." }),
+  name: text,
+  startDate: dateField,
+  endDate: dateField,
+  sido: text,
+  sigungu: text,
+  place: z.string(),
+  address: text.optional(),
+  lat: z.number().min(33).max(39),
+  lng: z.number().min(124).max(132),
+  phone: text.optional(),
+  host: text.optional(),
+  organizer: text.optional(),
+  links: z.array(z.object({ label: text.optional(), url: webUrl }).strict()),
+  overview: text.optional(),
+  program: text.optional(),
+  playTime: text.optional(),
+  fee: text.optional(),
+  ageLimit: text.optional(),
+  bookingPlace: text.optional(),
+  // 공공누리 1유형, 3유형 사진만 넣는다. 3유형은 변경금지라 원본 주소를 그대로 보여준다.
+  image: z.object({ url: webUrl, license: z.enum(["Type1", "Type3"]) }).strict().optional(),
+  modifiedTime: z.string().regex(/^\d{14}$/, { error: "수정 시각은 14자리 숫자여야 해요." }),
+};
 const festivalSchema = z
   .object({
-    id: z.string().regex(/^[0-9a-f]{10}$/, { error: "10자리 영문 소문자·숫자여야 해요." }),
-    name: z.string().min(1),
-    startDate: dateField,
-    endDate: dateField,
-    sido: z.string().min(1),
-    sigungu: z.string().min(1),
-    place: z.string(),
-    content: z.string().min(1).optional(),
-    organizer: z.string().min(1).optional(),
-    host: z.string().min(1).optional(),
-    phone: z.string().min(1).optional(),
-    homepage: z.url({ protocol: /^https?$/ }).optional(),
-    address: z.string().min(1).optional(),
-    lat: z.number().min(33).max(39).optional(),
-    lng: z.number().min(124).max(132).optional(),
-    referenceDate: dateField.optional(),
-    provider: z.string().min(1).optional(),
+    ...eventFields,
+    subEvent: text.optional(),
+    discount: text.optional(),
+    spendTime: text.optional(),
+    // 예약·예매·사전 신청이 적힌 원문 문장(지어내지 않는다)
+    bookingNotes: z.array(text),
+    lodgings: z.array(
+      z
+        .object({
+          name: text,
+          distance: z.number().int().min(0),
+          address: text.optional(),
+          phone: text.optional(),
+          reservationUrl: webUrl.optional(),
+        })
+        .strict(),
+    ),
   })
   .strict()
   .refine((f) => f.startDate <= f.endDate, { error: "끝나는 날이 시작일보다 앞서요.", path: ["endDate"] });
-const festivalFileSchema = z.object({ source: z.url(), fetchedOn: dateField, festivals: z.array(z.unknown()) }).strict();
+// 1월 1일~12월 31일로 적힌 상설 행사. 목록에는 없고 축제 포스트의 "주변 상설 행사"에만 나온다.
+const ongoingEventSchema = z.object(eventFields).strict();
+const festivalFileSchema = z
+  .object({ source: z.url(), fetchedOn: dateField, festivals: z.array(z.unknown()), ongoingEvents: z.array(z.unknown()) })
+  .strict();
 
 const noticeSchema = z.object({ title: z.string().min(1), date: dateField }).strict();
 const guideSchema = z.object({ title: z.string().min(1), order: z.number().int().min(1) }).strict();
@@ -129,6 +160,7 @@ export type Notice = z.infer<typeof noticeSchema> & { slug: string };
 export type Guide = z.infer<typeof guideSchema> & { slug: string };
 
 export type Festival = z.infer<typeof festivalSchema>;
+export type OngoingEvent = z.infer<typeof ongoingEventSchema>;
 
 export type Content = {
   regions: Region[];
@@ -137,6 +169,7 @@ export type Content = {
   notices: Notice[];
   guides: Guide[];
   festivals: Festival[];
+  ongoingEvents: OngoingEvent[];
   // 축제 자료를 받은 날(YYYY-MM-DD)과 출처 주소
   festivalSource: { url: string; fetchedOn: string };
 };
@@ -270,12 +303,15 @@ export function loadContent(): Content {
   const festivals = (festivalFile?.festivals ?? [])
     .map((item, i) => check(festivalSchema, item, `content/festivals.json festivals[${i}]`, errors))
     .filter((f): f is Festival => f !== undefined);
+  const ongoingEvents = (festivalFile?.ongoingEvents ?? [])
+    .map((item, i) => check(ongoingEventSchema, item, `content/festivals.json ongoingEvents[${i}]`, errors))
+    .filter((e): e is OngoingEvent => e !== undefined);
   const festivalIds = new Set<string>();
-  for (const festival of festivals) {
-    const where = `content/festivals.json(${festival.id} ${festival.name})`;
-    if (festivalIds.has(festival.id)) errors.push(`${where}: id가 두 번 이상 있어요.`);
-    festivalIds.add(festival.id);
-    checkRegion(where, festival.sido, festival.sigungu);
+  for (const event of [...festivals, ...ongoingEvents]) {
+    const where = `content/festivals.json(${event.id} ${event.name})`;
+    if (festivalIds.has(event.id)) errors.push(`${where}: id가 두 번 이상 있어요.`);
+    festivalIds.add(event.id);
+    checkRegion(where, event.sido, event.sigungu);
   }
 
   if (errors.length > 0) {
@@ -288,6 +324,7 @@ export function loadContent(): Content {
     notices,
     guides,
     festivals,
+    ongoingEvents,
     festivalSource: { url: festivalFile?.source ?? "", fetchedOn: festivalFile?.fetchedOn ?? "" },
   };
 }

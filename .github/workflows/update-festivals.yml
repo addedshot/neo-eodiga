@@ -1,4 +1,5 @@
-# 매주 공공데이터포털의 전국문화축제표준데이터를 다시 받아 content/festivals.json을 갱신한다.
+# 매주 한국관광공사 관광정보 API(국문 관광정보 서비스_GW)로 축제 정보를 다시 받아 content/festivals.json을 갱신한다.
+# 인증키는 저장소 Secrets의 TOUR_API_KEY를 쓴다. 수정 시각이 같은 축제는 지난 내용을 다시 써서 호출 수를 줄인다.
 # 바뀐 내용이 있으면 커밋해서 올리고, Vercel이 그 커밋을 자동으로 배포한다.
 # 받기나 검사에 실패하면 작업이 실패로 표시되고 기존 파일은 그대로 둔다.
 name: 지역축제 정보 갱신
@@ -22,6 +23,8 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build-festivals
+        env:
+          TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
       - run: npm run check-content
       - name: 바뀐 내용이 있으면 커밋하고 올리기
         run: |

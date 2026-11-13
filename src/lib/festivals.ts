@@ -68,3 +68,17 @@ export function formatPeriod(festival: Pick<Festival, "startDate" | "endDate">, 
   if (sm !== em) return `${start}~${em}월 ${ed}일`;
   return `${start}~${ed}일`;
 }
+
+// 두 좌표 사이의 거리(m). 축제 주변의 상설 행사를 찾을 때 쓴다.
+export function distanceMeters(a: { lat: number; lng: number }, b: { lat: number; lng: number }): number {
+  const rad = Math.PI / 180;
+  const dLat = (b.lat - a.lat) * rad;
+  const dLng = (b.lng - a.lng) * rad;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(a.lat * rad) * Math.cos(b.lat * rad) * Math.sin(dLng / 2) ** 2;
+  return Math.round(2 * 6371000 * Math.asin(Math.sqrt(h)));
+}
+
+// 930 → "930m", 1450 → "1.5km"
+export function formatDistance(meters: number): string {
+  return meters < 1000 ? `${meters}m` : `${(meters / 1000).toFixed(1)}km`;
+}
