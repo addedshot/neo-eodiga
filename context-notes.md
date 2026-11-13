@@ -11,7 +11,7 @@
   - `detailIntro2`(contentTypeId=15): 주최·주관(sponsor1, sponsor2)과 연락처, 행사 장소, 공연 시간, 이용 요금(usetimefestival), 프로그램, 부대행사, 연령 제한, 예매처가 있다.
   - `detailImage2`: 사진 7장(원본과 작은 사진 주소, 저작권 구분). 첫 사진의 저작권 구분은 Type3이다. 공공누리 유형과의 대응은 공식 안내로 확인한 뒤 사진을 쓴다.
 - 표준데이터에 없던 축제(예: 광안리 M 드론 라이트쇼, 1월 1일~12월 31일로 적힌 상설 행사)도 들어 있다. 기간 미정 규칙을 그대로 적용할지 계획 때 정한다.
-- GitHub Actions 자동 갱신에서 쓰려면 저장소 Secrets에 `TOUR_API_KEY`를 사용자가 넣어야 한다.
+- 사용자가 GitHub 저장소 Settings → Secrets and variables → Actions의 Repository secrets에 `TOUR_API_KEY`를 넣었다(2026-11-13, 화면 캡처로 확인). 자동 갱신 작업에서 `${{ secrets.TOUR_API_KEY }}`로 쓴다. 아직 이 키를 쓰는 코드는 없다.
 - 사용자가 키를 대화창에 붙여 넣었다. 대화 기록에 남으므로 필요하면 공공데이터포털에서 재발급을 권한다.
 
 ## 지역축제 구현 (2026-11-11)
