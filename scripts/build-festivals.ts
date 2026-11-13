@@ -343,7 +343,11 @@ const built = await mapLimit(prepared, 4, async ({ item, id, startDate, endDate,
   return { ongoing, record };
 });
 
-const byStart = (a: { startDate: string; name: string }, b: { startDate: string; name: string }) => a.startDate.localeCompare(b.startDate) || a.name.localeCompare(b.name);
+// localeCompare는 실행하는 컴퓨터(Windows, GitHub의 Linux)마다 순서가 달라서, 내용이 같아도 파일이 바뀐 것으로 보인다.
+// 그래서 글자 코드 순서로 정렬하고 id로 마지막 순서를 정한다. 화면의 순서는 화면 코드가 따로 정한다.
+const plainCompare = (x: string, y: string) => (x < y ? -1 : x > y ? 1 : 0);
+const byStart = (a: { startDate: string; name: string; id: string }, b: { startDate: string; name: string; id: string }) =>
+  plainCompare(a.startDate, b.startDate) || plainCompare(a.name, b.name) || plainCompare(a.id, b.id);
 const festivals = built.filter((b) => !b.ongoing).map((b) => b.record).sort(byStart);
 const ongoingEvents: OngoingEvent[] = built
   .filter((b) => b.ongoing)
