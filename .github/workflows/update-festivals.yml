@@ -27,6 +27,7 @@ jobs:
         continue-on-error: true
         env:
           TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}
+          FOOD_SAFETY_API_KEY: ${{ secrets.FOOD_SAFETY_API_KEY }}
       - run: npm run build-festivals
         env:
           TOUR_API_KEY: ${{ secrets.TOUR_API_KEY }}

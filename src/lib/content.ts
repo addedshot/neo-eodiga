@@ -122,7 +122,7 @@ const eventFields = {
   modifiedTime: z.string().regex(/^\d{14}$/, { error: "수정 시각은 14자리 숫자여야 해요." }),
 };
 // 공식 인증·지정 표시(모범음식점, 백년가게, 위생등급). 맛 평가가 아니다.
-const restaurantBadge = z.enum(["모범음식점", "백년가게", "위생등급 매우 우수", "위생등급 우수", "위생등급 좋음"]);
+const restaurantBadge = z.enum(["모범음식점", "백년가게", "위생등급 지정"]);
 const nearPlace = z
   .object({ name: text, distance: z.number().int().min(0), address: text.optional(), badges: z.array(restaurantBadge).min(1).optional() })
   .strict();

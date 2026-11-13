@@ -1,5 +1,6 @@
 // 식당·숙박의 공식 인증·지정 표시 색인(content/badge-index.json)을 만드는 스크립트
-// 사용법: npm run build-badges   (모범음식점은 TOUR_API_KEY와 같은 공공데이터포털 키, 백년가게·호텔 등급은 키 없는 파일)
+// 사용법: npm run build-badges   (모범음식점은 TOUR_API_KEY와 같은 공공데이터포털 키, 백년가게·호텔 등급은 키 없는 파일,
+//         위생등급은 식품안전나라 키 FOOD_SAFETY_API_KEY. 위생등급 키가 없으면 위생등급만 빼고 만든다)
 // 색인 열쇠는 "시도|시군구|이름"이다(src/lib/badges.ts의 badgeKey). 지정 취소·폐업한 곳은 넣지 않는다.
 import { writeFileSync } from "node:fs";
 import path from "node:path";
@@ -11,6 +12,7 @@ const SOURCES = {
   modelRestaurant: "https://www.data.go.kr/data/15155052/openapi.do", // 행정안전부 모범음식점정보 조회서비스
   centuryShop: "https://www.data.go.kr/data/15132695/fileData.do", // 소상공인시장진흥공단 전국 백년가게 지정리스트
   hotelGrade: "https://www.data.go.kr/data/15118900/fileData.do", // 문화체육관광부 전국호텔현황(결정 등급)
+  hygieneGrade: "https://www.foodsafetykorea.go.kr/api/newDatasetDetail.do?svc_no=C004", // 식약처 식품접객업소 위생등급 지정 현황
 };
 
 function fail(message: string): never {
@@ -114,7 +116,31 @@ let centuryKept = 0;
 for (const r of centuryRows) if (addRestaurant(badgeKey(r["업체명"], r["업체주소"]), "백년가게")) centuryKept++;
 if (centuryKept < 500) fail(`백년가게가 ${centuryKept}건뿐이에요.`);
 
-// 3. 호텔 등급(관광호텔업 결정 등급)
+// 3. 위생등급 지정(식품안전나라 C004). 영업 정상, 지정 취소 없음, 지정 기간 안, 음식점 업종만.
+const foodSafetyKey = process.env.FOOD_SAFETY_API_KEY?.trim();
+let hygieneKept = 0;
+if (!foodSafetyKey) console.warn("FOOD_SAFETY_API_KEY가 없어 위생등급은 넣지 않아요.");
+else {
+  const today = todayInKorea().replace(/-/g, "");
+  const FOOD_TYPES = new Set(["일반음식점", "휴게음식점", "제과점영업"]);
+  for (let start = 1; ; start += 1000) {
+    const res = await fetch(`http://openapi.foodsafetykorea.go.kr/api/${foodSafetyKey}/C004/json/${start}/${start + 999}`);
+    const json = JSON.parse(await res.text()) as { C004?: { total_count?: string; row?: Record<string, string>[]; RESULT?: { CODE?: string; MSG?: string } } };
+    const body = json.C004;
+    if (!body?.row) {
+      if (body?.RESULT?.CODE === "INFO-200") break; // 더 이상 자료 없음
+      fail(`위생등급 API 호출에 실패했어요. (${body?.RESULT?.CODE ?? res.status} ${body?.RESULT?.MSG ?? ""})`);
+    }
+    for (const r of body.row) {
+      if (r.CLSBIZ_DVS_CD_NM !== "정상" || r.ASGN_CANCEL_YMD || (r.ASGN_TO && r.ASGN_TO < today) || !FOOD_TYPES.has(r.INDUTY_NM)) continue;
+      if (addRestaurant(badgeKey(r.BSSH_NM ?? "", r.ADDR), "위생등급 지정")) hygieneKept++;
+    }
+    if (start + 999 >= Number(body.total_count ?? 0)) break;
+  }
+  if (hygieneKept < 10000) fail(`위생등급이 ${hygieneKept}건뿐이에요.`);
+}
+
+// 4. 호텔 등급(관광호텔업 결정 등급)
 const hotelRows = parseCsv(await downloadPortalFile(SOURCES.hotelGrade));
 const hotels: Record<string, string> = {};
 for (const r of hotelRows) {
@@ -127,5 +153,5 @@ if (Object.keys(hotels).length < 300) fail(`호텔 등급이 ${Object.keys(hotel
 const sortObject = <T>(o: Record<string, T>) => Object.fromEntries(Object.entries(o).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
 writeFileSync(OUTPUT, `${JSON.stringify({ fetchedOn: todayInKorea(), sources: SOURCES, restaurants: sortObject(restaurants), hotels: sortObject(hotels) })}\n`, "utf8");
 console.log(
-  `content/badge-index.json을 만들었어요. 모범음식점 ${modelKept}건(전체 ${modelTotal}건 중 영업·지정 유지), 백년가게 ${centuryKept}건, 호텔 등급 ${Object.keys(hotels).length}건.`,
+  `content/badge-index.json을 만들었어요. 모범음식점 ${modelKept}건(전체 ${modelTotal}건 중 영업·지정 유지), 백년가게 ${centuryKept}건, 위생등급 지정 ${hygieneKept}건, 호텔 등급 ${Object.keys(hotels).length}건.`,
 );

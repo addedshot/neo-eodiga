@@ -40,4 +40,5 @@ export function badgeKey(name: string, address: string | undefined): string | un
   return region && n.length >= 2 ? `${region}|${n}` : undefined;
 }
 
-export type RestaurantBadge = "모범음식점" | "백년가게" | "위생등급 매우 우수" | "위생등급 우수" | "위생등급 좋음";
+// 위생등급은 식품안전나라 C004 자료의 지정등급이 모두 "적합"이라 등급 단계 없이 "위생등급 지정"으로만 표시한다(2026-11-13 확인).
+export type RestaurantBadge = "모범음식점" | "백년가게" | "위생등급 지정";
