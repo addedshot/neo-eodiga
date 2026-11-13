@@ -2,6 +2,18 @@
 
 결정한 것, 그 이유, 자료 출처, 아직 열린 질문을 적는다. 새 결정은 위에 추가한다.
 
+## 한국관광공사 관광정보 API 인증키 확인 (2026-11-13)
+- 사용자가 공공데이터포털에서 "한국관광공사_국문 관광정보 서비스_GW"(15101578)를 신청하고 키를 줬다. 디코딩한 키를 `.env.local`의 `TOUR_API_KEY`에 넣었다(git 제외 확인). 키 값은 문서에 적지 않는다.
+- 주소는 `https://apis.data.go.kr/B551011/KorService2/<기능>`이고 공통 인자는 `serviceKey`, `MobileOS=ETC`, `MobileApp=neo-eodiga`, `_type=json`이다.
+- 2026-11-13 시험 결과(결과코드 0000 OK).
+  - `searchFestival2`(eventStartDate=20261113): 83건. 항목에 기간, 제목, 주소, 좌표, 대표 사진, 법정동 시도·시군구 코드(lDongRegnCd, lDongSignguCd), contentid가 있다.
+  - `detailCommon2`: 소개 글(overview), 홈페이지, 전화, 사진, 저작권 구분(cpyrhtDivCd)이 있다. 예: 게임문화축제 소개 글은 여러 문장이다.
+  - `detailIntro2`(contentTypeId=15): 주최·주관(sponsor1, sponsor2)과 연락처, 행사 장소, 공연 시간, 이용 요금(usetimefestival), 프로그램, 부대행사, 연령 제한, 예매처가 있다.
+  - `detailImage2`: 사진 7장(원본과 작은 사진 주소, 저작권 구분). 첫 사진의 저작권 구분은 Type3이다. 공공누리 유형과의 대응은 공식 안내로 확인한 뒤 사진을 쓴다.
+- 표준데이터에 없던 축제(예: 광안리 M 드론 라이트쇼, 1월 1일~12월 31일로 적힌 상설 행사)도 들어 있다. 기간 미정 규칙을 그대로 적용할지 계획 때 정한다.
+- GitHub Actions 자동 갱신에서 쓰려면 저장소 Secrets에 `TOUR_API_KEY`를 사용자가 넣어야 한다.
+- 사용자가 키를 대화창에 붙여 넣었다. 대화 기록에 남으므로 필요하면 공공데이터포털에서 재발급을 권한다.
+
 ## 지역축제 구현 (2026-11-11)
 - 사용자가 추천안대로 하라고 했고, 메인의 공지사항 상자를 반으로 나눠 지역축제 게시판으로 만들라고 화면 캡처로 지정했다.
 - **자료**: `npm run build-festivals`(`scripts/build-festivals.ts`)가 포털 내려받기 주소(`/download/columList.json`, `/download/standard.json`, 인증키 없음)에서 전체를 받아 `content/festivals.json`({ source, fetchedOn, festivals })을 만든다. 2026-11-11 실행 결과 1,372건 중 66건이 들어갔다. 뺀 자료는 끝난 지 3일 넘음 1,301건, 기간 미정(한 해 전체) 2건, 기간 미정(날짜 오류) 2건, 기간 미정(미정 표기) 1건이다.
