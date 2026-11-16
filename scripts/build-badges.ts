@@ -78,6 +78,13 @@ function parseCsv(text: string): Record<string, string>[] {
 }
 
 const restaurants: Record<string, RestaurantBadge[]> = {};
+// 인허가번호 → 표시. 관광공사 음식점 상세의 인허가번호와 맞춘다(이름보다 정확하다).
+const licenses: Record<string, RestaurantBadge[]> = {};
+const addLicense = (no: string | undefined, badge: RestaurantBadge) => {
+  if (!no || !/^\d{8,}$/.test(no)) return;
+  const list = (licenses[no] ??= []);
+  if (!list.includes(badge)) list.push(badge);
+};
 const addRestaurant = (key: string | undefined, badge: RestaurantBadge) => {
   if (!key) return false;
   const list = (restaurants[key] ??= []);
@@ -107,6 +114,7 @@ for (let page = 1; ; page++) {
   modelTotal = Number(json.response?.body?.totalCount ?? 0);
   for (const r of items) {
     if (r.SALS_STTS_NM !== "영업" || r.DSGN_RTRCN_YMD || r.CLSBIZ_YMD) continue;
+    addLicense(r.LCPMT_NO, "모범음식점");
     if (addRestaurant(badgeKey(r.BSNSSP_NM ?? "", r.ROAD_NM_ADDR || r.LCTN_ADDR), "모범음식점")) modelKept++;
   }
   if (items.length === 0 || page * 1000 >= modelTotal) break;
@@ -126,19 +134,21 @@ const foodSafetyKey = process.env.FOOD_SAFETY_API_KEY?.trim();
 let hygieneKept = 0;
 // 키가 없거나(예: GitHub Secrets에 아직 없음) 식품안전나라가 응답하지 않으면 지난 색인의 위생등급 지정을 그대로 둔다.
 // 빼 버리면 표시가 사라진다(2026-11-15 자동 갱신 때 키가 없어 실제로 빠졌다).
-const previousRestaurants = existsSync(OUTPUT)
-  ? ((JSON.parse(readFileSync(OUTPUT, "utf8")) as { restaurants?: Record<string, RestaurantBadge[]> }).restaurants ?? {})
+const previousIndex = existsSync(OUTPUT)
+  ? (JSON.parse(readFileSync(OUTPUT, "utf8")) as { restaurants?: Record<string, RestaurantBadge[]>; licenses?: Record<string, RestaurantBadge[]> })
   : {};
+const previousRestaurants = previousIndex.restaurants ?? {};
 function keepPreviousHygiene(reason: string) {
   for (const [key, badges] of Object.entries(previousRestaurants)) {
     if (badges.includes("위생등급 지정") && addRestaurant(key, "위생등급 지정")) hygieneKept++;
   }
+  for (const [no, badges] of Object.entries(previousIndex.licenses ?? {})) if (badges.includes("위생등급 지정")) addLicense(no, "위생등급 지정");
   console.warn(`${reason} 위생등급은 지난 색인의 ${hygieneKept}건을 그대로 써요.`);
 }
-async function fetchHygiene(key: string): Promise<[string, RestaurantBadge][]> {
+async function fetchHygiene(key: string): Promise<[string, RestaurantBadge, string | undefined][]> {
   const today = todayInKorea().replace(/-/g, "");
   const FOOD_TYPES = new Set(["일반음식점", "휴게음식점", "제과점영업"]);
-  const found: [string, RestaurantBadge][] = [];
+  const found: [string, RestaurantBadge, string | undefined][] = [];
   for (let start = 1; ; start += 1000) {
     // 식품안전나라가 응답하지 않을 때 멈춰 있지 않도록 한 번에 60초까지만 기다린다.
     const res = await fetch(`http://openapi.foodsafetykorea.go.kr/api/${key}/C004/json/${start}/${start + 999}`);
@@ -151,7 +161,7 @@ async function fetchHygiene(key: string): Promise<[string, RestaurantBadge][]> {
     for (const r of body.row) {
       if (r.CLSBIZ_DVS_CD_NM !== "정상" || r.ASGN_CANCEL_YMD || (r.ASGN_TO && r.ASGN_TO < today) || !FOOD_TYPES.has(r.INDUTY_NM)) continue;
       const k = badgeKey(r.BSSH_NM ?? "", r.ADDR);
-      if (k) found.push([k, "위생등급 지정"]);
+      if (k) found.push([k, "위생등급 지정", r.LCNS_NO]);
     }
     if (start + 999 >= Number(body.total_count ?? 0)) break;
   }
@@ -161,7 +171,10 @@ async function fetchHygiene(key: string): Promise<[string, RestaurantBadge][]> {
 if (!foodSafetyKey) keepPreviousHygiene("FOOD_SAFETY_API_KEY가 없어");
 else {
   try {
-    for (const [k, b] of await fetchHygiene(foodSafetyKey)) if (addRestaurant(k, b)) hygieneKept++;
+    for (const [k, b, no] of await fetchHygiene(foodSafetyKey)) {
+      addLicense(no, b);
+      if (addRestaurant(k, b)) hygieneKept++;
+    }
   } catch (error) {
     keepPreviousHygiene(`위생등급 API 호출에 실패해(${(error as Error).message})`);
   }
@@ -178,7 +191,7 @@ for (const r of hotelRows) {
 if (Object.keys(hotels).length < 300) fail(`호텔 등급이 ${Object.keys(hotels).length}건뿐이에요.`);
 
 const sortObject = <T>(o: Record<string, T>) => Object.fromEntries(Object.entries(o).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)));
-writeFileSync(OUTPUT, `${JSON.stringify({ fetchedOn: todayInKorea(), sources: SOURCES, restaurants: sortObject(restaurants), hotels: sortObject(hotels) })}\n`, "utf8");
+writeFileSync(OUTPUT, `${JSON.stringify({ fetchedOn: todayInKorea(), sources: SOURCES, restaurants: sortObject(restaurants), licenses: sortObject(licenses), hotels: sortObject(hotels) })}\n`, "utf8");
 console.log(
   `content/badge-index.json을 만들었어요. 모범음식점 ${modelKept}건(전체 ${modelTotal}건 중 영업·지정 유지), 백년가게 ${centuryKept}건, 위생등급 지정 ${hygieneKept}건, 호텔 등급 ${Object.keys(hotels).length}건.`,
 );

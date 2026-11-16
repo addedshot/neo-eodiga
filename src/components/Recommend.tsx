@@ -5,6 +5,7 @@ import { COMPANIONS, type Companion, type Festival } from "@/lib/content";
 import { formatDistance, formatPeriod } from "@/lib/festivals";
 import { formatDate, withRo } from "@/lib/format";
 import { kakaoMapLinks } from "@/lib/map-links";
+import { FoodList } from "@/components/FoodList";
 import { RegionPicker } from "@/components/RegionPicker";
 import { buildDayPlan, DISTANCE_OPTIONS, festivalWeekdays, TRAVEL_MODES, type DayPlan, type Destination, type ScoredAttraction, type TravelMode, type TripInput } from "@/lib/recommend";
 import { tripQuery } from "@/lib/recommend-params";
@@ -322,26 +323,9 @@ export function DayPlanView({
           {plan.lunch ? (
             <div className="rounded-[20px] border border-line bg-surface p-5">
               <p className="text-[15px] text-ink-muted">{plan.lunch.from.name} 근처 먹을 곳</p>
-              <ul className="mt-3 flex flex-col gap-3">
-                {plan.lunch.foods.map((f) => {
-                  return (
-                    <li key={f.name} className="text-[15px]">
-                      <span className="font-bold">{f.name}</span>
-                      <span className="ml-1.5 text-ink-muted">{formatDistance(f.distance)}</span>
-                      {f.badges && (
-                        <span className="ml-2 inline-flex flex-wrap gap-1 align-middle">
-                          {f.badges.map((b) => (
-                            <span key={b} className="rounded-md border border-line-strong bg-surface-muted px-1.5 py-px text-[12px] font-bold text-ink-soft">
-                              {b}
-                            </span>
-                          ))}
-                        </span>
-                      )}
-                      {f.address && <span className="mt-0.5 block text-[13px] text-ink-muted">{f.address}</span>}
-                    </li>
-                  );
-                })}
-              </ul>
+              <div className="mt-3">
+                <FoodList foods={plan.lunch.foods} />
+              </div>
             </div>
           ) : (
             <p className="text-[15px] text-ink-muted">근처 먹을 곳 자료가 없어요. 카카오맵에서 주변 식당을 찾아 주세요.</p>

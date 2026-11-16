@@ -50,6 +50,7 @@ const attractionSchema = z
       .array(
         z
           .object({
+            id: z.string().regex(/^\d+$/).optional(),
             name: text,
             distance: z.number().int().min(0),
             address: text.optional(),

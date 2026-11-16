@@ -124,7 +124,13 @@ const eventFields = {
 // 공식 인증·지정 표시(모범음식점, 백년가게, 위생등급). 맛 평가가 아니다.
 const restaurantBadge = z.enum(["모범음식점", "백년가게", "위생등급 지정"]);
 const nearPlace = z
-  .object({ name: text, distance: z.number().int().min(0), address: text.optional(), badges: z.array(restaurantBadge).min(1).optional() })
+  .object({
+    id: z.string().regex(/^\d+$/).optional(), // 관광공사 콘텐츠 id(먹을 곳 상세 food-details.json을 찾을 때 쓴다)
+    name: text,
+    distance: z.number().int().min(0),
+    address: text.optional(),
+    badges: z.array(restaurantBadge).min(1).optional(),
+  })
   .strict();
 const festivalSchema = z
   .object({

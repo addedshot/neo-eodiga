@@ -6,6 +6,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { badgeKey } from "../src/lib/badges.ts";
+import { attachFoodBadges, loadBadgeSources } from "./lib/food-badges.ts";
 import { fetchParkingLots, nearestParkings, PARKING_SOURCE_URL, type Parking } from "./lib/parking.ts";
 import { addDays, KEEP_DAYS_AFTER_END, todayInKorea } from "../src/lib/festivals.ts";
 
@@ -41,7 +42,7 @@ const SIDO_SHORT: Record<string, string> = {
 type Item = Record<string, string | undefined>;
 type Link = { label?: string; url: string };
 type Lodging = { name: string; distance: number; address?: string; phone?: string; reservationUrl?: string; grade?: string };
-type NearPlace = { name: string; distance: number; address?: string; badges?: string[] };
+type NearPlace = { id?: string; name: string; distance: number; address?: string; badges?: string[] };
 type FestivalImage = { url: string; license: "Type1" | "Type3" };
 type Festival = {
   id: string;
@@ -292,7 +293,7 @@ async function fetchNearby(lat: number, lng: number, contentTypeIds: string[], c
       const name = value(item.title);
       if (!name || isCompanyName(name) || found.some((p) => p.name === name)) continue;
       const address = value([item.addr1, item.addr2].filter(Boolean).join(" "));
-      found.push({ name, distance: Math.round(Number(item.dist) || 0), ...(address ? { address } : {}) });
+      found.push({ ...(/^\d+$/.test(item.contentid ?? "") ? { id: item.contentid } : {}), name, distance: Math.round(Number(item.dist) || 0), ...(address ? { address } : {}) });
     }
   }
   return found.sort((a, b) => a.distance - b.distance).slice(0, count);
@@ -346,6 +347,8 @@ const built = await mapLimit(prepared, 4, async ({ item, id, startDate, endDate,
     reused++;
     const record = { ...old, startDate, endDate, ...region, lat, lng } as Festival;
     if (record.foods) record.foods = record.foods.filter((p) => !isCompanyName(p.name));
+    // 먹을 곳 관광공사 id가 없는 지난 자료(2026-11-16 이전)는 먹을 곳만 다시 받는다(메뉴·인허가번호를 받으려면 id가 필요하다).
+    if (!ongoing && record.foods?.some((f) => !f.id)) record.foods = await fetchNearby(lat, lng, ["39"], NEARBY_COUNT);
     if (record.sights) record.sights = record.sights.filter((p) => !isCompanyName(p.name));
     return { ongoing, record };
   }
@@ -403,13 +406,10 @@ const badgeIndex = existsSync(BADGE_INDEX)
   ? (JSON.parse(readFileSync(BADGE_INDEX, "utf8")) as { restaurants: Record<string, string[]>; hotels: Record<string, string> })
   : undefined;
 if (!badgeIndex) console.warn("content/badge-index.json이 없어 먹을 곳·숙소 표시를 붙이지 않아요. npm run build-badges를 먼저 실행해 주세요.");
+const badgeSources = loadBadgeSources();
 for (const { ongoing, record } of built) {
   if (ongoing || !badgeIndex) continue;
-  record.foods = record.foods?.map(({ badges: _old, ...p }) => {
-    void _old;
-    const badges = badgeIndex.restaurants[badgeKey(p.name, p.address) ?? ""];
-    return badges ? { ...p, badges } : p;
-  });
+  record.foods = attachFoodBadges(record.foods, badgeSources);
   record.lodgings = record.lodgings?.map(({ grade: _old, ...l }) => {
     void _old;
     const grade = badgeIndex.hotels[badgeKey(l.name, l.address) ?? ""];

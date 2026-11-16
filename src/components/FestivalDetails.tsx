@@ -3,6 +3,7 @@
 import type { Festival, FestivalSummary, OngoingEvent } from "@/lib/content";
 import { formatDistance } from "@/lib/festivals";
 import { readWeekdays } from "@/lib/schedule";
+import { FoodList } from "@/components/FoodList";
 import { formatDate } from "@/lib/format";
 
 const KOGL_PAGE: Record<"Type1" | "Type3", { label: string; url: string }> = {
@@ -392,7 +393,16 @@ export function FestivalLocation({ festival }: { festival: Festival }) {
         )}
 
         <div className="mt-7 grid gap-6 sm:grid-cols-2">
-          <NearList title="먹을 곳" places={festival.foods} empty="2km 안에 관광공사 자료에 등록된 음식점이 없어요." />
+          <div>
+            <h3 className="text-[17px] font-extrabold">먹을 곳</h3>
+            {festival.foods.length === 0 ? (
+              <p className="mt-2 text-[15px] text-ink-muted">2km 안에 관광공사 자료에 등록된 음식점이 없어요.</p>
+            ) : (
+              <div className="mt-2">
+                <FoodList foods={festival.foods} />
+              </div>
+            )}
+          </div>
           <NearList title="함께 볼 곳" places={festival.sights} empty="2km 안에 관광공사 자료에 등록된 관광지가 없어요." />
         </div>
         <p className="mt-6 text-[13px] text-ink-muted">거리는 축제 장소에서 잰 직선거리예요.</p>

@@ -5,8 +5,8 @@
 // 상세 정보는 고른 명소만, 수정 시각이 바뀐 것만 받는다. 한도에 걸리면 남은 것은 다음 실행에 받는다.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { badgeKey } from "../src/lib/badges.ts";
 import { distanceMeters, todayInKorea } from "../src/lib/festivals.ts";
+import { attachFoodBadges, loadBadgeSources } from "./lib/food-badges.ts";
 import { fetchParkingLots, nearestParkings, PARKING_SOURCE_URL, type Parking } from "./lib/parking.ts";
 
 const CONTENT = path.join(process.cwd(), "content");
@@ -55,7 +55,7 @@ type Attraction = {
   modifiedTime: string;
   detail?: Detail;
   // 명소 근처 3km 안 먹을 곳 3곳(관광공사 음식점, 공식 표시 포함)과 1km 안 주차장 3곳(주차장 표준데이터)
-  foods?: { name: string; distance: number; address?: string; badges?: string[] }[];
+  foods?: { id?: string; name: string; distance: number; address?: string; badges?: string[] }[];
   foodsFor?: string; // 먹을 곳을 받을 때의 명소 수정 시각. 같으면 다시 받지 않는다.
   parkings?: Parking[];
 };
@@ -356,7 +356,8 @@ for (const a of picked) {
 // 8. 근처 먹을 곳(관광공사 음식점 3km 안 가까운 3곳. 1km로는 373곳 중 95곳만 찾아져 넓혔다). 명소 수정 시각이 같으면 지난 값을 쓴다. 상세 정보와 같은 한도 안에서 받는다.
 const FOOD_RADIUS_M = 3000;
 // 먹을 곳을 다시 받을지 정하는 열쇠. 명소가 바뀌거나 반경을 바꾸면 다시 받는다.
-const foodsKey = (a: Attraction) => `${a.modifiedTime}|${FOOD_RADIUS_M}`;
+// 끝의 v3은 먹을 곳 관광공사 id를 담기 시작한 판(2026-11-16, v2는 id가 빠지는 오류가 있었다). 바꾸면 다음 실행에 먹을 곳을 다시 받는다.
+const foodsKey = (a: Attraction) => `${a.modifiedTime}|${FOOD_RADIUS_M}|v3`;
 let foodCalls = 0;
 for (const a of picked) {
   const old = previous.get(a.id);
@@ -379,10 +380,10 @@ for (const a of picked) {
       tourUrl("locationBasedList2", { mapX: String(a.lng), mapY: String(a.lat), radius: String(FOOD_RADIUS_M), contentTypeId: "39", arrange: "E", numOfRows: "5", pageNo: "1" }),
     );
     a.foods = items
-      .map((i) => ({ name: plain(i.title) ?? "", distance: Math.round(Number(i.dist) || 0), address: plain([i.addr1, i.addr2].filter(Boolean).join(" ")) }))
+      .map((i) => ({ id: i.contentid, name: plain(i.title) ?? "", distance: Math.round(Number(i.dist) || 0), address: plain([i.addr1, i.addr2].filter(Boolean).join(" ")) }))
       .filter((f) => f.name && !/주식회사|(주)|㈜/.test(f.name))
       .slice(0, 3)
-      .map((f) => (f.address ? f : { name: f.name, distance: f.distance }));
+      .map((f) => ({ ...(f.id && /^\d+$/.test(f.id) ? { id: f.id } : {}), name: f.name, distance: f.distance, ...(f.address ? { address: f.address } : {}) }));
     a.foodsFor = foodsKey(a);
   } catch (error) {
     if ((error as { limit?: boolean }).limit) {
@@ -393,15 +394,8 @@ for (const a of picked) {
 }
 
 // 9. 공식 표시(모범음식점, 백년가게, 위생등급 지정)와 주차장. 둘 다 매번 다시 붙인다.
-const badgeIndexPath = path.join(CONTENT, "badge-index.json");
-const badgeIndex = existsSync(badgeIndexPath) ? (JSON.parse(readFileSync(badgeIndexPath, "utf8")) as { restaurants: Record<string, string[]> }) : undefined;
-for (const a of picked) {
-  a.foods = a.foods?.map((f) => {
-    const plainFood = { name: f.name, distance: f.distance, ...(f.address ? { address: f.address } : {}) };
-    const badges = badgeIndex?.restaurants[badgeKey(f.name, f.address) ?? ""];
-    return badges ? { ...plainFood, badges } : plainFood;
-  });
-}
+const badgeSources = loadBadgeSources();
+for (const a of picked) a.foods = attachFoodBadges(a.foods, badgeSources);
 const parkingData = await fetchParkingLots();
 for (const a of picked) {
   a.parkings = parkingData ? nearestParkings(parkingData.lots, a.lat, a.lng) : (previous.get(a.id)?.parkings ?? []);
