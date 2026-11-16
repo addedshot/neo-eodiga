@@ -5,7 +5,9 @@
 // 상세 정보는 고른 명소만, 수정 시각이 바뀐 것만 받는다. 한도에 걸리면 남은 것은 다음 실행에 받는다.
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
+import { badgeKey } from "../src/lib/badges.ts";
 import { distanceMeters, todayInKorea } from "../src/lib/festivals.ts";
+import { fetchParkingLots, nearestParkings, PARKING_SOURCE_URL, type Parking } from "./lib/parking.ts";
 
 const CONTENT = path.join(process.cwd(), "content");
 const OUTPUT = path.join(CONTENT, "attractions.json");
@@ -52,6 +54,10 @@ type Attraction = {
   score: number;
   modifiedTime: string;
   detail?: Detail;
+  // 명소 근처 3km 안 먹을 곳 3곳(관광공사 음식점, 공식 표시 포함)과 1km 안 주차장 3곳(주차장 표준데이터)
+  foods?: { name: string; distance: number; address?: string; badges?: string[] }[];
+  foodsFor?: string; // 먹을 곳을 받을 때의 명소 수정 시각. 같으면 다시 받지 않는다.
+  parkings?: Parking[];
 };
 
 function fail(message: string): never {
@@ -133,7 +139,8 @@ const classNames = new Map<string, { group: string; category: string; kind: stri
 }
 
 // 2. 관광공사 목록(시도별, 분류별)
-const sidoCodes = [...new Set(targetRegions.map((r) => r.code.slice(0, 2)))];
+// 세종은 관광공사 자료에서 시도 코드가 다섯 자리(36110)다.
+const sidoCodes = [...new Set(targetRegions.map((r) => (r.sido === "세종" ? r.code : r.code.slice(0, 2))))];
 const listItems: Item[] = [];
 for (const regn of sidoCodes) {
   for (const contentTypeId of CONTENT_TYPES) {
@@ -345,7 +352,61 @@ for (const a of picked) {
   }
 }
 
-// 8. 저장. 고르지 않은 시도의 지난 명소는 그대로 둔다.
+// 8. 근처 먹을 곳(관광공사 음식점 3km 안 가까운 3곳. 1km로는 373곳 중 95곳만 찾아져 넓혔다). 명소 수정 시각이 같으면 지난 값을 쓴다. 상세 정보와 같은 한도 안에서 받는다.
+const FOOD_RADIUS_M = 3000;
+// 먹을 곳을 다시 받을지 정하는 열쇠. 명소가 바뀌거나 반경을 바꾸면 다시 받는다.
+const foodsKey = (a: Attraction) => `${a.modifiedTime}|${FOOD_RADIUS_M}`;
+let foodCalls = 0;
+for (const a of picked) {
+  const old = previous.get(a.id);
+  if (old?.foods && old.foodsFor === foodsKey(a)) {
+    a.foods = old.foods;
+    a.foodsFor = old.foodsFor;
+    continue;
+  }
+  if (limited || detailCalls + 1 > maxDetailCalls) {
+    if (old?.foods) {
+      a.foods = old.foods;
+      a.foodsFor = old.foodsFor;
+    }
+    continue;
+  }
+  try {
+    detailCalls++;
+    foodCalls++;
+    const { items } = await getJson(
+      tourUrl("locationBasedList2", { mapX: String(a.lng), mapY: String(a.lat), radius: String(FOOD_RADIUS_M), contentTypeId: "39", arrange: "E", numOfRows: "5", pageNo: "1" }),
+    );
+    a.foods = items
+      .map((i) => ({ name: plain(i.title) ?? "", distance: Math.round(Number(i.dist) || 0), address: plain([i.addr1, i.addr2].filter(Boolean).join(" ")) }))
+      .filter((f) => f.name && !/주식회사|(주)|㈜/.test(f.name))
+      .slice(0, 3)
+      .map((f) => (f.address ? f : { name: f.name, distance: f.distance }));
+    a.foodsFor = foodsKey(a);
+  } catch (error) {
+    if ((error as { limit?: boolean }).limit) {
+      limited = true;
+      if (old?.foods) a.foods = old.foods;
+    } else fail(`근처 먹을 곳을 받지 못했어요. (${(error as Error).message})`);
+  }
+}
+
+// 9. 공식 표시(모범음식점, 백년가게, 위생등급 지정)와 주차장. 둘 다 매번 다시 붙인다.
+const badgeIndexPath = path.join(CONTENT, "badge-index.json");
+const badgeIndex = existsSync(badgeIndexPath) ? (JSON.parse(readFileSync(badgeIndexPath, "utf8")) as { restaurants: Record<string, string[]> }) : undefined;
+for (const a of picked) {
+  a.foods = a.foods?.map((f) => {
+    const plainFood = { name: f.name, distance: f.distance, ...(f.address ? { address: f.address } : {}) };
+    const badges = badgeIndex?.restaurants[badgeKey(f.name, f.address) ?? ""];
+    return badges ? { ...plainFood, badges } : plainFood;
+  });
+}
+const parkingData = await fetchParkingLots();
+for (const a of picked) {
+  a.parkings = parkingData ? nearestParkings(parkingData.lots, a.lat, a.lng) : (previous.get(a.id)?.parkings ?? []);
+}
+
+// 10. 저장. 고르지 않은 시도의 지난 명소는 그대로 둔다.
 const keep = [...previous.values()].filter((a) => !targetSido.includes(a.sido));
 const sortKey = (a: Attraction) => `${a.sido}\u0000${a.sigungu}\u0000${String(10000 - a.score).padStart(5, "0")}\u0000${a.name}`;
 const withoutCrowdKey = (a: Attraction & { crowdKey?: string }): Attraction => {
@@ -364,6 +425,7 @@ writeFileSync(
         tour: "https://www.data.go.kr/data/15101578/openapi.do",
         crowd: "https://www.data.go.kr/data/15128555/openapi.do",
         reference: "content/reference.json, content/korea-top100.json",
+        parking: PARKING_SOURCE_URL,
       },
       attractions,
     },
@@ -384,6 +446,6 @@ writeFileSync(CROWD_OUTPUT, `${JSON.stringify({ fetchedOn: today, crowd: Object.
 const badgeCount: Record<string, number> = {};
 for (const a of picked) for (const b of a.badges) badgeCount[b] = (badgeCount[b] ?? 0) + 1;
 console.log(
-  `content/attractions.json을 만들었어요. 대상 ${targetSido.join(", ")}, 후보 ${candidates.length}곳 중 ${picked.length}곳을 골랐어요. (목록 호출 ${listCalls}번, 집중률 호출 ${crowdCalls}번, 상세 호출 ${detailCalls}번, 상세 재사용 ${reused}곳, 다음에 받을 곳 ${waiting}곳)`,
+  `content/attractions.json을 만들었어요. 대상 ${targetSido.join(", ")}, 후보 ${candidates.length}곳 중 ${picked.length}곳을 골랐어요. (목록 호출 ${listCalls}번, 집중률 호출 ${crowdCalls}번, 상세·먹을 곳 호출 ${detailCalls}번(먹을 곳 ${foodCalls}번), 상세 재사용 ${reused}곳, 다음에 받을 곳 ${waiting}곳)`,
 );
 console.log(`근거: ${Object.entries(badgeCount).map(([k, v]) => `${k} ${v}`).join(", ") || "없음"}`);

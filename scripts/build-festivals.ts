@@ -6,7 +6,8 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { badgeKey } from "../src/lib/badges.ts";
-import { addDays, distanceMeters, KEEP_DAYS_AFTER_END, todayInKorea } from "../src/lib/festivals.ts";
+import { fetchParkingLots, nearestParkings, PARKING_SOURCE_URL, type Parking } from "./lib/parking.ts";
+import { addDays, KEEP_DAYS_AFTER_END, todayInKorea } from "../src/lib/festivals.ts";
 
 const SOURCE_URL = "https://www.data.go.kr/data/15101578/openapi.do";
 const API_BASE = "https://apis.data.go.kr/B551011/KorService2/";
@@ -18,8 +19,6 @@ const NEARBY_RADIUS_M = 2000;
 const NEARBY_COUNT = 3;
 const PARKING_RADIUS_M = 1000;
 const PARKING_COUNT = 3;
-const PARKING_DATASET_PK = "15012896"; // 공공데이터포털 전국주차장정보표준데이터(인증키 없음)
-const PARKING_SOURCE_URL = `https://www.data.go.kr/data/${PARKING_DATASET_PK}/standard.do`;
 // 공공누리 1유형(출처표시), 3유형(출처표시, 변경금지) 사진만 쓴다.
 const ALLOWED_IMAGE_TYPES = new Set(["Type1", "Type3"]);
 // 이 말이 들어간 문장을 예약 안내 근거로 보여준다.
@@ -43,7 +42,6 @@ type Item = Record<string, string | undefined>;
 type Link = { label?: string; url: string };
 type Lodging = { name: string; distance: number; address?: string; phone?: string; reservationUrl?: string; grade?: string };
 type NearPlace = { name: string; distance: number; address?: string; badges?: string[] };
-type Parking = { name: string; distance: number; kind?: string; spaces?: number; feeType?: string; basicFee?: string; weekdayHours?: string };
 type FestivalImage = { url: string; license: "Type1" | "Type3" };
 type Festival = {
   id: string;
@@ -300,82 +298,6 @@ async function fetchNearby(lat: number, lng: number, contentTypeIds: string[], c
   return found.sort((a, b) => a.distance - b.distance).slice(0, count);
 }
 
-type ParkingLot = { info: Omit<Parking, "distance">; lat: number; lng: number };
-
-// 공공데이터포털 전국주차장정보표준데이터를 받는다. 실패하면 undefined를 돌려주고, 그때는 지난 파일의 주차장 정보를 쓴다.
-async function fetchParkingLots(): Promise<{ lots: ParkingLot[]; referenceDate: string } | undefined> {
-  const headers = { "User-Agent": "Mozilla/5.0 (neo-eodiga festival updater)", "X-Requested-With": "XMLHttpRequest", Referer: PARKING_SOURCE_URL };
-  try {
-    const headRes = await fetch(`https://www.data.go.kr/download/columList.json?pk=${PARKING_DATASET_PK}&ext=JSON`, { headers });
-    if (!headRes.ok) throw new Error(`HTTP ${headRes.status}`);
-    const head = (await headRes.json()) as { totalCount: number; tableVO: { colNmList: string[]; svcTableNm: string } };
-    const rows: Item[] = [];
-    for (let page = 1; page <= Math.ceil(head.totalCount / 10000); page++) {
-      const query = new URLSearchParams([
-        ["publicDataPk", PARKING_DATASET_PK],
-        ...head.tableVO.colNmList.map((c) => ["colNmList", c]),
-        ["totalCount", String(head.totalCount)],
-        ["svcTableNm", head.tableVO.svcTableNm],
-        ["perPage", "10000"],
-        ["page", String(page)],
-      ]);
-      const res = await fetch(`https://www.data.go.kr/download/standard.json?${query}`, { headers });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      rows.push(...((await res.json()) as Item[]));
-    }
-    if (rows.length < head.totalCount * 0.9) throw new Error(`받은 건수(${rows.length})가 전체(${head.totalCount})보다 너무 적어요.`);
-    const hhmm = (v?: string) => (/^\d{2}:\d{2}$/.test(v ?? "") ? v! : undefined);
-    const lots: ParkingLot[] = [];
-    let referenceDate = "";
-    for (const row of rows) {
-      const lat = toCoordinate(row.LATITUDE, 33, 39);
-      const lng = toCoordinate(row.LONGITUDE, 124, 132);
-      const name = value(row.PRKPLCE_NM);
-      if (lat === undefined || lng === undefined || !name) continue;
-      const ref = toDate((row.REFERENCE_DATE ?? "").replace(/-/g, ""));
-      if (ref > referenceDate) referenceDate = ref;
-      const spaces = Number(row.PRKCMPRT);
-      const basicTime = Number(row.BASIC_TIME);
-      const basicCharge = Number(row.BASIC_CHARGE);
-      const feeType = value(row.PARKINGCHRGE_INFO);
-      const open = hhmm(row.WEEKDAY_OPER_OPEN_HHMM);
-      const close = hhmm(row.WEEKDAY_OPER_COLSE_HHMM);
-      const allDay = open && close && open <= "00:01" && close >= "23:59";
-      lots.push({
-        lat,
-        lng,
-        info: {
-        name,
-        ...(value(row.PRKPLCE_SE) ? { kind: value(row.PRKPLCE_SE) } : {}),
-        ...(Number.isInteger(spaces) && spaces > 0 ? { spaces } : {}),
-        ...(feeType ? { feeType } : {}),
-        ...(feeType !== "무료" && basicTime > 0 && basicCharge >= 0 && row.BASIC_CHARGE
-          ? { basicFee: `기본 ${basicTime}분 ${basicCharge.toLocaleString("ko-KR")}원` }
-          : {}),
-        ...(allDay ? { weekdayHours: "24시간" } : open && close ? { weekdayHours: `${open}~${close}` } : {}),
-        },
-      });
-    }
-    return { lots, referenceDate };
-  } catch (error) {
-    console.warn(`주차장 자료를 받지 못해 지난 파일의 주차장 정보를 그대로 써요. (${(error as Error).message})`);
-    return undefined;
-  }
-}
-
-function nearestParkings(lots: ParkingLot[], lat: number, lng: number): Parking[] {
-  const near = lots
-    .map((lot) => ({ lot, distance: distanceMeters({ lat, lng }, lot) }))
-    .filter((n) => n.distance <= PARKING_RADIUS_M)
-    .sort((a, b) => a.distance - b.distance);
-  const picked: Parking[] = [];
-  for (const { lot, distance } of near) {
-    if (picked.some((p) => p.name === lot.info.name)) continue; // 같은 이름이 여러 줄로 들어 있는 경우
-    picked.push({ ...lot.info, distance });
-    if (picked.length === PARKING_COUNT) break;
-  }
-  return picked;
-}
 
 const today = todayInKorea();
 const from = addDays(today, -KEEP_DAYS_AFTER_END); // 이날 이후에 끝나는 축제만 받는다
@@ -500,7 +422,7 @@ const oldOutput = existsSync(OUTPUT) ? (JSON.parse(readFileSync(OUTPUT, "utf8"))
 for (const { ongoing, record } of built) {
   if (ongoing) continue;
   record.parkings = parkingData
-    ? nearestParkings(parkingData.lots, record.lat, record.lng)
+    ? nearestParkings(parkingData.lots, record.lat, record.lng, PARKING_RADIUS_M, PARKING_COUNT)
     : ((previous.get(record.id) as Festival | undefined)?.parkings ?? []);
 }
 const parkingSource = {
