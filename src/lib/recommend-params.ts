@@ -1,7 +1,7 @@
 // 여행추천 주소 쿼리(?from=&date=&with=&by=&to=)를 읽고 만드는 함수. 조건은 주소에만 담고 저장하지 않는다.
 import { COMPANIONS, type Companion } from "@/lib/content";
 import { addDays } from "@/lib/festivals";
-import { TRAVEL_MODES, type TravelMode, type TripInput } from "@/lib/recommend";
+import { DISTANCE_OPTIONS, TRAVEL_MODES, type TravelMode, type TripInput } from "@/lib/recommend";
 
 // 날짜는 오늘부터 60일 안에서 고른다(예보는 16일 안만 있고, 그 뒤는 계절로 판단한다).
 export const MAX_DAYS_AHEAD = 60;
@@ -23,15 +23,17 @@ export function parseTripInput(params: Params, regionCodes: Set<string>, today: 
   if (!by || !(by in TRAVEL_MODES)) problems.push("이동 수단을 골라 주세요.");
   const to = one(params.to);
   if (problems.length > 0) return { problems };
+  const kmValue = Number(one(params.km));
+  const km = (DISTANCE_OPTIONS as readonly number[]).includes(kmValue) ? kmValue : TRAVEL_MODES[by as TravelMode].radiusKm;
   return {
-    input: { from: from!, date: date!, with: companion as Companion, by: by as TravelMode },
+    input: { from: from!, date: date!, with: companion as Companion, by: by as TravelMode, km },
     ...(to && regionCodes.has(to) ? { to } : {}),
     problems,
   };
 }
 
 export function tripQuery(input: TripInput, extra: Record<string, string> = {}): string {
-  return new URLSearchParams({ from: input.from, date: input.date, with: input.with, by: input.by, ...extra }).toString();
+  return new URLSearchParams({ from: input.from, date: input.date, with: input.with, by: input.by, km: String(input.km), ...extra }).toString();
 }
 
 // 기본 날짜: 다가오는 토요일(오늘이 토요일이면 오늘)

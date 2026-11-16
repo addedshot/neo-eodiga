@@ -37,7 +37,7 @@ async function FormWithToday({ searchParams }: { searchParams: PageProps<"/recom
   await connection();
   const today = todayInKorea();
   const { regions } = loadContent();
-  const { attractions } = loadAttractionData();
+  const { attractions, centers } = loadAttractionData();
   const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
   const date = one(params.date);
   const companion = one(params.with);
@@ -45,6 +45,7 @@ async function FormWithToday({ searchParams }: { searchParams: PageProps<"/recom
   return (
     <RecommendForm
       regions={regions}
+      centers={centers}
       today={today}
       maxDate={addDays(today, MAX_DAYS_AHEAD)}
       coveredSido={[...new Set(attractions.map((a) => a.sido))]}
@@ -53,6 +54,7 @@ async function FormWithToday({ searchParams }: { searchParams: PageProps<"/recom
         date: date && date >= today ? date : nextSaturday(today),
         with: (COMPANIONS as readonly string[]).includes(companion ?? "") ? (companion as Companion) : undefined,
         by: by && by in TRAVEL_MODES ? (by as TravelMode) : undefined,
+        km: Number(one(params.km)) || undefined,
       }}
     />
   );

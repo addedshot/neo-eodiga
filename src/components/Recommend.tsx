@@ -5,7 +5,8 @@ import { COMPANIONS, type Companion, type Festival } from "@/lib/content";
 import { formatDistance, formatPeriod } from "@/lib/festivals";
 import { formatDate, withRo } from "@/lib/format";
 import { kakaoMapLinks } from "@/lib/map-links";
-import { buildDayPlan, TRAVEL_MODES, type DayPlan, type Destination, type ScoredAttraction, type TravelMode, type TripInput } from "@/lib/recommend";
+import { RegionPicker } from "@/components/RegionPicker";
+import { buildDayPlan, DISTANCE_OPTIONS, festivalWeekdays, TRAVEL_MODES, type DayPlan, type Destination, type ScoredAttraction, type TravelMode, type TripInput } from "@/lib/recommend";
 import { tripQuery } from "@/lib/recommend-params";
 
 type Region = { code: string; sido: string; sigungu: string };
@@ -32,38 +33,21 @@ export function RecommendForm({
   today,
   maxDate,
   coveredSido,
+  centers,
 }: {
   regions: Region[];
-  values: { from?: string; date: string; with?: Companion; by?: TravelMode };
+  centers: Record<string, { lat: number; lng: number }>;
+  values: { from?: string; date: string; with?: Companion; by?: TravelMode; km?: number };
   today: string;
   maxDate: string;
   coveredSido: string[];
 }) {
-  const bySido = new Map<string, Region[]>();
-  for (const r of regions) bySido.set(r.sido, [...(bySido.get(r.sido) ?? []), r]);
   const pill =
     "flex min-h-11 cursor-pointer items-center rounded-full border border-line-strong bg-surface px-4 text-[15px] font-bold text-ink-soft has-checked:border-primary has-checked:bg-primary has-checked:text-white has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-primary";
   return (
     <form action="/recommend/result" method="get" className="flex flex-col gap-7 rounded-[24px] border border-line bg-surface p-5 sm:p-8">
       <div className="grid gap-6 sm:grid-cols-2">
-        <label className="flex flex-col gap-2">
-          <span className="text-[15px] font-extrabold">어디에서 출발하나요?</span>
-          <select name="from" required defaultValue={values.from ?? ""} className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[16px]">
-            <option value="" disabled>
-              시군구 고르기
-            </option>
-            {[...bySido.entries()].map(([sido, list]) => (
-              <optgroup key={sido} label={sido}>
-                {list.map((r) => (
-                  <option key={r.code} value={r.code}>
-                    {r.sido} {r.sigungu}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-          <span className="text-[13px] text-ink-muted">정확한 주소는 받지 않아요. 고른 시군구도 저장하지 않아요.</span>
-        </label>
+        <RegionPicker regions={regions} centers={centers} defaultCode={values.from} />
         <label className="flex flex-col gap-2">
           <span className="text-[15px] font-extrabold">언제 가나요?</span>
           <input type="date" name="date" required min={today} max={maxDate} defaultValue={values.date} className="h-12 rounded-xl border border-line-strong bg-surface px-3 text-[16px]" />
@@ -88,10 +72,21 @@ export function RecommendForm({
             <label key={m} className={pill}>
               <input type="radio" name="by" value={m} required defaultChecked={values.by === m} className="sr-only" />
               {TRAVEL_MODES[m].label}
-              <span className="ml-1.5 text-[13px] font-medium opacity-80">{TRAVEL_MODES[m].radiusKm}km 안</span>
             </label>
           ))}
         </div>
+      </fieldset>
+      <fieldset>
+        <legend className="text-[15px] font-extrabold">얼마나 멀리 갈까요?</legend>
+        <div className="mt-2.5 flex flex-wrap gap-2">
+          {DISTANCE_OPTIONS.map((km) => (
+            <label key={km} className={pill}>
+              <input type="radio" name="km" value={km} defaultChecked={(values.km ?? (values.by ? TRAVEL_MODES[values.by].radiusKm : 150)) === km} className="sr-only" />
+              {km === 50 ? "가까운 곳 50km" : `${km}km`}
+            </label>
+          ))}
+        </div>
+        <p className="mt-2 text-[13px] text-ink-muted">출발지에서 잰 직선거리예요. 실제 길은 더 길 수 있어요.</p>
       </fieldset>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-[14px] text-ink-muted">지금은 {coveredSido.join("·")} 명소로 추천해요. 다른 지역은 차례로 채우고 있어요.</p>
@@ -107,7 +102,7 @@ export function RecommendForm({
 export function TripSummary({ input, from }: { input: TripInput; from: Region }) {
   return (
     <p className="text-[16px] text-ink-soft">
-      {from.sido} {from.sigungu} 출발, {dateLabel(input.date)}, {input.with}, {TRAVEL_MODES[input.by].label}
+      {from.sido} {from.sigungu} 출발, {dateLabel(input.date)}, {input.with}, {TRAVEL_MODES[input.by].label}, {input.km}km 안
       <Link href={`/recommend?${tripQuery(input)}`} className="ml-3 inline-flex min-h-11 items-center font-bold text-link">
         조건 바꾸기
       </Link>
@@ -239,6 +234,7 @@ function FestivalStop({ festival, today }: { festival: Festival; today: string }
     <div className="flex flex-col gap-3 rounded-[20px] border border-line bg-surface p-5">
       <div className="flex flex-wrap gap-1.5">
         <Chip tone="point">그날 열리는 축제</Chip>
+        {festivalWeekdays(festival) && <Chip>{festivalWeekdays(festival)!.label}</Chip>}
       </div>
       <h3 className="text-[21px] font-extrabold leading-snug">{festival.name}</h3>
       <p className="text-[15px] text-ink-soft">
@@ -364,6 +360,25 @@ export function DayPlanView({
           </a>
         </Step>
       </ol>
+
+      {destination.uncertainFestivals.length > 0 && (
+        <section aria-labelledby="plan-uncertain" className="rounded-[20px] border border-dashed border-line-strong p-5">
+          <h2 id="plan-uncertain" className="text-[18px] font-extrabold">
+            기간 중인 행사(날짜별 일정 확인 필요)
+          </h2>
+          <p className="mt-1 text-[14px] text-ink-muted">기간 안이지만 날마다 열리는지 자료로 알 수 없어서 계획에는 넣지 않았어요. 가기 전에 일정을 확인해 주세요.</p>
+          <ul className="mt-2 flex flex-col">
+            {destination.uncertainFestivals.slice(0, 5).map((f) => (
+              <li key={f.id}>
+                <Link href={`/festivals/${f.id}`} className="inline-flex min-h-11 items-center text-[15px] font-bold text-link">
+                  {f.name}
+                </Link>
+                <span className="ml-2 text-[13px] text-ink-muted">{formatPeriod(f, today)}</span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       {plan.alternatives.length > 0 && (
         <section aria-labelledby="plan-alternatives">

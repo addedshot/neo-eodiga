@@ -2,6 +2,7 @@
 // 내용은 모두 한국관광공사 관광정보 API의 값이다. 자료에 없는 내용은 만들지 않는다.
 import type { Festival, FestivalSummary, OngoingEvent } from "@/lib/content";
 import { formatDistance } from "@/lib/festivals";
+import { readWeekdays } from "@/lib/schedule";
 import { formatDate } from "@/lib/format";
 
 const KOGL_PAGE: Record<"Type1" | "Type3", { label: string; url: string }> = {
@@ -58,6 +59,7 @@ export function FestivalAtAGlance({ festival, period }: { festival: Festival; pe
     ["기간", period],
     ["지역", `${festival.sido} ${festival.sigungu}`],
     ["장소", festival.place || festival.address],
+    ["운영 요일", readWeekdays(festival.playTime, festival.overview, festival.program)?.label],
     ["시간", festival.playTime && <Lines value={festival.playTime} />],
     [
       "요금",
@@ -197,13 +199,16 @@ export function FestivalNearbyEvents({ events }: { events: { event: OngoingEvent
       <h2 id="festival-nearby" className="text-[22px] font-extrabold">
         주변 상설 행사
       </h2>
-      <p className="mt-2 text-[15px] text-ink-muted">축제와 함께 들르기 좋은, 1년 내내 열리는 행사예요.</p>
+      <p className="mt-2 text-[15px] text-ink-muted">기간이 1년 내내로 적힌 행사예요. 실제로는 정해진 요일이나 날짜에만 열리는 경우가 많아요.</p>
       <ul className="mt-3 grid gap-3 sm:grid-cols-2">
         {events.map(({ event, distance }) => (
           <li key={event.id} className="flex flex-col gap-2 rounded-[20px] border border-line bg-surface-accent/40 p-[18px]">
             <p className="font-extrabold leading-snug">{event.name}</p>
             <p className="text-[14px] text-ink-muted">
               {formatDistance(distance)} 거리, {event.place || event.address}
+            </p>
+            <p className="text-[14px] font-bold text-point-ink">
+              {readWeekdays(event.playTime, event.overview, event.program)?.label ?? "운영 날짜는 홈페이지에서 확인해 주세요"}
             </p>
             {event.playTime && <p className="whitespace-pre-line text-[14px]">{event.playTime}</p>}
             {event.fee && <p className="whitespace-pre-line text-[14px]">요금 {event.fee}</p>}

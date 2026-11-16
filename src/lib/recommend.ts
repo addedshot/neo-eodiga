@@ -3,6 +3,7 @@
 import type { Attraction } from "@/lib/attractions";
 import type { Companion, Festival } from "@/lib/content";
 import { distanceMeters, isOnDate } from "@/lib/festivals";
+import { isOpenOnDate, readWeekdays, type Weekdays } from "@/lib/schedule";
 
 export type TravelMode = "car" | "transit";
 export const TRAVEL_MODES: Record<TravelMode, { label: string; radiusKm: number }> = {
@@ -10,7 +11,9 @@ export const TRAVEL_MODES: Record<TravelMode, { label: string; radiusKm: number 
   transit: { label: "대중교통", radiusKm: 100 },
 };
 
-export type TripInput = { from: string; date: string; with: Companion; by: TravelMode };
+// 이동 거리(출발 시군구에서 직선거리 km). 기본값은 이동 수단마다 다르다.
+export const DISTANCE_OPTIONS = [50, 100, 150, 200, 300] as const;
+export type TripInput = { from: string; date: string; with: Companion; by: TravelMode; km: number };
 export type DayWeather = { summary: string; min: number; max: number; rainChance: number | null };
 type Region = { code: string; sido: string; sigungu: string };
 
@@ -21,7 +24,8 @@ export type Destination = {
   score: number;
   reasons: string[];
   attractions: ScoredAttraction[]; // 그날 점수 순(쉬는 날인 곳은 빠짐)
-  festivals: Festival[]; // 그날 열리는 축제
+  festivals: Festival[]; // 그날 열리는 축제(요일이 맞거나 기간이 짧은 것)
+  uncertainFestivals: Festival[]; // 기간 안이지만 30일 넘게 이어지고 운영 요일을 읽지 못한 것(날짜별 일정 확인 필요)
   weather?: DayWeather;
 };
 
@@ -77,6 +81,20 @@ export function scoreAttraction(a: Attraction, input: TripInput, weather: DayWea
   return { attraction: a, score, reasons, crowd };
 }
 
+// 행사의 운영 요일(시간, 소개, 프로그램 글에서 읽음)
+export const festivalWeekdays = (f: Festival): Weekdays | undefined => readWeekdays(f.playTime, f.overview, f.program);
+const LONG_EVENT_DAYS = 30;
+const isLongEvent = (f: Festival) => (Date.parse(f.endDate) - Date.parse(f.startDate)) / 86400000 > LONG_EVENT_DAYS;
+
+// 그날 열리는지: "yes"(기간 안이고 요일이 맞거나 짧은 행사), "no"(기간 밖이거나 쉬는 요일), "unknown"(긴 행사인데 요일을 모름)
+export function festivalOnDate(f: Festival, date: string): "yes" | "no" | "unknown" {
+  if (!isOnDate(f, date)) return "no";
+  const open = isOpenOnDate(festivalWeekdays(f), date);
+  if (open === false) return "no";
+  if (open === true || !isLongEvent(f)) return "yes";
+  return "unknown";
+}
+
 // 출발지에서 직선거리로 당일 범위 안에 있는 시군구(명소가 있는 곳만)
 export function candidateRegions(input: TripInput, regions: Region[], centers: Record<string, { lat: number; lng: number }>, attractions: Attraction[]) {
   const from = centers[input.from];
@@ -85,7 +103,7 @@ export function candidateRegions(input: TripInput, regions: Region[], centers: R
   return regions
     .filter((r) => withAttractions.has(`${r.sido}/${r.sigungu}`) && centers[r.code])
     .map((r) => ({ region: r, distanceKm: Math.round(distanceMeters(from, centers[r.code]) / 1000) }))
-    .filter((c) => c.distanceKm <= TRAVEL_MODES[input.by].radiusKm)
+    .filter((c) => c.distanceKm <= input.km)
     .sort((a, b) => a.distanceKm - b.distanceKm);
 }
 
@@ -107,7 +125,9 @@ export function scoreDestination(region: Region, distanceKm: number, input: Trip
     .filter((s): s is ScoredAttraction => s !== undefined)
     .sort((a, b) => b.score - a.score);
   if (scored.length < 2) return undefined;
-  const festivals = ctx.festivals.filter((f) => f.sido === region.sido && f.sigungu === region.sigungu && isOnDate(f, input.date));
+  const inRegion = ctx.festivals.filter((f) => f.sido === region.sido && f.sigungu === region.sigungu);
+  const festivals = inRegion.filter((f) => festivalOnDate(f, input.date) === "yes");
+  const uncertainFestivals = inRegion.filter((f) => festivalOnDate(f, input.date) === "unknown");
   const top = scored.slice(0, 3);
   // 거리는 4km마다 1점씩 뺀다(100km면 25점). 비 오는 날 먼 곳이 가까운 곳보다 앞서지 않게 한다.
   let score = top.reduce((sum, s) => sum + s.score, 0) + (festivals.length > 0 ? 25 : 0) - distanceKm / 4;
@@ -125,7 +145,7 @@ export function scoreDestination(region: Region, distanceKm: number, input: Trip
   if (top.some((s) => s.reasons.includes("덜 붐빔"))) reasons.push("덜 붐빔");
   if (input.with === "아이와" && top.some((s) => s.reasons.includes("아이와 가기 좋음"))) reasons.push("아이와 가기 좋음");
   reasons.push(`직선거리 약 ${distanceKm}km`);
-  return { region, distanceKm, score, reasons, attractions: scored, festivals, weather };
+  return { region, distanceKm, score, reasons, attractions: scored, festivals, uncertainFestivals, weather };
 }
 
 export function rankDestinations(input: TripInput, ctx: RankContext, count = 3): Destination[] {
