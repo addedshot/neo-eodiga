@@ -15,6 +15,9 @@ const SOURCES = {
   hygieneGrade: "https://www.foodsafetykorea.go.kr/api/newDatasetDetail.do?svc_no=C004", // 식약처 식품접객업소 위생등급 지정 현황
 };
 
+// 모든 요청은 60초까지만 기다린다(응답이 없을 때 작업이 멈춰 있지 않게).
+const fetch = (url: string, init: RequestInit = {}) => globalThis.fetch(url, { ...init, signal: AbortSignal.timeout(60_000) });
+
 function fail(message: string): never {
   console.error(`인증·지정 표시 색인을 만들지 못했어요. ${message} 기존 파일은 그대로 두었어요.`);
   process.exit(1);
@@ -108,42 +111,60 @@ for (let page = 1; ; page++) {
   }
   if (items.length === 0 || page * 1000 >= modelTotal) break;
 }
+console.log(`- 모범음식점 ${modelKept}건`);
 if (modelKept < 1000) fail(`모범음식점이 ${modelKept}건뿐이에요.`);
 
 // 2. 백년가게(음식점 외 업종도 있다. 화면에는 관광공사 음식점과 이름이 맞는 곳에만 붙는다)
 const centuryRows = parseCsv(await downloadPortalFile(SOURCES.centuryShop));
 let centuryKept = 0;
 for (const r of centuryRows) if (addRestaurant(badgeKey(r["업체명"], r["업체주소"]), "백년가게")) centuryKept++;
+console.log(`- 백년가게 ${centuryKept}건`);
 if (centuryKept < 500) fail(`백년가게가 ${centuryKept}건뿐이에요.`);
 
 // 3. 위생등급 지정(식품안전나라 C004). 영업 정상, 지정 취소 없음, 지정 기간 안, 음식점 업종만.
 const foodSafetyKey = process.env.FOOD_SAFETY_API_KEY?.trim();
 let hygieneKept = 0;
-if (!foodSafetyKey) {
-  // 키가 없으면(예: GitHub Secrets에 아직 없음) 지난 색인의 위생등급 지정을 그대로 둔다. 빼 버리면 표시가 사라진다.
-  const previous = existsSync(OUTPUT) ? (JSON.parse(readFileSync(OUTPUT, "utf8")) as { restaurants?: Record<string, RestaurantBadge[]> }) : {};
-  for (const [key, badges] of Object.entries(previous.restaurants ?? {})) {
+// 키가 없거나(예: GitHub Secrets에 아직 없음) 식품안전나라가 응답하지 않으면 지난 색인의 위생등급 지정을 그대로 둔다.
+// 빼 버리면 표시가 사라진다(2026-11-15 자동 갱신 때 키가 없어 실제로 빠졌다).
+const previousRestaurants = existsSync(OUTPUT)
+  ? ((JSON.parse(readFileSync(OUTPUT, "utf8")) as { restaurants?: Record<string, RestaurantBadge[]> }).restaurants ?? {})
+  : {};
+function keepPreviousHygiene(reason: string) {
+  for (const [key, badges] of Object.entries(previousRestaurants)) {
     if (badges.includes("위생등급 지정") && addRestaurant(key, "위생등급 지정")) hygieneKept++;
   }
-  console.warn(`FOOD_SAFETY_API_KEY가 없어 위생등급은 지난 색인의 ${hygieneKept}건을 그대로 써요.`);
-} else {
+  console.warn(`${reason} 위생등급은 지난 색인의 ${hygieneKept}건을 그대로 써요.`);
+}
+async function fetchHygiene(key: string): Promise<[string, RestaurantBadge][]> {
   const today = todayInKorea().replace(/-/g, "");
   const FOOD_TYPES = new Set(["일반음식점", "휴게음식점", "제과점영업"]);
+  const found: [string, RestaurantBadge][] = [];
   for (let start = 1; ; start += 1000) {
-    const res = await fetch(`http://openapi.foodsafetykorea.go.kr/api/${foodSafetyKey}/C004/json/${start}/${start + 999}`);
+    // 식품안전나라가 응답하지 않을 때 멈춰 있지 않도록 한 번에 60초까지만 기다린다.
+    const res = await fetch(`http://openapi.foodsafetykorea.go.kr/api/${key}/C004/json/${start}/${start + 999}`);
     const json = JSON.parse(await res.text()) as { C004?: { total_count?: string; row?: Record<string, string>[]; RESULT?: { CODE?: string; MSG?: string } } };
     const body = json.C004;
     if (!body?.row) {
       if (body?.RESULT?.CODE === "INFO-200") break; // 더 이상 자료 없음
-      fail(`위생등급 API 호출에 실패했어요. (${body?.RESULT?.CODE ?? res.status} ${body?.RESULT?.MSG ?? ""})`);
+      throw new Error(`${body?.RESULT?.CODE ?? res.status} ${body?.RESULT?.MSG ?? ""}`);
     }
     for (const r of body.row) {
       if (r.CLSBIZ_DVS_CD_NM !== "정상" || r.ASGN_CANCEL_YMD || (r.ASGN_TO && r.ASGN_TO < today) || !FOOD_TYPES.has(r.INDUTY_NM)) continue;
-      if (addRestaurant(badgeKey(r.BSSH_NM ?? "", r.ADDR), "위생등급 지정")) hygieneKept++;
+      const k = badgeKey(r.BSSH_NM ?? "", r.ADDR);
+      if (k) found.push([k, "위생등급 지정"]);
     }
     if (start + 999 >= Number(body.total_count ?? 0)) break;
   }
-  if (hygieneKept < 10000) fail(`위생등급이 ${hygieneKept}건뿐이에요.`);
+  if (found.length < 10000) throw new Error(`${found.length}건뿐이에요.`);
+  return found;
+}
+if (!foodSafetyKey) keepPreviousHygiene("FOOD_SAFETY_API_KEY가 없어");
+else {
+  try {
+    for (const [k, b] of await fetchHygiene(foodSafetyKey)) if (addRestaurant(k, b)) hygieneKept++;
+  } catch (error) {
+    keepPreviousHygiene(`위생등급 API 호출에 실패해(${(error as Error).message})`);
+  }
 }
 
 // 4. 호텔 등급(관광호텔업 결정 등급)

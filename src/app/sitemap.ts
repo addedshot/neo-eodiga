@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/notices",
     "/guide",
     "/festivals",
+    "/recommend",
     ...reviews.map((review) => `/reviews/${review.slug}`),
     ...notices.map((notice) => `/notices/${notice.slug}`),
     ...guides.map((guide) => `/guide/${guide.slug}`),

@@ -22,3 +22,11 @@ export function describeReview(review: Pick<Review, "sido" | "sigungu" | "date" 
 export function formatCompany(review: Pick<Review, "companion" | "people">): string {
   return review.companion === "혼자" ? "혼자" : `${review.companion} ${review.people}명`;
 }
+
+// 받침에 맞춰 "으로/로"를 붙인다. 받침이 없거나 ㄹ 받침이면 "로". 예: "수영구로", "부산진으로", "서울로"
+export function withRo(word: string): string {
+  const code = word.charCodeAt(word.length - 1) - 0xac00;
+  if (code < 0 || code > 11171) return `${word}(으)로`;
+  const final = code % 28;
+  return final === 0 || final === 8 ? `${word}로` : `${word}으로`;
+}

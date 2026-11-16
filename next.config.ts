@@ -10,6 +10,8 @@ const nextConfig: NextConfig = {
     "/": ["./content/**/*"],
     "/festivals": ["./content/**/*"],
     "/festivals/*": ["./content/**/*"],
+    "/recommend": ["./content/**/*"],
+    "/recommend/*": ["./content/**/*"],
     "/reviews": ["./content/**/*"],
     "/reviews/*": ["./content/**/*"],
     "/notices/*": ["./content/**/*"],

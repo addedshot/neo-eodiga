@@ -26,12 +26,18 @@ export default function Home() {
           어디 갈까?
         </h1>
         <p className="mt-3.5 max-w-xl text-lg leading-[1.7] text-ink-soft">
-          전국 곳곳을 직접 다녀온 여행 기록이에요. 지역과 함께 가는 사람, 태그로 나에게 맞는 후기를 찾아보세요.
+          출발 지역과 날짜, 누구와 가는지만 고르세요. 그날 날씨와 축제를 보고 갈 곳과 하루 계획을 정해 드려요.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
-            href="/reviews"
+            href="/recommend"
             className="inline-flex min-h-[52px] items-center rounded-xl bg-primary px-6 text-[17px] font-bold text-white"
+          >
+            여행지 추천 받기
+          </Link>
+          <Link
+            href="/reviews"
+            className="inline-flex min-h-[52px] items-center rounded-xl border border-primary bg-surface px-6 text-[17px] font-bold text-link"
           >
             여행후기 보기
           </Link>
