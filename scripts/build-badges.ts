@@ -2,7 +2,7 @@
 // 사용법: npm run build-badges   (모범음식점은 TOUR_API_KEY와 같은 공공데이터포털 키, 백년가게·호텔 등급은 키 없는 파일,
 //         위생등급은 식품안전나라 키 FOOD_SAFETY_API_KEY. 위생등급 키가 없으면 위생등급만 빼고 만든다)
 // 색인 열쇠는 "시도|시군구|이름"이다(src/lib/badges.ts의 badgeKey). 지정 취소·폐업한 곳은 넣지 않는다.
-import { writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { badgeKey, type RestaurantBadge } from "../src/lib/badges.ts";
 import { todayInKorea } from "../src/lib/festivals.ts";
@@ -119,8 +119,14 @@ if (centuryKept < 500) fail(`백년가게가 ${centuryKept}건뿐이에요.`);
 // 3. 위생등급 지정(식품안전나라 C004). 영업 정상, 지정 취소 없음, 지정 기간 안, 음식점 업종만.
 const foodSafetyKey = process.env.FOOD_SAFETY_API_KEY?.trim();
 let hygieneKept = 0;
-if (!foodSafetyKey) console.warn("FOOD_SAFETY_API_KEY가 없어 위생등급은 넣지 않아요.");
-else {
+if (!foodSafetyKey) {
+  // 키가 없으면(예: GitHub Secrets에 아직 없음) 지난 색인의 위생등급 지정을 그대로 둔다. 빼 버리면 표시가 사라진다.
+  const previous = existsSync(OUTPUT) ? (JSON.parse(readFileSync(OUTPUT, "utf8")) as { restaurants?: Record<string, RestaurantBadge[]> }) : {};
+  for (const [key, badges] of Object.entries(previous.restaurants ?? {})) {
+    if (badges.includes("위생등급 지정") && addRestaurant(key, "위생등급 지정")) hygieneKept++;
+  }
+  console.warn(`FOOD_SAFETY_API_KEY가 없어 위생등급은 지난 색인의 ${hygieneKept}건을 그대로 써요.`);
+} else {
   const today = todayInKorea().replace(/-/g, "");
   const FOOD_TYPES = new Set(["일반음식점", "휴게음식점", "제과점영업"]);
   for (let start = 1; ; start += 1000) {

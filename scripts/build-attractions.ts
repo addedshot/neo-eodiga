@@ -205,7 +205,8 @@ const crowdOriginalName = (code: string, key: string) => crowdNames.get(code)?.g
 const previous: Map<string, Attraction> = existsSync(OUTPUT)
   ? new Map((JSON.parse(readFileSync(OUTPUT, "utf8")) as { attractions: Attraction[] }).attractions.map((a) => [a.id, a]))
   : new Map();
-const INDOOR_WORDS = /박물관|미술관|전시관|기념관|과학관|도서관|공연장|아쿠아리움|수족관|온천|찜질방|스파|실내|갤러리|영화관|체험관/;
+// "기타체험관광"처럼 분류 이름 안의 "체험관광"은 실내가 아니다(체험관 뒤에 광이 오면 빼기).
+const INDOOR_WORDS = /박물관|미술관|전시관|기념관|과학관|도서관|공연장|아쿠아리움|수족관|온천|찜질방|스파|실내|갤러리|영화관|체험관(?!광)/;
 const seen = new Set<string>();
 const candidates: Attraction[] = [];
 for (const item of listItems) {
