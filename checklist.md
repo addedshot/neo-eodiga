@@ -150,7 +150,7 @@ STEP마다 마지막 세 항목(lint, build, 커밋)을 확인한 뒤 다음 STE
   - [ ] 사용자: GitHub Secrets에 FOOD_SAFETY_API_KEY 등록
   - [x] 추천 엔진 `src/lib/recommend.ts` (그날 점수, 목적지 3곳, 당일 계획, 쉬는 날·날씨·붐빔·축제·동행·거리, 실제 자료로 여러 경우 시험)
   - [x] 추천 화면 `/recommend`(조건 고르기), `/recommend/result`(목적지 3곳과 이유), `/recommend/plan`(출발→오전→점심→오후→귀가), 메인 히어로에서 시작
-  - [ ] push 후 Vercel에서 여행추천 확인
+  - [x] push 후 Vercel에서 여행추천 확인 (결과 3곳, 당일 계획, 예보, sitemap)
   - [ ] 대표 명소 AI 고르기와 명소 소개 요약(로컬 Claude Code)
 - [ ] 지역축제 (2단계-1)
   - [x] 축제 자료 출처 조사 (전국문화축제표준데이터, 날씨는 Open-Meteo와 기상청 비교)
