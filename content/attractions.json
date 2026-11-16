@@ -3077,7 +3077,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/77/3489977_image2_1.jpg",
         "license": "Type1"
@@ -7168,7 +7168,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/08/4121908_image2_1.jpg",
         "license": "Type1"
@@ -9504,7 +9504,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/14/3494314_image2_1.jpg",
         "license": "Type3"
@@ -10831,7 +10831,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/87/4058887_image2_1.jpg",
         "license": "Type1"
@@ -14345,7 +14345,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/11/3413711_image2_1.jpg",
         "license": "Type3"
@@ -16313,7 +16313,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/30/3476830_image2_1.jpg",
         "license": "Type3"
@@ -17428,7 +17428,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/32/3083432_image2_1.jpg",
         "license": "Type3"
@@ -17625,7 +17625,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/16/3510816_image2_1.jpg",
         "license": "Type1"
@@ -18180,7 +18180,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/81/3335081_image2_1.jpg",
         "license": "Type3"
@@ -20691,7 +20691,7 @@
       "group": "체험관광",
       "category": "기타체험",
       "kind": "기타체험관광",
-      "indoor": true,
+      "indoor": false,
       "image": {
         "url": "https://tong.visitkorea.or.kr/cms/resource/42/3581842_image2_1.jpg",
         "license": "Type1"
