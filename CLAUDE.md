@@ -10,6 +10,7 @@
 4. `checklist.md` 진행 상태
 5. `context-notes.md` 결정 이유, 자료 출처, 열린 질문
 6. `docs/sitemap.md` 확정한 메뉴 구성(여행추천 중심, 로그인 없는 개인 사이트)
+7. `docs/home-setup.md` 작업 PC 준비(설치, API 키, 다음 할 일). 2026-11-20부터 집 PC에서만 작업한다.
 
 문서끼리 내용이 다르면 스킬을 따르고, 다른 점은 `context-notes.md`에 적는다.
 UI를 만들거나 바꿀 때는 frontend-design 스킬도 함께 쓴다.
